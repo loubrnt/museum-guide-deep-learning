@@ -1,0 +1,21 @@
+# Data and model weights (rebuilt with project/make_wikiart_subset.py)
+data/
+*.pt
+*.pth
+*.ckpt
+
+# Secrets
+.env
+.env.*
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.ipynb_checkpoints/
+
+# OS / editors
+.DS_Store
+.vscode/
+.idea/
