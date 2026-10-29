@@ -1,0 +1,15 @@
+{
+  "n_features": 126,
+  "logistic_regression": {
+    "val_acc": 0.4497991967871486,
+    "test_acc": 0.5017921146953405,
+    "test_macro_f1": 0.49100394576710904,
+    "cpu_latency_ms": 1.534292008727789
+  },
+  "random_forest": {
+    "val_acc": 0.4738955823293173,
+    "test_acc": 0.5376344086021505,
+    "test_macro_f1": 0.5293154903536667,
+    "cpu_latency_ms": 11.963854019995779
+  }
+}
