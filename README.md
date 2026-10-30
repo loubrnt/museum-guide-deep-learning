@@ -16,11 +16,54 @@ Is a neural network worth it in production, or would a simpler classical model d
 
 ## Deliverables
 
-- [ ] A feed-forward network in PyTorch for artwork classification
-- [ ] Training monitoring and failure diagnosis
-- [ ] A pretrained CNN (ResNet) for image classification
-- [ ] A classical baseline and a measured recommendation (accuracy, CPU latency, cost)
+- [x] A feed-forward network in PyTorch for artwork classification (`scripts/train_mlp.py`)
+- [x] Training monitoring and failure diagnosis (`reports/figures/mlp_*.png`)
+- [x] A pretrained CNN (ResNet) for image classification (`scripts/train_resnet.py`)
+- [x] A classical baseline and a measured recommendation (`scripts/baseline_classical.py`)
+- [ ] Natural-language search over the collection
 - [ ] 10-minute presentation
+
+## Results
+
+Task: 5 genres (cityscape, landscape, portrait, religious painting, still life), 300 images each.
+The split is **by artist** (70/15/15): test paintings come from painters the models never saw, as in the museum.
+Chance level is 20%. Latency = median time for one image on **one CPU core** (a modest kiosk).
+
+| Model | Test accuracy | CPU latency | Parameters |
+|---|---|---|---|
+| Logistic regression on colour/edge features | 50.2% | 1.5 ms | 126 features |
+| Random forest on colour/edge features | 53.8% | 12.0 ms | 126 features |
+| Feed-forward network (64x64 pixels, 512-128 hidden, dropout) | 41.9% | 0.5 ms | 6.4 M |
+| ResNet-18 trained from scratch | 46.2% (val) | - | 11.2 M |
+| **ResNet-18 pretrained on ImageNet, layer4 + head fine-tuned** | **74.6%** | **11.5 ms** | 11.2 M |
+
+### Feed-forward network: monitoring and diagnosis
+
+- **Sanity check:** it memorises 64 images (100% train accuracy, loss 0), so the code and gradients work.
+- **Learning rate:** at 1e-1 the loss stays at ln(5) = 1.61 (divergence, 21.7% val); 1e-2 is unstable; 1e-3 to 1e-5 all plateau around 40-41% val.
+- **Overfitting:** without regularisation train accuracy hits 100% while validation stays at 42%. Dropout 0.5 + weight decay narrows the gap (71% train / 43% val); augmentation brings no extra gain.
+- **Failure cause:** an MLP ties every weight to one pixel position. Shifting the test images by 8 pixels changes **63%** of its predictions (accuracy 41.9% -> 30.8%). A painting photographed from a slightly different angle would be misread. Convolutions share weights across positions, which is why the CNN does better.
+
+### Pretrained CNN
+
+Trained from scratch, ResNet-18 overfits 972 images (46.2% val). With ImageNet weights, training only the new head gives 68.7% val
+with 2,565 trainable parameters; also fine-tuning `layer4` gives 73.5% val and 74.6% test.
+
+## Recommendation to the director
+
+Use the **fine-tuned ResNet-18**. It is 21 points more accurate than the best classical model at the same CPU cost
+(about 12 ms per image on one core, no GPU, no API fee), and the 45 MB model fits easily on a kiosk.
+The feed-forward network is not worth deploying: it is less accurate than the classical baseline and fragile to framing.
+
+## Reproduce
+
+```bash
+python scripts/baseline_classical.py
+python scripts/train_mlp.py
+python scripts/train_resnet.py
+```
+
+Each script writes its numbers to `reports/<name>.json` and its figures to `reports/figures/`.
 
 ## Data
 
