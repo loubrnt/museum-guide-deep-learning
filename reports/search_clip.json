@@ -1,0 +1,28 @@
+{
+  "model": "openai/clip-vit-base-patch32",
+  "collection_size": 1500,
+  "genre_queries": {
+    "cityscape": {
+      "query": "I would like to see views of a city with streets and buildings",
+      "precision@10": 1.0
+    },
+    "landscape": {
+      "query": "a painting of nature, fields, trees and mountains",
+      "precision@10": 1.0
+    },
+    "portrait": {
+      "query": "I would like to see portraits of people",
+      "precision@10": 1.0
+    },
+    "religious_painting": {
+      "query": "paintings showing saints, angels or scenes from the Bible",
+      "precision@10": 1.0
+    },
+    "still_life": {
+      "query": "a still life with fruit, flowers and objects on a table",
+      "precision@10": 1.0
+    }
+  },
+  "mean_precision@10": 1.0,
+  "cpu_latency_ms_per_query": 14.108146075159311
+}

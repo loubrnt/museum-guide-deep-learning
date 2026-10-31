@@ -20,7 +20,7 @@ Is a neural network worth it in production, or would a simpler classical model d
 - [x] Training monitoring and failure diagnosis (`reports/figures/mlp_*.png`)
 - [x] A pretrained CNN (ResNet) for image classification (`scripts/train_resnet.py`)
 - [x] A classical baseline and a measured recommendation (`scripts/baseline_classical.py`)
-- [ ] Natural-language search over the collection
+- [x] Natural-language search over the collection (`scripts/search_clip.py`)
 - [ ] 10-minute presentation
 
 ## Results
@@ -49,9 +49,23 @@ Chance level is 20%. Latency = median time for one image on **one CPU core** (a 
 Trained from scratch, ResNet-18 overfits 972 images (46.2% val). With ImageNet weights, training only the new head gives 68.7% val
 with 2,565 trainable parameters; also fine-tuning `layer4` gives 73.5% val and 74.6% test.
 
+## Natural-language search
+
+A pretrained CLIP dual encoder (`openai/clip-vit-base-patch32`) maps paintings and questions into the same space.
+The 1,500 image vectors are computed once; a question costs one text encoding plus a dot product: **14 ms on one CPU core**.
+
+- **Genre questions** ("I would like to see portraits of people", "paintings showing saints, angels or scenes from the Bible"…):
+  precision@10 = **1.00** for all five genres. This test is easy: the genres are broad and visually distinct.
+- **Free questions** (`reports/figures/search_examples.png`): "portraits of children", "a snowy winter village",
+  "the crucifixion of Christ" and "a vase of flowers" return 5/5 relevant paintings. "Which painting shows a stormy sea?"
+  is the weak case: dramatic skies and boats, but only one or two real seascapes in the top 5, because the
+  subset holds few marine paintings (no "marina" genre was downloaded).
+- Limit: no hand-labelled question set, so free-question quality is judged by eye. A labelled set of ~50 museum
+  questions would be the next step.
+
 ## Recommendation to the director
 
-Use the **fine-tuned ResNet-18**. It is 21 points more accurate than the best classical model at the same CPU cost
+Use the **fine-tuned ResNet-18** for recognition and **CLIP** for search, both run locally. It is 21 points more accurate than the best classical model at the same CPU cost
 (about 12 ms per image on one core, no GPU, no API fee), and the 45 MB model fits easily on a kiosk.
 The feed-forward network is not worth deploying: it is less accurate than the classical baseline and fragile to framing.
 
@@ -61,6 +75,7 @@ The feed-forward network is not worth deploying: it is less accurate than the cl
 python scripts/baseline_classical.py
 python scripts/train_mlp.py
 python scripts/train_resnet.py
+pip install transformers && python scripts/search_clip.py
 ```
 
 Each script writes its numbers to `reports/<name>.json` and its figures to `reports/figures/`.
