@@ -21,7 +21,7 @@ Is a neural network worth it in production, or would a simpler classical model d
 - [x] A pretrained CNN (ResNet) for image classification (`scripts/train_resnet.py`)
 - [x] A classical baseline and a measured recommendation (`scripts/baseline_classical.py`)
 - [x] Natural-language search over the collection (`scripts/search_clip.py`)
-- [ ] 10-minute presentation
+- [x] 10-minute presentation (`presentation/museum-guide.pptx`, speaker notes inside)
 
 ## Results
 
