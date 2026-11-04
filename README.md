@@ -26,8 +26,10 @@ Is a neural network worth it in production, or would a simpler classical model d
 ## Results
 
 Task: 5 genres (cityscape, landscape, portrait, religious painting, still life), 300 images each.
-The split is **by artist** (70/15/15): test paintings come from painters the models never saw, as in the museum.
-Chance level is 20%. Latency = median time for one image on **one CPU core** (a modest kiosk).
+The split is **by artist** (972/249/279 images, about 65/17/19, because `GroupShuffleSplit` splits groups, not images): no named painter appears in two parts.
+48% of the images are "Unknown Artist": each is its own group, so a new painter cannot be guaranteed for those.
+Chance level is 20% overall (classes are balanced in the full set, not inside each part).
+Latency = median time for one image on **one thread** of a development machine, a stand-in for a modest kiosk. Classical times include image loading and features; network times cover the forward pass only, so compare orders of magnitude.
 
 | Model | Test accuracy | CPU latency | Parameters |
 |---|---|---|---|
@@ -40,14 +42,15 @@ Chance level is 20%. Latency = median time for one image on **one CPU core** (a 
 ### Feed-forward network: monitoring and diagnosis
 
 - **Sanity check:** it memorises 64 images (100% train accuracy, loss 0), so the code and gradients work.
-- **Learning rate:** at 1e-1 the loss stays at ln(5) = 1.61 (divergence, 21.7% val); 1e-2 is unstable; 1e-3 to 1e-5 all plateau around 40-41% val.
+- **Learning rate:** at 1e-1 the loss explodes in the first epoch, then stays stuck at ln(5) = 1.61 (best val 21.7%); 1e-2 is unstable; 1e-3 to 1e-5 all plateau around 40-41% val.
 - **Overfitting:** without regularisation train accuracy hits 100% while validation stays at 42%. Dropout 0.5 + weight decay narrows the gap (71% train / 43% val); augmentation brings no extra gain.
-- **Failure cause:** an MLP ties every weight to one pixel position. Shifting the test images by 8 pixels changes **63%** of its predictions (accuracy 41.9% -> 30.8%). A painting photographed from a slightly different angle would be misread. Convolutions share weights across positions, which is why the CNN does better.
+- **Failure diagnosis:** an MLP ties every weight to one pixel position. A circular shift of the test images by 8 pixels changes **63%** of its predictions (accuracy 41.9% -> 30.8%). A painting framed differently could be misread. Convolutions share weights across positions, which should help, but the same test has not been run on the ResNet.
 
 ### Pretrained CNN
 
 Trained from scratch, ResNet-18 overfits 972 images (46.2% val). With ImageNet weights, training only the new head gives 68.7% val
 with 2,565 trainable parameters; also fine-tuning `layer4` gives 73.5% val and 74.6% test.
+The jump comes from pretraining: from scratch, the same network does not beat the random forest on validation (46.2% vs 47.4%).
 
 ## Natural-language search
 
@@ -65,8 +68,9 @@ The 1,500 image vectors are computed once; a question costs one text encoding pl
 
 ## Recommendation to the director
 
-Use the **fine-tuned ResNet-18** for recognition and **CLIP** for search, both run locally. It is 21 points more accurate than the best classical model at the same CPU cost
-(about 12 ms per image on one core, no GPU, no API fee), and the 45 MB model fits easily on a kiosk.
+Use the **fine-tuned ResNet-18** for recognition and **CLIP** for search, both run locally. It is 21 points more accurate than the best classical model, at the same order of CPU cost
+(about 12 ms for the forward pass on one thread, no GPU, no API fee). The weights are 45 MB for the ResNet and 605 MB for the full CLIP checkpoint, so kiosk memory must be checked.
+Still to measure: real camera photos, several seeds, and the shift test on the ResNet.
 The feed-forward network is not worth deploying: it is less accurate than the classical baseline and fragile to framing.
 
 ## Reproduce
