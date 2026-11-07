@@ -192,6 +192,53 @@ Limits: 6 styles, 1,800 images of 128 px; the test parts are small and the seed-
 Post-Impressionism are neighbours, and one painter can belong to two movements); style is strongly tied to the painter, so generalising to a painter the model has never seen is the hard part and the
 artist-disjoint split only protects named painters; CLIP was trained on web images that may include these paintings; no timing is given here.
 
+### Other image encoders
+
+Is another frozen encoder a better trade-off than CLIP ViT-B/32? `scripts/encoder_comparison.py` trains the same linear probe (logistic regression on
+L2-normalised vectors, C chosen on validation among 0.1 to 1000, the same grid for every encoder) on the same 10 artist-disjoint splits, on the genre
+task (1500 images) and the style task (1800 images, previous section), and measures the image tower's cost (`reports/encoder_comparison.json`).
+Accuracy is test accuracy, mean ± std over the 10 seeds; "vs B/32" is the number of seeds won and the mean difference in points.
+
+| Encoder | Genre probe | vs B/32 (seeds won, points) | Style probe | vs B/32 | Zero-shot genre / style | Parameters | Weights | One image, 1 thread |
+|---|---|---|---|---|---|---|---|---|
+| CLIP ViT-B/32 (current) | 90.2 ± 2.5 | - | 55.4 ± 5.2 | - | 85.1 / 37.5 | 87.8 M | 351 MB | 20.3 ms |
+| CLIP ViT-B/16 | 91.2 ± 2.5 | 7/10, +1.0 | 54.9 ± 5.3 | 4/10, -0.5 | 86.8 / 40.6 | 86.2 M | 345 MB | 56.7 ms |
+| CLIP ViT-L/14 | 92.0 ± 2.3 | 7/10, +1.8 | 55.4 ± 5.1 | 4/10, 0.0 | 89.9 / 43.8 | 304.0 M | 1216 MB | 236.1 ms |
+| SigLIP base/16 | 90.8 ± 2.4 | 6/10, +0.6 | 54.1 ± 3.2 | 3/10, -1.3 | 89.0 / 36.1 | 92.9 M | 372 MB | 78.7 ms |
+| DINOv2 small | 86.5 ± 1.9 | 1/10, -3.6 | 49.7 ± 5.5 | 0/10, -5.7 | - | 22.1 M | 88 MB | 25.1 ms |
+| DINOv2 base | 89.5 ± 1.2 | 2/10, -0.7 | 50.6 ± 6.0 | 1/10, -4.8 | - | 86.6 M | 346 MB | 70.9 ms |
+| ResNet-50, frozen | 81.2 ± 4.8 | 0/10, -8.9 | 43.0 ± 4.9 | 0/10, -12.3 | - | 23.5 M | 94 MB | 24.4 ms |
+| ResNet-18, frozen | 75.6 ± 3.8 | 0/10, -14.5 | 40.5 ± 4.2 | 0/10, -14.9 | - | 11.2 M | 45 MB | 6.2 ms |
+
+Cost: image tower only (no image reading or resizing), random weights of the right architecture, one image, one thread, Apple M4, median of 3 fresh processes
+(the three agree within 5%; load average 2.6 when the run started). CLIP B/32 gives 20.3 ms here, against 20.9 ms with image reading and resizing in the
+[kiosk budget](#kiosk-budget-measured). Weights are the fp32 file.
+
+**The answer is: keep CLIP ViT-B/32.**
+
+- **A bigger CLIP buys little.** On genre, B/16 gains 1.0 point (7 seeds out of 10, 2.8 times slower) and L/14 gains 1.8 points (7 out of 10, 11.6 times slower,
+  3.5 times the weights: 1.2 GB). With the spread between seeds at about 2.5 points, 7 wins out of 10 is not distinguishable from chance (sign test, p about 0.34).
+  On style there is no gain at all: L/14 scores 55.4%, the same as B/32.
+- **SigLIP does not help the probe** (90.8% genre, 54.1% style) and is 3.9 times slower. Its zero-shot genre accuracy is higher (89.0% against 85.1%), but its zero-shot
+  style accuracy is not (36.1% against 37.5%).
+- **Zero-shot, the large CLIP comes close to the trained head on genre** (L/14: 89.9%, against 90.2% for the B/32 probe), without any labelled image, at 11.6 times the latency.
+  For style zero-shot stays far below the probe (43.8% at best, against 55.4%).
+- **DINOv2 is worse than CLIP here**, on genre (86.5% small, 89.5% base) and clearly on style (49.7% and 50.6%), and the base model is 3.5 times slower than CLIP B/32.
+  The small one has a quarter of the weights (88 MB) but loses 3.6 points on genre and 5.7 on style.
+- **Frozen ImageNet ResNets are far behind** (ResNet-50: 81.2% genre, 43.0% style). A frozen ResNet-18 with a linear probe (75.6 ± 3.8% on genre) is about as good as the fine-tuned one
+  of the first results (74.0 ± 3.8%), without any training of the network.
+
+Limits: 10 seeds on 1500 and 1800 images, so differences of about 2 points or less are within the noise. The images are 128 px and are upsampled to each encoder's input size
+(224 px, 128 px for the ResNet-18): no encoder sees more detail than 128 px contain, which may be why larger models do not gain more; this was not tested. Linear probes only: no
+fine-tuning of the encoders. One machine. The DINOv2 convention (CLS token concatenated with the mean of the patch tokens) was fixed before the runs, and a different one
+could change its numbers. The regularisation grid here is wider than in the CLIP section; CLIP B/32 gives the same 90.2% and 55.4%. Running the script downloads about 3.7 GB of
+weights; the SigLIP tokenizer needs `pip install sentencepiece protobuf`, without them SigLIP is reported as skipped.
+
+```bash
+python scripts/encoder_comparison.py                   # everything: embeddings, probes, timings
+python scripts/encoder_comparison.py --stage latency   # only the timings (leave the machine idle)
+```
+
 ## Natural-language search
 
 A pretrained CLIP dual encoder (`openai/clip-vit-base-patch32`) maps paintings and questions into the same space.
