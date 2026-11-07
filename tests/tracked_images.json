@@ -43,5 +43,7 @@
   "needs_decision": {
     "presentation/museum-guide.pptx": "the 10-minute deck: 11 full-slide images, slides 1 (5 thumbnails) and 9 (10 thumbnails) show WikiArt paintings; kept until the team decides"
   },
-  "notebooks_with_plot_outputs": {}
+  "notebooks_with_plot_outputs": {
+    "notebooks/museum_guide_walkthrough.ipynb": "charts and tables drawn from reports/*.json only, no painting and no third-party photo (checked cell by cell, see the notebook's tests)"
+  }
 }
