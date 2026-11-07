@@ -22,6 +22,9 @@ dev = ["pytest", "pytest-cov>=7,<8", "ruff>=0.17,<0.18", "mypy>=2.4,<3"]
 multilingual = ["sentence-transformers"]
 # The web demo (scripts/demo.py); tested with gradio 6.31. Not needed by the tests or the CI.
 demo = ["gradio>=6.31,<7"]
+# Executing the walkthrough notebook in the tests (tested with nbclient 0.11, ipykernel 7.4, nbformat 5.11).
+# To read it interactively, any Jupyter front end works (JupyterLab, VS Code); GitHub also renders it. Not needed by the CI.
+notebook = ["nbclient>=0.10", "ipykernel>=6.29", "nbformat>=5.10"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
