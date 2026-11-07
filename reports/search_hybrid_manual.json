@@ -1,0 +1,452 @@
+{
+ "reviewer": "AI assistant (Claude); a human should confirm these judgments",
+ "protocol": "For each question the top 5 of plain CLIP and of the hybrid search were shown as 192-pixel thumbnails (some at 5x zoom) of the 128-pixel images. The visual criterion of each question (in scripts/search_hybrid_eval.py) was written before looking. 1 = clearly visible; anything uncertain counts as 0. Whether a painting fits the catalogue part is computed from the metadata, not judged. Only image paths are stored here, never images.",
+ "queries": {
+  "baroque_angels": {
+   "plain": {
+    "paths": [
+     "religious_painting/s38_r0881.jpg",
+     "religious_painting/s11_r0168.jpg",
+     "still_life/s38_r0040.jpg",
+     "religious_painting/s38_r0798.jpg",
+     "religious_painting/s33_r0537.jpg"
+    ],
+    "visual": [
+     1,
+     1,
+     0,
+     0,
+     0
+    ]
+   },
+   "hybrid": {
+    "paths": [
+     "religious_painting/s33_r0094.jpg",
+     "religious_painting/s11_r0545.jpg",
+     "religious_painting/s38_r0324.jpg",
+     "religious_painting/s33_r0027.jpg",
+     "religious_painting/s33_r0213.jpg"
+    ],
+    "visual": [
+     0,
+     0,
+     1,
+     0,
+     0
+    ]
+   }
+  },
+  "impressionist_river": {
+   "plain": {
+    "paths": [
+     "landscape/s38_r0474.jpg",
+     "landscape/s38_r0100.jpg",
+     "landscape/s38_r0080.jpg",
+     "landscape/s38_r0716.jpg",
+     "landscape/s38_r0903.jpg"
+    ],
+    "visual": [
+     1,
+     1,
+     1,
+     1,
+     0
+    ]
+   },
+   "hybrid": {
+    "paths": [
+     "landscape/s38_r0630.jpg",
+     "landscape/s33_r0870.jpg",
+     "landscape/s38_r0755.jpg",
+     "landscape/s38_r0080.jpg",
+     "landscape/s33_r0033.jpg"
+    ],
+    "visual": [
+     1,
+     1,
+     1,
+     1,
+     0
+    ]
+   }
+  },
+  "monet_snow": {
+   "plain": {
+    "paths": [
+     "cityscape/s11_r1023.jpg",
+     "cityscape/s11_r1027.jpg",
+     "cityscape/s11_r1106.jpg",
+     "cityscape/s38_r0252.jpg",
+     "cityscape/s33_r0452.jpg"
+    ],
+    "visual": [
+     1,
+     1,
+     1,
+     1,
+     0
+    ]
+   },
+   "hybrid": {
+    "paths": [
+     "cityscape/s11_r1106.jpg",
+     "cityscape/s11_r1027.jpg",
+     "cityscape/s11_r1023.jpg",
+     "cityscape/s11_r0917.jpg",
+     "cityscape/s11_r0976.jpg"
+    ],
+    "visual": [
+     1,
+     1,
+     1,
+     1,
+     0
+    ]
+   }
+  },
+  "cubist_guitar": {
+   "plain": {
+    "paths": [
+     "still_life/s54_r0359.jpg",
+     "still_life/s54_r0515.jpg",
+     "still_life/s38_r0794.jpg",
+     "still_life/s33_r0474.jpg",
+     "still_life/s54_r0831.jpg"
+    ],
+    "visual": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "hybrid": {
+    "paths": [
+     "still_life/s33_r0771.jpg",
+     "still_life/s38_r0794.jpg",
+     "still_life/s54_r0458.jpg",
+     "still_life/s54_r0831.jpg",
+     "still_life/s33_r0978.jpg"
+    ],
+    "visual": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  "postimp_flowers": {
+   "plain": {
+    "paths": [
+     "still_life/s54_r0593.jpg",
+     "still_life/s54_r0771.jpg",
+     "still_life/s33_r0919.jpg",
+     "still_life/s54_r0372.jpg",
+     "still_life/s54_r0394.jpg"
+    ],
+    "visual": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "hybrid": {
+    "paths": [
+     "still_life/s38_r0583.jpg",
+     "still_life/s54_r0372.jpg",
+     "still_life/s33_r0937.jpg",
+     "still_life/s54_r0579.jpg",
+     "still_life/s54_r0857.jpg"
+    ],
+    "visual": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  "rococo_woman": {
+   "plain": {
+    "paths": [
+     "portrait/s33_r0199.jpg",
+     "portrait/s38_r0121.jpg",
+     "portrait/s38_r0046.jpg",
+     "portrait/s38_r0130.jpg",
+     "portrait/s38_r1009.jpg"
+    ],
+    "visual": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "hybrid": {
+    "paths": [
+     "portrait/s38_r0560.jpg",
+     "portrait/s38_r0130.jpg",
+     "portrait/s38_r0847.jpg",
+     "portrait/s33_r0199.jpg",
+     "portrait/s38_r0001.jpg"
+    ],
+    "visual": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  "expressionist_woman": {
+   "plain": {
+    "paths": [
+     "portrait/s38_r0548.jpg",
+     "portrait/s38_r0642.jpg",
+     "portrait/s38_r0574.jpg",
+     "portrait/s38_r0114.jpg",
+     "portrait/s38_r1063.jpg"
+    ],
+    "visual": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "hybrid": {
+    "paths": [
+     "portrait/s38_r1116.jpg",
+     "portrait/s38_r0719.jpg",
+     "portrait/s38_r0548.jpg",
+     "portrait/s38_r0115.jpg",
+     "portrait/s33_r0251.jpg"
+    ],
+    "visual": [
+     1,
+     0,
+     1,
+     1,
+     1
+    ]
+   },
+   "note": "hybrid #2 (a person with a bob haircut and a dark top) could be a girl or a young woman: counted as not satisfying"
+  },
+  "romantic_sea": {
+   "plain": {
+    "paths": [
+     "landscape/s33_r0917.jpg",
+     "landscape/s38_r0485.jpg",
+     "landscape/s33_r0501.jpg",
+     "landscape/s38_r0217.jpg",
+     "landscape/s38_r0482.jpg"
+    ],
+    "visual": [
+     0,
+     0,
+     0,
+     1,
+     1
+    ]
+   },
+   "hybrid": {
+    "paths": [
+     "landscape/s38_r0217.jpg",
+     "landscape/s38_r0889.jpg",
+     "landscape/s38_r0373.jpg",
+     "landscape/s38_r0756.jpg",
+     "landscape/s33_r0501.jpg"
+    ],
+    "visual": [
+     1,
+     0,
+     1,
+     0,
+     0
+    ]
+   },
+   "note": "several coastal scenes are too small or too pale to judge; they were counted as not satisfying"
+  },
+  "baroque_skull": {
+   "plain": {
+    "paths": [
+     "still_life/s54_r0692.jpg",
+     "still_life/s38_r0521.jpg",
+     "religious_painting/s11_r0783.jpg",
+     "still_life/s38_r0487.jpg",
+     "still_life/s33_r0133.jpg"
+    ],
+    "visual": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "hybrid": {
+    "paths": [
+     "still_life/s54_r0622.jpg",
+     "still_life/s54_r0311.jpg",
+     "still_life/s54_r0296.jpg",
+     "still_life/s38_r0521.jpg",
+     "still_life/s54_r0655.jpg"
+    ],
+    "visual": [
+     0,
+     1,
+     0,
+     0,
+     0
+    ]
+   },
+   "note": "hybrid #2 is a vanitas: a skull behind a glass sphere (checked at 5x zoom); plain CLIP shows no skull in its top 5"
+  },
+  "realist_fruit": {
+   "plain": {
+    "paths": [
+     "still_life/s54_r0364.jpg",
+     "still_life/s33_r0492.jpg",
+     "still_life/s54_r0495.jpg",
+     "still_life/s38_r0179.jpg",
+     "still_life/s54_r0230.jpg"
+    ],
+    "visual": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "hybrid": {
+    "paths": [
+     "still_life/s33_r0638.jpg",
+     "still_life/s54_r0411.jpg",
+     "still_life/s54_r0364.jpg",
+     "still_life/s54_r0516.jpg",
+     "still_life/s33_r0816.jpg"
+    ],
+    "visual": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  "renaissance_hat": {
+   "plain": {
+    "paths": [
+     "portrait/s38_r1067.jpg",
+     "portrait/s38_r0683.jpg",
+     "portrait/s38_r1102.jpg",
+     "portrait/s38_r0207.jpg",
+     "portrait/s38_r1098.jpg"
+    ],
+    "visual": [
+     1,
+     1,
+     0,
+     1,
+     1
+    ]
+   },
+   "hybrid": {
+    "paths": [
+     "portrait/s38_r0683.jpg",
+     "portrait/s38_r1067.jpg",
+     "portrait/s38_r0109.jpg",
+     "portrait/s33_r0513.jpg",
+     "portrait/s33_r0378.jpg"
+    ],
+    "visual": [
+     1,
+     1,
+     0,
+     0,
+     1
+    ]
+   }
+  },
+  "matisse_woman": {
+   "plain": {
+    "paths": [
+     "portrait/s38_r0025.jpg",
+     "still_life/s54_r0227.jpg",
+     "portrait/s38_r0203.jpg",
+     "portrait/s38_r1017.jpg",
+     "still_life/s54_r0455.jpg"
+    ],
+    "visual": [
+     1,
+     0,
+     1,
+     0,
+     0
+    ]
+   },
+   "hybrid": {
+    "paths": [
+     "portrait/s38_r0123.jpg",
+     "portrait/s38_r0205.jpg",
+     "still_life/s54_r0746.jpg",
+     "still_life/s38_r0172.jpg",
+     "still_life/s38_r0255.jpg"
+    ],
+    "visual": [
+     1,
+     1,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "renoir_portrait": {
+   "plain": {
+    "paths": [
+     "portrait/s33_r0135.jpg",
+     "portrait/s38_r0034.jpg",
+     "portrait/s38_r0617.jpg",
+     "portrait/s38_r0394.jpg",
+     "portrait/s38_r1094.jpg"
+    ],
+    "visual": [
+     1,
+     1,
+     0,
+     0,
+     0
+    ]
+   },
+   "hybrid": {
+    "paths": [
+     "portrait/s33_r0135.jpg",
+     "portrait/s38_r0034.jpg",
+     "portrait/s38_r0617.jpg",
+     "portrait/s38_r0394.jpg",
+     "portrait/s38_r1094.jpg"
+    ],
+    "visual": [
+     1,
+     1,
+     0,
+     0,
+     0
+    ]
+   },
+   "note": "Renoir has only 'cityscape' paintings in this collection: no painting fits (portrait, Renoir), so the hybrid search falls back to plain CLIP and both rows are identical"
+  }
+ }
+}

@@ -4,6 +4,7 @@
     python scripts/search.py "paintings by Claude Monet" --k 8 --grid monet.png
     python scripts/search.py "un village enneigé en hiver" --encoder multilingual   # needs the [multilingual] extra
     python scripts/search.py "a Cubist still life" --story          # add the story of the top result's style
+    python scripts/search.py "a portrait by Renoir of a woman with a hat" --hybrid   # use the catalogue fields
 
 The image vectors are computed once and saved in `data/search_index.npz` (not versioned); the first call builds
 the index (about 30 s on CPU), later calls only encode the question. Use --rebuild after changing the data.
@@ -17,10 +18,11 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from PIL import Image
 
+from museum_guide.catalogue import Catalogue
 from museum_guide.clip import embed_texts, load_clip
 from museum_guide.data import DATA_DIR, load_metadata
 from museum_guide.notices import LANGS, notice_for
-from museum_guide.search import load_or_build_index, search
+from museum_guide.search import hybrid_search, load_or_build_index, search
 
 
 def save_grid(results, path):
@@ -48,9 +50,20 @@ def main(argv=None):
         "--encoder", choices=("clip", "multilingual"), default="clip",
         help="text encoder for the question: CLIP's own (English) or a multilingual one (pip install -e '.[multilingual]')",
     )
+    p.add_argument(
+        "--hybrid", action="store_true",
+        help="use the artist, style and genre named in the question as filters, and CLIP for the rest of it",
+    )
+    p.add_argument(
+        "--boost", type=float, default=None,
+        help="with --hybrid: add this to CLIP's cosine for paintings that fit the catalogue fields, instead of "
+        "keeping only those (0.1 or more acts like a filter, 0.02 like a nudge)",
+    )
     args = p.parse_args(argv)
     if args.lang is not None and not args.story:
         p.error("--lang only applies together with --story")
+    if args.boost is not None and not args.hybrid:
+        p.error("--boost only applies together with --hybrid")
 
     index = load_or_build_index(
         load_metadata(), DATA_DIR, args.index, args.rebuild, cache_file=DATA_DIR / "clip_embeddings.npz"
@@ -58,11 +71,21 @@ def main(argv=None):
     if args.encoder == "multilingual":
         from museum_guide.multilingual import embed_texts_multilingual, load_multilingual
 
-        question = embed_texts_multilingual(load_multilingual(), [args.query])[0]
+        multilingual = load_multilingual()
+
+        def embed(text):
+            return embed_texts_multilingual(multilingual, [text])[0]
     else:
         model, processor = load_clip(index.model)
-        question = embed_texts(model, processor, [args.query])[0]
-    results = search(index, question, args.k)
+
+        def embed(text):
+            return embed_texts(model, processor, [text])[0]
+
+    if args.hybrid:
+        results, parsed = hybrid_search(index, args.query, embed, Catalogue.from_metadata(index.meta), args.k, args.boost)
+        print(f"catalogue: {parsed.describe()}; text for CLIP: {parsed.visual_text!r}")
+    else:
+        results = search(index, embed(args.query), args.k)
     for _, r in results.iterrows():
         print(f"{r['rank']:2d}  {r['score']:.3f}  {r['path']}  [{r['label']}, {r['style']}, {r['artist']}]")
     if args.story:

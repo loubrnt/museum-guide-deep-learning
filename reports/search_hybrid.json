@@ -1,0 +1,735 @@
+{
+  "model": "openai/clip-vit-base-patch32",
+  "k": 10,
+  "collection_size": 1500,
+  "catalogue_entries": 366,
+  "ambiguous_names_dropped": [],
+  "parser": {
+    "english": {
+      "n_queries": 66,
+      "exact_match_rate": 0.9545454545454546,
+      "exact_match_by_type": {
+        "genre": {
+          "n": 5,
+          "rate": 0.4
+        },
+        "style_genre": {
+          "n": 39,
+          "rate": 1.0
+        },
+        "artist": {
+          "n": 22,
+          "rate": 1.0
+        }
+      },
+      "per_field": {
+        "artist": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "true_positive": 22,
+          "false_positive": 0,
+          "false_negative": 0
+        },
+        "style": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "true_positive": 45,
+          "false_positive": 0,
+          "false_negative": 0
+        },
+        "genre": {
+          "precision": 1.0,
+          "recall": 0.9318181818181818,
+          "true_positive": 41,
+          "false_positive": 0,
+          "false_negative": 3
+        }
+      },
+      "failures": [
+        {
+          "id": "genre:cityscape",
+          "text": "I would like to see views of a city with streets and buildings",
+          "expected": {
+            "genre": [
+              "cityscape"
+            ]
+          },
+          "detected": {}
+        },
+        {
+          "id": "genre:landscape",
+          "text": "a painting of nature, fields, trees and mountains",
+          "expected": {
+            "genre": [
+              "landscape"
+            ]
+          },
+          "detected": {}
+        },
+        {
+          "id": "genre:religious_painting",
+          "text": "paintings showing saints, angels or scenes from the Bible",
+          "expected": {
+            "genre": [
+              "religious_painting"
+            ]
+          },
+          "detected": {}
+        }
+      ]
+    },
+    "french": {
+      "n_queries": 66,
+      "exact_match_rate": 0.9696969696969697,
+      "exact_match_by_type": {
+        "genre": {
+          "n": 5,
+          "rate": 0.6
+        },
+        "style_genre": {
+          "n": 39,
+          "rate": 1.0
+        },
+        "artist": {
+          "n": 22,
+          "rate": 1.0
+        }
+      },
+      "per_field": {
+        "artist": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "true_positive": 22,
+          "false_positive": 0,
+          "false_negative": 0
+        },
+        "style": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "true_positive": 45,
+          "false_positive": 0,
+          "false_negative": 0
+        },
+        "genre": {
+          "precision": 1.0,
+          "recall": 0.9545454545454546,
+          "true_positive": 42,
+          "false_positive": 0,
+          "false_negative": 2
+        }
+      },
+      "failures": [
+        {
+          "id": "genre:landscape",
+          "text": "un tableau de nature, avec des champs, des arbres et des montagnes",
+          "expected": {
+            "genre": [
+              "landscape"
+            ]
+          },
+          "detected": {}
+        },
+        {
+          "id": "genre:religious_painting",
+          "text": "des tableaux représentant des saints, des anges ou des scènes de la Bible",
+          "expected": {
+            "genre": [
+              "religious_painting"
+            ]
+          },
+          "detected": {}
+        }
+      ]
+    },
+    "questions_without_catalogue_fields": {
+      "n_questions": 30,
+      "questions_with_a_filter_found": 4,
+      "examples": [
+        {
+          "text": "a romantic evening by the sea",
+          "found": "style: Romantic"
+        },
+        {
+          "text": "a naive question",
+          "found": "style: naive"
+        },
+        {
+          "text": "portraits of children",
+          "found": "genre: portrait"
+        },
+        {
+          "text": "des portraits d'enfants",
+          "found": "genre: portrait"
+        }
+      ]
+    }
+  },
+  "retrieval_by_construction": {
+    "warning": "relevance is defined by the same metadata the filter reads: these numbers are an upper bound that shows the filter works as intended, not evidence of better retrieval",
+    "boost": 0.1,
+    "summary": {
+      "plain_en": {
+        "all": {
+          "n_queries": 66,
+          "precision@10": 0.3681818181818182,
+          "average_precision": 0.32713536600823084,
+          "ndcg@10": 0.3900064793811877,
+          "chance": {
+            "precision@10": 0.032146464646464645,
+            "average_precision": 0.03689772799119148,
+            "ndcg@10": 0.033094728056073046
+          },
+          "queries_with_precision_0": 8
+        },
+        "genre": {
+          "n_queries": 5,
+          "precision@10": 1.0,
+          "average_precision": 0.8685691532256496,
+          "ndcg@10": 1.0,
+          "chance": {
+            "precision@10": 0.186,
+            "average_precision": 0.2029764007710658,
+            "ndcg@10": 0.18666064764326434
+          },
+          "queries_with_precision_0": 0
+        },
+        "style_genre": {
+          "n_queries": 39,
+          "precision@10": 0.26923076923076916,
+          "average_precision": 0.22540655006532803,
+          "ndcg@10": 0.2785004747348055,
+          "chance": {
+            "precision@10": 0.02390598290598291,
+            "average_precision": 0.027537079316777378,
+            "ndcg@10": 0.024712519470418904
+          },
+          "queries_with_precision_0": 7
+        },
+        "artist": {
+          "n_queries": 22,
+          "precision@10": 0.4,
+          "average_precision": 0.3844196789939632,
+          "ndcg@10": 0.44904132384095363,
+          "chance": {
+            "precision@10": 0.01178787878787879,
+            "average_precision": 0.01574645228222688,
+            "ndcg@10": 0.013052752460825533
+          },
+          "queries_with_precision_0": 1
+        }
+      },
+      "plain_fr": {
+        "all": {
+          "n_queries": 66,
+          "precision@10": 0.30303030303030304,
+          "average_precision": 0.2634852157498066,
+          "ndcg@10": 0.30952097789234806,
+          "chance": {
+            "precision@10": 0.032146464646464645,
+            "average_precision": 0.03689772799119148,
+            "ndcg@10": 0.033094728056073046
+          },
+          "queries_with_precision_0": 12
+        },
+        "genre": {
+          "n_queries": 5,
+          "precision@10": 0.9800000000000001,
+          "average_precision": 0.8163251735032221,
+          "ndcg@10": 0.977990823370192,
+          "chance": {
+            "precision@10": 0.186,
+            "average_precision": 0.2029764007710658,
+            "ndcg@10": 0.18666064764326434
+          },
+          "queries_with_precision_0": 0
+        },
+        "style_genre": {
+          "n_queries": 39,
+          "precision@10": 0.19230769230769226,
+          "average_precision": 0.16381492405235437,
+          "ndcg@10": 0.18888621442378992,
+          "chance": {
+            "precision@10": 0.02390598290598291,
+            "average_precision": 0.027537079316777378,
+            "ndcg@10": 0.024712519470418904
+          },
+          "queries_with_precision_0": 10
+        },
+        "artist": {
+          "n_queries": 22,
+          "precision@10": 0.3454545454545454,
+          "average_precision": 0.3145280151786048,
+          "ndcg@10": 0.37144854825073675,
+          "chance": {
+            "precision@10": 0.01178787878787879,
+            "average_precision": 0.01574645228222688,
+            "ndcg@10": 0.013052752460825533
+          },
+          "queries_with_precision_0": 2
+        }
+      },
+      "hybrid_en": {
+        "all": {
+          "n_queries": 66,
+          "precision@10": 1.0,
+          "average_precision": 0.9930120536788224,
+          "ndcg@10": 1.0,
+          "chance": {
+            "precision@10": 0.032146464646464645,
+            "average_precision": 0.03689772799119148,
+            "ndcg@10": 0.033094728056073046
+          },
+          "queries_with_precision_0": 0
+        },
+        "genre": {
+          "n_queries": 5,
+          "precision@10": 1.0,
+          "average_precision": 0.9077591085604546,
+          "ndcg@10": 1.0,
+          "chance": {
+            "precision@10": 0.186,
+            "average_precision": 0.2029764007710658,
+            "ndcg@10": 0.18666064764326434
+          },
+          "queries_with_precision_0": 0
+        },
+        "style_genre": {
+          "n_queries": 39,
+          "precision@10": 1.0,
+          "average_precision": 1.0,
+          "ndcg@10": 1.0,
+          "chance": {
+            "precision@10": 0.02390598290598291,
+            "average_precision": 0.027537079316777378,
+            "ndcg@10": 0.024712519470418904
+          },
+          "queries_with_precision_0": 0
+        },
+        "artist": {
+          "n_queries": 22,
+          "precision@10": 1.0,
+          "average_precision": 1.0,
+          "ndcg@10": 1.0,
+          "chance": {
+            "precision@10": 0.01178787878787879,
+            "average_precision": 0.01574645228222688,
+            "ndcg@10": 0.013052752460825533
+          },
+          "queries_with_precision_0": 0
+        }
+      },
+      "hybrid_fr": {
+        "all": {
+          "n_queries": 66,
+          "precision@10": 1.0,
+          "average_precision": 0.9944626619340554,
+          "ndcg@10": 1.0,
+          "chance": {
+            "precision@10": 0.032146464646464645,
+            "average_precision": 0.03689772799119148,
+            "ndcg@10": 0.033094728056073046
+          },
+          "queries_with_precision_0": 0
+        },
+        "genre": {
+          "n_queries": 5,
+          "precision@10": 1.0,
+          "average_precision": 0.9269071375295301,
+          "ndcg@10": 1.0,
+          "chance": {
+            "precision@10": 0.186,
+            "average_precision": 0.2029764007710658,
+            "ndcg@10": 0.18666064764326434
+          },
+          "queries_with_precision_0": 0
+        },
+        "style_genre": {
+          "n_queries": 39,
+          "precision@10": 1.0,
+          "average_precision": 1.0,
+          "ndcg@10": 1.0,
+          "chance": {
+            "precision@10": 0.02390598290598291,
+            "average_precision": 0.027537079316777378,
+            "ndcg@10": 0.024712519470418904
+          },
+          "queries_with_precision_0": 0
+        },
+        "artist": {
+          "n_queries": 22,
+          "precision@10": 1.0,
+          "average_precision": 1.0,
+          "ndcg@10": 1.0,
+          "chance": {
+            "precision@10": 0.01178787878787879,
+            "average_precision": 0.01574645228222688,
+            "ndcg@10": 0.013052752460825533
+          },
+          "queries_with_precision_0": 0
+        }
+      },
+      "boost_en": {
+        "all": {
+          "n_queries": 66,
+          "precision@10": 0.9984848484848485,
+          "average_precision": 0.9919618474971885,
+          "ndcg@10": 0.9990360486636521,
+          "chance": {
+            "precision@10": 0.032146464646464645,
+            "average_precision": 0.03689772799119148,
+            "ndcg@10": 0.033094728056073046
+          },
+          "queries_with_precision_0": 0
+        },
+        "genre": {
+          "n_queries": 5,
+          "precision@10": 1.0,
+          "average_precision": 0.907687236636089,
+          "ndcg@10": 1.0,
+          "chance": {
+            "precision@10": 0.186,
+            "average_precision": 0.2029764007710658,
+            "ndcg@10": 0.18666064764326434
+          },
+          "queries_with_precision_0": 0
+        },
+        "style_genre": {
+          "n_queries": 39,
+          "precision@10": 0.9974358974358974,
+          "average_precision": 0.9988603988603989,
+          "ndcg@10": 0.9983686977384884,
+          "chance": {
+            "precision@10": 0.02390598290598291,
+            "average_precision": 0.027537079316777378,
+            "ndcg@10": 0.024712519470418904
+          },
+          "queries_with_precision_0": 0
+        },
+        "artist": {
+          "n_queries": 22,
+          "precision@10": 1.0,
+          "average_precision": 0.9988859180035651,
+          "ndcg@10": 1.0,
+          "chance": {
+            "precision@10": 0.01178787878787879,
+            "average_precision": 0.01574645228222688,
+            "ndcg@10": 0.013052752460825533
+          },
+          "queries_with_precision_0": 0
+        }
+      },
+      "boost_fr": {
+        "all": {
+          "n_queries": 66,
+          "precision@10": 0.9984848484848485,
+          "average_precision": 0.9929892253743016,
+          "ndcg@10": 0.9990360486636521,
+          "chance": {
+            "precision@10": 0.032146464646464645,
+            "average_precision": 0.03689772799119148,
+            "ndcg@10": 0.033094728056073046
+          },
+          "queries_with_precision_0": 0
+        },
+        "genre": {
+          "n_queries": 5,
+          "precision@10": 1.0,
+          "average_precision": 0.9269071375295301,
+          "ndcg@10": 1.0,
+          "chance": {
+            "precision@10": 0.186,
+            "average_precision": 0.2029764007710658,
+            "ndcg@10": 0.18666064764326434
+          },
+          "queries_with_precision_0": 0
+        },
+        "style_genre": {
+          "n_queries": 39,
+          "precision@10": 0.9974358974358974,
+          "average_precision": 0.998006798006798,
+          "ndcg@10": 0.9983686977384884,
+          "chance": {
+            "precision@10": 0.02390598290598291,
+            "average_precision": 0.027537079316777378,
+            "ndcg@10": 0.024712519470418904
+          },
+          "queries_with_precision_0": 0
+        },
+        "artist": {
+          "n_queries": 22,
+          "precision@10": 1.0,
+          "average_precision": 0.9991130938541424,
+          "ndcg@10": 1.0,
+          "chance": {
+            "precision@10": 0.01178787878787879,
+            "average_precision": 0.01574645228222688,
+            "ndcg@10": 0.013052752460825533
+          },
+          "queries_with_precision_0": 0
+        }
+      }
+    },
+    "questions_with_a_filter": {
+      "english": 63,
+      "french": 64
+    }
+  },
+  "manual_check": {
+    "reviewer": "AI assistant (Claude); a human should confirm these judgments",
+    "protocol": "For each question the top 5 of plain CLIP and of the hybrid search were shown as 192-pixel thumbnails (some at 5x zoom) of the 128-pixel images. The visual criterion of each question (in scripts/search_hybrid_eval.py) was written before looking. 1 = clearly visible; anything uncertain counts as 0. Whether a painting fits the catalogue part is computed from the metadata, not judged. Only image paths are stored here, never images.",
+    "n_queries": 13,
+    "mean_top5": {
+      "plain": {
+        "both": 0.3384615384615385,
+        "catalogue": 0.46153846153846156,
+        "visual": 0.6923076923076924
+      },
+      "hybrid": {
+        "both": 0.6307692307692307,
+        "catalogue": 0.9230769230769231,
+        "visual": 0.6615384615384615
+      }
+    },
+    "hybrid_better_on": 12,
+    "hybrid_worse_on": 0,
+    "hybrid_visual_part_better_on": 1,
+    "hybrid_visual_part_worse_on": 3,
+    "per_query": [
+      {
+        "id": "baroque_angels",
+        "text": "a Baroque religious painting with angels",
+        "catalogue_fields": "style: Baroque, genre: religious painting",
+        "n_fit_catalogue": 53,
+        "plain": {
+          "catalogue_ok": 0.2,
+          "visual_ok": 0.4,
+          "both_ok": 0.0,
+          "n_shown": 5
+        },
+        "hybrid": {
+          "catalogue_ok": 1.0,
+          "visual_ok": 0.2,
+          "both_ok": 0.2,
+          "n_shown": 5
+        }
+      },
+      {
+        "id": "impressionist_river",
+        "text": "an Impressionist landscape with a river",
+        "catalogue_fields": "style: Impressionist, genre: landscape",
+        "n_fit_catalogue": 91,
+        "plain": {
+          "catalogue_ok": 0.2,
+          "visual_ok": 0.8,
+          "both_ok": 0.2,
+          "n_shown": 5
+        },
+        "hybrid": {
+          "catalogue_ok": 1.0,
+          "visual_ok": 0.8,
+          "both_ok": 0.8,
+          "n_shown": 5
+        }
+      },
+      {
+        "id": "monet_snow",
+        "text": "a snowy street by Claude Monet",
+        "catalogue_fields": "artist: Claude Monet",
+        "n_fit_catalogue": 50,
+        "plain": {
+          "catalogue_ok": 0.6,
+          "visual_ok": 0.8,
+          "both_ok": 0.6,
+          "n_shown": 5
+        },
+        "hybrid": {
+          "catalogue_ok": 1.0,
+          "visual_ok": 0.8,
+          "both_ok": 0.8,
+          "n_shown": 5
+        }
+      },
+      {
+        "id": "cubist_guitar",
+        "text": "a Cubist still life with a guitar",
+        "catalogue_fields": "style: Cubist, genre: still life",
+        "n_fit_catalogue": 68,
+        "plain": {
+          "catalogue_ok": 0.8,
+          "visual_ok": 1.0,
+          "both_ok": 0.8,
+          "n_shown": 5
+        },
+        "hybrid": {
+          "catalogue_ok": 1.0,
+          "visual_ok": 1.0,
+          "both_ok": 1.0,
+          "n_shown": 5
+        }
+      },
+      {
+        "id": "postimp_flowers",
+        "text": "a Post-Impressionist still life with flowers",
+        "catalogue_fields": "style: Post-Impressionist, genre: still life",
+        "n_fit_catalogue": 50,
+        "plain": {
+          "catalogue_ok": 0.4,
+          "visual_ok": 1.0,
+          "both_ok": 0.4,
+          "n_shown": 5
+        },
+        "hybrid": {
+          "catalogue_ok": 1.0,
+          "visual_ok": 1.0,
+          "both_ok": 1.0,
+          "n_shown": 5
+        }
+      },
+      {
+        "id": "rococo_woman",
+        "text": "a Rococo portrait of a woman",
+        "catalogue_fields": "style: Rococo, genre: portrait",
+        "n_fit_catalogue": 34,
+        "plain": {
+          "catalogue_ok": 0.8,
+          "visual_ok": 1.0,
+          "both_ok": 0.8,
+          "n_shown": 5
+        },
+        "hybrid": {
+          "catalogue_ok": 1.0,
+          "visual_ok": 1.0,
+          "both_ok": 1.0,
+          "n_shown": 5
+        }
+      },
+      {
+        "id": "expressionist_woman",
+        "text": "an Expressionist portrait of a woman",
+        "catalogue_fields": "style: Expressionist, genre: portrait",
+        "n_fit_catalogue": 61,
+        "plain": {
+          "catalogue_ok": 0.4,
+          "visual_ok": 1.0,
+          "both_ok": 0.4,
+          "n_shown": 5
+        },
+        "hybrid": {
+          "catalogue_ok": 1.0,
+          "visual_ok": 0.8,
+          "both_ok": 0.8,
+          "n_shown": 5
+        }
+      },
+      {
+        "id": "romantic_sea",
+        "text": "a Romantic landscape with a stormy sea",
+        "catalogue_fields": "style: Romantic, genre: landscape",
+        "n_fit_catalogue": 31,
+        "plain": {
+          "catalogue_ok": 0.4,
+          "visual_ok": 0.4,
+          "both_ok": 0.2,
+          "n_shown": 5
+        },
+        "hybrid": {
+          "catalogue_ok": 1.0,
+          "visual_ok": 0.4,
+          "both_ok": 0.4,
+          "n_shown": 5
+        }
+      },
+      {
+        "id": "baroque_skull",
+        "text": "a Baroque still life with a skull",
+        "catalogue_fields": "style: Baroque, genre: still life",
+        "n_fit_catalogue": 24,
+        "plain": {
+          "catalogue_ok": 0.8,
+          "visual_ok": 0.0,
+          "both_ok": 0.0,
+          "n_shown": 5
+        },
+        "hybrid": {
+          "catalogue_ok": 1.0,
+          "visual_ok": 0.2,
+          "both_ok": 0.2,
+          "n_shown": 5
+        }
+      },
+      {
+        "id": "realist_fruit",
+        "text": "a Realist still life with fruit",
+        "catalogue_fields": "style: Realist, genre: still life",
+        "n_fit_catalogue": 35,
+        "plain": {
+          "catalogue_ok": 0.6,
+          "visual_ok": 1.0,
+          "both_ok": 0.6,
+          "n_shown": 5
+        },
+        "hybrid": {
+          "catalogue_ok": 1.0,
+          "visual_ok": 1.0,
+          "both_ok": 1.0,
+          "n_shown": 5
+        }
+      },
+      {
+        "id": "renaissance_hat",
+        "text": "a Northern Renaissance portrait of a man with a hat",
+        "catalogue_fields": "style: Northern Renaissance, genre: portrait",
+        "n_fit_catalogue": 10,
+        "plain": {
+          "catalogue_ok": 0.4,
+          "visual_ok": 0.8,
+          "both_ok": 0.4,
+          "n_shown": 5
+        },
+        "hybrid": {
+          "catalogue_ok": 1.0,
+          "visual_ok": 0.6,
+          "both_ok": 0.6,
+          "n_shown": 5
+        }
+      },
+      {
+        "id": "matisse_woman",
+        "text": "a work by Henri Matisse showing a woman",
+        "catalogue_fields": "artist: Henri Matisse",
+        "n_fit_catalogue": 15,
+        "plain": {
+          "catalogue_ok": 0.4,
+          "visual_ok": 0.4,
+          "both_ok": 0.0,
+          "n_shown": 5
+        },
+        "hybrid": {
+          "catalogue_ok": 1.0,
+          "visual_ok": 0.4,
+          "both_ok": 0.4,
+          "n_shown": 5
+        }
+      },
+      {
+        "id": "renoir_portrait",
+        "text": "a portrait by Renoir of a woman with a hat",
+        "catalogue_fields": "genre: portrait, artist: Pierre Auguste Renoir",
+        "n_fit_catalogue": 0,
+        "plain": {
+          "catalogue_ok": 0.0,
+          "visual_ok": 0.4,
+          "both_ok": 0.0,
+          "n_shown": 5
+        },
+        "hybrid": {
+          "catalogue_ok": 0.0,
+          "visual_ok": 0.4,
+          "both_ok": 0.0,
+          "n_shown": 5
+        }
+      }
+    ],
+    "stale_judgments": []
+  }
+}

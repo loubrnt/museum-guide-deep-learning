@@ -328,6 +328,66 @@ A translation step from French to English was not tested; the English row is wha
 Limits: **the French texts were written by an AI assistant and must be read by a French speaker** (`reports/search_queries_fr.json`; the French spellings of Russian names are the least certain).
 Relevance still comes from the metadata, so this measures genre, style and artist, not fine content. Only one multilingual encoder was tested. With 5 genre questions the by-type intervals for genre say little.
 
+### Using the catalogue metadata
+
+A real museum catalogue has an artist, a style and a genre for every work, and a visitor who writes "paintings by Claude Monet" or
+"un paysage impressionniste" names those fields. With `--hybrid`, `scripts/search.py` reads them in the question (`museum_guide.catalogue`,
+English and French, accents, hyphens and plurals ignored), keeps only the paintings that fit, and ranks them by CLIP using what is left of
+the question, the part the catalogue cannot say:
+
+```bash
+python scripts/search.py "a Baroque still life with a skull" --hybrid
+# catalogue: style: Baroque, genre: still life; text for CLIP: 'skull'
+python scripts/search.py "des tableaux d'Édouard Cortès" --hybrid      # any spelling of the painter gives the same filter
+python scripts/search.py "a Baroque religious painting with angels" --hybrid --boost 0.05   # nudge instead of filter
+```
+
+Off by default, so the earlier outputs do not change. If nothing is named, or nothing in the collection fits all the named fields (Renoir has
+only city views here, so there is no "portrait by Renoir"), it falls back to plain CLIP search. The parser is conservative on purpose: whole words
+only, longest match, a name shared by two catalogue entries is dropped, and a surname that is also a common word ("gris", "chase") or is shorter
+than five letters counts only after a cue such as "by" or "de". Names come from the metadata and from the project's own tables (French spellings,
+notice titles), 366 in all for this collection, and a slug damaged by an encoding error (`joaquã­n-sorolla`) is repaired.
+
+**The parser** recovers the artist, style and genre the 66 generated questions were built from (`scripts/search_hybrid_eval.py`):
+
+| | Questions where all fields are recovered | Precision (artist, style, genre) | Recall (artist, style, genre) |
+|---|---|---|---|
+| English | 63 of 66 (95.5%) | 1.00, 1.00, 1.00 | 1.00, 1.00, 0.93 |
+| French | 64 of 66 (97.0%) | 1.00, 1.00, 1.00 | 1.00, 1.00, 0.95 |
+
+All 39 style x genre questions and all 22 artist questions are recovered in both languages, including the French spellings that confuse CLIP
+(Édouard Cortès, Ilia Machkov, Constantin Korovine). The misses are the free sentences of the genre questions that do not name the genre
+("paintings showing saints, angels or scenes from the Bible"); those simply stay plain CLIP search. On 30 questions that name no catalogue field,
+4 got a filter: "a romantic evening by the sea" (read as the Romantic style) and "a naive question" (the naive style) are false alarms caused by ordinary
+words, and "portraits of children" and its French version are read as the portrait genre, which is probably what was meant.
+
+**Retrieval on the metadata-defined questions is an upper bound, not evidence.** The relevant paintings of those 66 questions are defined by
+the same metadata the filter reads, so the filter solves them by construction: precision@10 goes from 0.37 (plain CLIP, English) and 0.30 (French) to
+1.00 in both languages, and with a soft boost of 0.1 to 0.998. It shows that the filter does what it should; it does not show that retrieval got better.
+
+**A small manual check where the filter cannot cheat.** 13 questions combine a catalogue part with a visual part the catalogue does not hold
+("a Baroque religious painting with angels"). For each, the top 5 of plain CLIP and of the hybrid search were looked at by an AI reviewer as thumbnails of the
+128-pixel images, against a visual criterion written before looking; anything uncertain counts as not satisfied. Whether a painting fits the catalogue
+part is computed from the metadata (`reports/search_hybrid_manual.json` holds the judgments, as image paths only). **A human should confirm them.**
+
+| Top 5, mean over 13 questions | Plain CLIP | Catalogue filter, then CLIP |
+|---|---|---|
+| Fit the catalogue part | 0.46 | 0.92 |
+| Show the visual part | 0.69 | 0.66 |
+| Fit both | 0.34 | 0.63 |
+
+The filter fixes the catalogue part (12 questions at 1.00; the 13th, Renoir, has no fitting painting and falls back), which is what it is for. It does **not** help
+CLIP see better: for the visual part alone it is better on 1 question, worse on 3 and equal on 9, a difference of 0.03 that is within noise for 13 questions. The one gain is
+"a Baroque still life with a skull", where the hybrid search finds a vanitas with a skull behind a glass sphere and plain CLIP shows none in its top 5; the clearest loss is
+"a Baroque religious painting with angels" (2 of 5 show angels with plain CLIP, 1 of 5 with the filter), because restricting to Baroque religious paintings leaves fewer angels to choose from.
+Both parts fitted, per question: angels 0/5 to 1/5, river 1 to 4, Monet in snow 3 to 4, Cubist guitar 4 to 5, Post-Impressionist flowers 2 to 5, Rococo woman 4 to 5,
+Expressionist woman 2 to 4, Romantic sea 1 to 2, skull 0 to 1, Realist fruit 3 to 5, Northern Renaissance hat 2 to 3, Matisse woman 0 to 2, Renoir portrait 0 to 0.
+
+Limits: the collection was built by genre, so most artists have paintings in one genre only and many (artist, genre) pairs are empty; 120 named artists, 5 genres and 23
+styles, and 48% of the paintings have no artist, so a filter on an artist can never find them; "romantic" and "naive" in everyday sentences trigger the style filter;
+13 questions, 128-pixel thumbnails and an AI reviewer make the manual check an indication; the visual part is still CLIP's, English-trained.
+Reproduce: `python scripts/search_hybrid_eval.py --grids` saves the image grids (in `data/`, not versioned: they show paintings), then `python scripts/search_hybrid_eval.py`.
+
 ## Recommendation to the director
 
 **Is a neural network worth it? Yes, provided it is a pretrained one.** A network trained from scratch on a few hundred images is not

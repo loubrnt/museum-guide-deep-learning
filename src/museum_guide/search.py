@@ -9,14 +9,18 @@ reproducible. It measures what the metadata knows (genre, style, artist), not fi
 """
 from __future__ import annotations
 
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import numpy as np
 import pandas as pd
 
 from museum_guide.clip import MODEL, cached_embeddings, embed_images, load_clip, normalise
+
+if TYPE_CHECKING:  # the catalogue module imports this one: only needed for the type hints
+    from museum_guide.catalogue import Catalogue, ParsedQuery
 
 META_COLUMNS = ("id", "path", "label", "style", "artist")
 
@@ -95,6 +99,65 @@ def search(index: Index, text_embedding: np.ndarray, k: int = 5) -> pd.DataFrame
     out.insert(0, "score", s[top])
     out.insert(0, "rank", np.arange(1, len(top) + 1))
     return out.reset_index(drop=True)
+
+
+# ---------------------------------------------------------------------------------------------
+# Hybrid search: the catalogue fields named in the question, then CLIP for the rest.
+# ---------------------------------------------------------------------------------------------
+
+
+def rank_with_filter(index: Index, text_embedding: np.ndarray, match: np.ndarray, boost: float | None = None) -> np.ndarray:
+    """Indices of all paintings, best first, when the question names catalogue fields (`match` is True where they fit).
+
+    Hard filter (`boost=None`): the paintings that fit come first, ranked by CLIP, then the others, ranked by CLIP.
+    Soft boost: CLIP's cosine plus `boost` for each painting that fits (a cosine gap between good and bad matches
+    is a few hundredths, so 0.1 or more behaves almost like a filter, 0.02 like a nudge).
+    """
+    s = scores(index, text_embedding)
+    match = np.asarray(match, dtype=bool)
+    if boost is None:
+        return np.lexsort((-s, ~match))  # primary key: fits first; secondary: CLIP score
+    return np.argsort(-(s + boost * match), kind="stable")
+
+
+def hybrid_search(
+    index: Index,
+    query: str,
+    embed: Callable[[str], np.ndarray],
+    catalogue: Catalogue,
+    k: int = 5,
+    boost: float | None = None,
+) -> tuple[pd.DataFrame, ParsedQuery]:
+    """Search with the catalogue fields found in `query`, and CLIP for what the catalogue cannot say.
+
+    `embed` turns a sentence into a normalised text vector. Returns the results and the parsed question.
+    Nothing found, or nothing in the collection fits all the fields: plain CLIP search on the whole question
+    (`catalogue_match` is then False for every row). With a hard filter only the paintings that fit are returned
+    (fewer than `k` if the catalogue has fewer); with `boost` the best `k` overall are returned.
+    The text given to CLIP is what remains of the question once the fields are removed ("a woman with a hat"),
+    or the whole question when nothing is left.
+    """
+    parsed = catalogue.parse(query)
+    if not parsed.has_filters:
+        results = search(index, embed(query), k)
+        results["catalogue_match"] = False
+        return results, parsed
+    match = catalogue.mask(index.meta, parsed)
+    if not match.any():  # e.g. 'a Baroque landscape' in a collection that has none: do not return an empty page
+        results = search(index, embed(query), k)
+        results["catalogue_match"] = False
+        return results, parsed
+    emb = embed(parsed.visual_text)
+    order = rank_with_filter(index, emb, match, boost)
+    if boost is None:
+        order = order[match[order]]
+    top = order[: min(k, len(order))]
+    s = scores(index, emb)
+    out = index.meta.iloc[top].copy()
+    out.insert(0, "score", s[top])
+    out.insert(0, "rank", np.arange(1, len(top) + 1))
+    out["catalogue_match"] = match[top]
+    return out.reset_index(drop=True), parsed
 
 
 # ---------------------------------------------------------------------------------------------
