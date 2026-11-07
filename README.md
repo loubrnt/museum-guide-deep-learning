@@ -146,6 +146,19 @@ python project/make_wikiart_subset.py --label genre \
 `data/` is not versioned; the command above rebuilds it. The scripts look for it in `data/wikiart_genre5` relative to the working
 directory; set `MUSEUM_GUIDE_DATA=/path/to/wikiart_genre5` to put it elsewhere.
 
+## Repository layout
+
+```
+project/       course data script (make_wikiart_subset.py)
+src/           reusable code (data and split, models, training loop, inference, robustness helpers)
+scripts/       one script per experiment (baseline, MLP, ResNet, CLIP search, robustness) and predict.py
+tests/         pytest suite on synthetic data
+reports/       figures and results (JSON)
+presentation/  the 10-minute slides
+notebooks/     placeholder, empty for now
+data/          the WikiArt subset (not versioned, rebuilt with the command above)
+```
+
 ## Robustness to camera conditions
 
 The paintings are clean WikiArt scans, but the guide will see phone photos. There are no labelled photos yet, so `scripts/photo_robustness.py`
@@ -174,19 +187,6 @@ results in `reports/photo_robustness.json` and `reports/figures/photo_robustness
 - **Averaged over the nine perturbations the difference is +0.9 points, photo better on 2/5 seeds**: within the seed-to-seed noise (std 2-7 points). Only the rotation gain clearly stands out. Photo augmentation is worth it only if tilted shots matter more than clean-image accuracy; the same 20 epochs may also be too few for the harder augmentation.
 
 Limits: these are synthetic proxies, not phone photos (which also have glare, frames, walls, hands and combined effects); each perturbation is applied alone; 5 seeds only; the augmentation strength was not tuned.
-
-## Repository layout
-
-```
-project/       course data script (make_wikiart_subset.py)
-src/           reusable code (data and split, models, training loop, inference, robustness helpers)
-scripts/       one script per experiment (baseline, MLP, ResNet, CLIP search, robustness) and predict.py
-tests/         pytest suite on synthetic data
-reports/       figures and results (JSON)
-presentation/  the 10-minute slides
-notebooks/     placeholder, empty for now
-data/          the WikiArt subset (not versioned, rebuilt with the command above)
-```
 
 ## Tests
 
