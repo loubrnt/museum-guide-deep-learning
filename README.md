@@ -195,6 +195,36 @@ Limits: relevance comes from WikiArt metadata, so this measures knowledge of gen
 which stays judged by eye (`reports/figures/search_examples.png`). Paintings by "Unknown Artist" can never be relevant to an artist question.
 The collection has 1,500 paintings and the scores depend on it; the two phrasings were fixed before looking at the results.
 
+## Kiosk budget (measured)
+
+The recommendation below says kiosk memory "must be checked". `scripts/benchmark_kiosk.py` measures it for the ResNet-18 and for
+CLIP's image encoder (the part that runs on a photo), in fp32, fp16 and int8. Each model is built and saved once, then served by
+fresh processes (3 per setting, 100 different images each) so memory figures do not leak between models. Machine: Apple M4, 10 cores,
+PyTorch 2.15 (`reports/kiosk_benchmark.json`). A modest kiosk CPU will be slower: trust the ratios more than the milliseconds.
+
+| Model | Weight file | Latency per image, 1 thread (p95) | 4 threads | Memory added by the model |
+|---|---|---|---|---|
+| ResNet-18 fp32 | 44.8 MB | 7.2 ms (9.2) | 5.2 ms | 120 MB |
+| CLIP image encoder fp32 | 351.5 MB | 20.9 ms (22.7) | 22.1 ms | 729 MB |
+| CLIP fp16 | 175.8 MB | 202.5 ms (207.2) | 112.1 ms | 360 MB |
+| CLIP int8 (dynamic) | 95.6 MB | 97.9 ms (103.6) | 41.4 ms | 314 MB |
+
+Latency covers reading the JPEG, resizing and the forward pass (the forward pass is 93% of it for the ResNet and 96% for CLIP fp32). The whole process, with PyTorch,
+transformers and the image libraries loaded, peaks at about 590 MB for the ResNet and 1.2 GB for CLIP fp32.
+
+- **CLIP fp32 costs about 3 times the ResNet in time and 6 times in added memory** on this machine, for 90.2% instead of 74.0% accuracy (10 seeds).
+  Both fit easily on a kiosk with 2 GB of memory; the real question is whether the CPU is fast enough.
+- **int8 shrinks CLIP's file by 3.7 times and costs little accuracy, but is slower here.** On the 10 splits, a linear probe trained on fp32 vectors
+  scores 90.16% ± 2.45 on fp32 vectors, 89.46% ± 2.77 on int8 vectors (-0.70 points on average, between -2.66 and +1.08) and 90.12% ± 2.48
+  on fp16 vectors (-0.03). PyTorch's int8 kernels for Apple silicon (qnnpack) are 4.7 times slower than fp32 on one thread; fp16 is about 10 times slower
+  because the CPU has no fast fp16 path in PyTorch. Whether int8 is faster on a kiosk's x86 CPU was **not** measured.
+- **Reading a phone photo can cost more than the ResNet.** A 12-megapixel JPEG (4032x3024, 2.2 MB, synthetic) takes 29 ms to decode in full and 15 ms with
+  PIL's draft decoding (`Image.draft`, decodes at a reduced scale). The project images are 128 px, so this cost never showed in the earlier latencies.
+
+Limits: random weights (shapes, size, memory and speed do not depend on the values); one machine; the three repeats agree within about 8% (max minus min),
+except CLIP fp16 on 4 threads (112 to 135 ms); the machine was not completely idle, a load average of about 6 at the start; the 12-megapixel image is a
+proxy (smooth content plus noise), real photos may decode slower; the int8 parameter count in the JSON (2.4 M) excludes packed int8 weights.
+
 ## Recommendation to the director
 
 Use the **fine-tuned ResNet-18** for recognition and **CLIP** for search, both run locally. It is 21 points more accurate than the best classical model, at the same order of CPU cost
@@ -214,6 +244,7 @@ python scripts/train_mlp.py
 python scripts/train_resnet.py
 python scripts/search_clip.py
 python scripts/robustness.py --seeds 10    # about 10 minutes: seeds, confidence intervals, shift test
+python scripts/benchmark_kiosk.py                # about 15 minutes: leave the machine idle, it measures time and memory
 python scripts/clip_classifier.py --seeds 10    # CLIP zero-shot and linear probe vs the ResNet (needs reports/robustness.json)
 ```
 
