@@ -1,0 +1,21 @@
+{
+  "painting_prompts": [
+    "a painting in a museum"
+  ],
+  "other_prompts": [
+    "a photo of an object, a person or a wall"
+  ],
+  "threshold": 0.07088986149095788,
+  "w_margin": 76.75139237188466,
+  "w_similarity": 39.683135341154674,
+  "bias": -30.11928731173927,
+  "top_k": 5,
+  "target_tpr": 0.95,
+  "info": {
+    "method": "combination:museum_vs_everyday+similarity_top5",
+    "validation_auroc": 0.9913323782234957,
+    "n_validation_paintings": 249,
+    "n_validation_non_paintings": 720,
+    "fitted_on": "validation draw only (other photos than the test draw)"
+  }
+}

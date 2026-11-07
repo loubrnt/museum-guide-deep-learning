@@ -1,0 +1,687 @@
+{
+  "n_paintings_test": 279,
+  "n_paintings_val": 249,
+  "resnet_test_accuracy": 0.7455197132616488,
+  "non_painting_test_counts": {
+    "caltech_objects": 300,
+    "caltech_faces": 300,
+    "dtd": 300,
+    "imagenette": 300,
+    "uniform_wall": 60,
+    "plaster_wall": 60,
+    "black_frame": 60,
+    "gaussian_noise": 60
+  },
+  "answered_at_documented_thresholds": {
+    "resnet": {
+      "threshold": 0.71,
+      "paintings": 0.6415770609318996,
+      "caltech_objects": 0.37,
+      "caltech_faces": 0.35333333333333333,
+      "dtd": 0.16333333333333333,
+      "imagenette": 0.34,
+      "uniform_wall": 0.0,
+      "plaster_wall": 0.0,
+      "black_frame": 0.0,
+      "gaussian_noise": 0.0,
+      "all_real_photos": 0.30666666666666664,
+      "blurred_painting": 0.04,
+      "painting_on_wall": 0.04
+    },
+    "clip_head": {
+      "threshold": 0.83,
+      "paintings": 0.7849462365591398,
+      "caltech_objects": 0.12,
+      "caltech_faces": 0.9,
+      "dtd": 0.20666666666666667,
+      "imagenette": 0.15333333333333332,
+      "uniform_wall": 0.1,
+      "plaster_wall": 0.0,
+      "black_frame": 0.0,
+      "gaussian_noise": 0.0,
+      "all_real_photos": 0.345,
+      "blurred_painting": 0.27,
+      "painting_on_wall": 0.44
+    }
+  },
+  "methods": {
+    "resnet_max_probability": {
+      "validation_auroc_all_non_paintings": 0.6325334288443171,
+      "threshold_from_validation": 0.317701518535614,
+      "test_tpr_at_validation_threshold": 0.992831541218638,
+      "test_accepted_blurred_painting": 0.99,
+      "test_accepted_painting_on_wall": 0.84,
+      "test_auroc_painting_on_wall_vs_real_photos": 0.25585833333333335,
+      "per_group": {
+        "caltech_objects": {
+          "auroc": 0.6807048984468339,
+          "fpr_at_tpr": 0.8833333333333333,
+          "accepted_at_validation_threshold": 0.97
+        },
+        "caltech_faces": {
+          "auroc": 0.7155077658303465,
+          "fpr_at_tpr": 0.93,
+          "accepted_at_validation_threshold": 0.99
+        },
+        "dtd": {
+          "auroc": 0.8066547192353644,
+          "fpr_at_tpr": 0.8166666666666667,
+          "accepted_at_validation_threshold": 0.9766666666666667
+        },
+        "imagenette": {
+          "auroc": 0.6989486260454002,
+          "fpr_at_tpr": 0.92,
+          "accepted_at_validation_threshold": 0.9833333333333333
+        },
+        "uniform_wall": {
+          "auroc": 0.9640979689366787,
+          "fpr_at_tpr": 0.35,
+          "accepted_at_validation_threshold": 0.6833333333333333
+        },
+        "plaster_wall": {
+          "auroc": 0.9048984468339307,
+          "fpr_at_tpr": 0.9166666666666666,
+          "accepted_at_validation_threshold": 1.0
+        },
+        "black_frame": {
+          "auroc": 0.9483870967741935,
+          "fpr_at_tpr": 0.6666666666666666,
+          "accepted_at_validation_threshold": 0.9666666666666667
+        },
+        "gaussian_noise": {
+          "auroc": 0.7543010752688172,
+          "fpr_at_tpr": 1.0,
+          "accepted_at_validation_threshold": 1.0
+        }
+      },
+      "all_real_photos": {
+        "auroc": 0.7254540023894862,
+        "fpr_at_tpr": 0.8875,
+        "accepted_at_validation_threshold": 0.98
+      },
+      "all_synthetic": {
+        "auroc": 0.892921146953405,
+        "fpr_at_tpr": 0.7333333333333333,
+        "accepted_at_validation_threshold": 0.9125
+      },
+      "all_non_paintings": {
+        "auroc": 0.7533651931501394,
+        "fpr_at_tpr": 0.8618055555555556,
+        "accepted_at_validation_threshold": 0.96875
+      }
+    },
+    "clip_head_max_probability": {
+      "validation_auroc_all_non_paintings": 0.7659463546641198,
+      "threshold_from_validation": 0.5093011453384492,
+      "test_tpr_at_validation_threshold": 0.967741935483871,
+      "test_accepted_blurred_painting": 0.67,
+      "test_accepted_painting_on_wall": 0.88,
+      "test_auroc_painting_on_wall_vs_real_photos": 0.563975,
+      "per_group": {
+        "caltech_objects": {
+          "auroc": 0.9109677419354839,
+          "fpr_at_tpr": 0.53,
+          "accepted_at_validation_threshold": 0.5833333333333334
+        },
+        "caltech_faces": {
+          "auroc": 0.629068100358423,
+          "fpr_at_tpr": 1.0,
+          "accepted_at_validation_threshold": 1.0
+        },
+        "dtd": {
+          "auroc": 0.8614456391875747,
+          "fpr_at_tpr": 0.7233333333333334,
+          "accepted_at_validation_threshold": 0.7933333333333333
+        },
+        "imagenette": {
+          "auroc": 0.8974193548387097,
+          "fpr_at_tpr": 0.6166666666666667,
+          "accepted_at_validation_threshold": 0.6733333333333333
+        },
+        "uniform_wall": {
+          "auroc": 0.9055555555555556,
+          "fpr_at_tpr": 0.55,
+          "accepted_at_validation_threshold": 0.5833333333333334
+        },
+        "plaster_wall": {
+          "auroc": 0.991636798088411,
+          "fpr_at_tpr": 0.0,
+          "accepted_at_validation_threshold": 0.0
+        },
+        "black_frame": {
+          "auroc": 0.9957586618876941,
+          "fpr_at_tpr": 0.0,
+          "accepted_at_validation_threshold": 0.0
+        },
+        "gaussian_noise": {
+          "auroc": 0.8946833930704898,
+          "fpr_at_tpr": 1.0,
+          "accepted_at_validation_threshold": 1.0
+        }
+      },
+      "all_real_photos": {
+        "auroc": 0.8247252090800478,
+        "fpr_at_tpr": 0.7175,
+        "accepted_at_validation_threshold": 0.7625
+      },
+      "all_synthetic": {
+        "auroc": 0.9469086021505376,
+        "fpr_at_tpr": 0.3875,
+        "accepted_at_validation_threshold": 0.3958333333333333
+      },
+      "all_non_paintings": {
+        "auroc": 0.8450891079251295,
+        "fpr_at_tpr": 0.6625,
+        "accepted_at_validation_threshold": 0.7013888888888888
+      }
+    },
+    "collection_similarity_top1": {
+      "validation_auroc_all_non_paintings": 0.968059535179879,
+      "threshold_from_validation": 0.7886440287859586,
+      "test_tpr_at_validation_threshold": 0.978494623655914,
+      "test_accepted_blurred_painting": 0.14,
+      "test_accepted_painting_on_wall": 0.79,
+      "test_auroc_painting_on_wall_vs_real_photos": 0.9313333333333333,
+      "per_group": {
+        "caltech_objects": {
+          "auroc": 0.99584229390681,
+          "fpr_at_tpr": 0.016666666666666666,
+          "accepted_at_validation_threshold": 0.03666666666666667
+        },
+        "caltech_faces": {
+          "auroc": 0.9978016726403823,
+          "fpr_at_tpr": 0.0033333333333333335,
+          "accepted_at_validation_threshold": 0.02666666666666667
+        },
+        "dtd": {
+          "auroc": 0.9622222222222222,
+          "fpr_at_tpr": 0.2,
+          "accepted_at_validation_threshold": 0.30666666666666664
+        },
+        "imagenette": {
+          "auroc": 0.9981362007168458,
+          "fpr_at_tpr": 0.006666666666666667,
+          "accepted_at_validation_threshold": 0.02
+        },
+        "uniform_wall": {
+          "auroc": 0.9615890083632019,
+          "fpr_at_tpr": 0.35,
+          "accepted_at_validation_threshold": 0.6166666666666667
+        },
+        "plaster_wall": {
+          "auroc": 0.9792712066905616,
+          "fpr_at_tpr": 0.03333333333333333,
+          "accepted_at_validation_threshold": 0.35
+        },
+        "black_frame": {
+          "auroc": 0.9686977299880526,
+          "fpr_at_tpr": 0.13333333333333333,
+          "accepted_at_validation_threshold": 0.85
+        },
+        "gaussian_noise": {
+          "auroc": 0.9999402628434887,
+          "fpr_at_tpr": 0.0,
+          "accepted_at_validation_threshold": 0.0
+        }
+      },
+      "all_real_photos": {
+        "auroc": 0.9885005973715651,
+        "fpr_at_tpr": 0.056666666666666664,
+        "accepted_at_validation_threshold": 0.0975
+      },
+      "all_synthetic": {
+        "auroc": 0.9773745519713262,
+        "fpr_at_tpr": 0.12916666666666668,
+        "accepted_at_validation_threshold": 0.45416666666666666
+      },
+      "all_non_paintings": {
+        "auroc": 0.9866462564715253,
+        "fpr_at_tpr": 0.06875,
+        "accepted_at_validation_threshold": 0.15694444444444444
+      }
+    },
+    "collection_similarity_top5": {
+      "validation_auroc_all_non_paintings": 0.9779290035020693,
+      "threshold_from_validation": 0.7707822204600413,
+      "test_tpr_at_validation_threshold": 0.982078853046595,
+      "test_accepted_blurred_painting": 0.12,
+      "test_accepted_painting_on_wall": 0.83,
+      "test_auroc_painting_on_wall_vs_real_photos": 0.9535916666666666,
+      "per_group": {
+        "caltech_objects": {
+          "auroc": 0.9964277180406212,
+          "fpr_at_tpr": 0.006666666666666667,
+          "accepted_at_validation_threshold": 0.016666666666666666
+        },
+        "caltech_faces": {
+          "auroc": 0.9999283154121864,
+          "fpr_at_tpr": 0.0,
+          "accepted_at_validation_threshold": 0.0
+        },
+        "dtd": {
+          "auroc": 0.9696893667861409,
+          "fpr_at_tpr": 0.17666666666666667,
+          "accepted_at_validation_threshold": 0.25666666666666665
+        },
+        "imagenette": {
+          "auroc": 0.998673835125448,
+          "fpr_at_tpr": 0.0033333333333333335,
+          "accepted_at_validation_threshold": 0.01
+        },
+        "uniform_wall": {
+          "auroc": 0.9498805256869773,
+          "fpr_at_tpr": 0.5166666666666667,
+          "accepted_at_validation_threshold": 0.7166666666666667
+        },
+        "plaster_wall": {
+          "auroc": 0.9733572281959378,
+          "fpr_at_tpr": 0.08333333333333333,
+          "accepted_at_validation_threshold": 0.6
+        },
+        "black_frame": {
+          "auroc": 0.9799283154121864,
+          "fpr_at_tpr": 0.0,
+          "accepted_at_validation_threshold": 0.3
+        },
+        "gaussian_noise": {
+          "auroc": 0.9999402628434887,
+          "fpr_at_tpr": 0.0,
+          "accepted_at_validation_threshold": 0.0
+        }
+      },
+      "all_real_photos": {
+        "auroc": 0.9911798088410991,
+        "fpr_at_tpr": 0.04666666666666667,
+        "accepted_at_validation_threshold": 0.07083333333333333
+      },
+      "all_synthetic": {
+        "auroc": 0.9757765830346475,
+        "fpr_at_tpr": 0.15,
+        "accepted_at_validation_threshold": 0.4041666666666667
+      },
+      "all_non_paintings": {
+        "auroc": 0.9886126045400239,
+        "fpr_at_tpr": 0.06388888888888888,
+        "accepted_at_validation_threshold": 0.12638888888888888
+      }
+    },
+    "zero_shot:painting_vs_photograph": {
+      "validation_auroc_all_non_paintings": 0.9633397007322508,
+      "threshold_from_validation": -0.00024780737412236076,
+      "test_tpr_at_validation_threshold": 0.9713261648745519,
+      "test_accepted_blurred_painting": 0.29,
+      "test_accepted_painting_on_wall": 0.84,
+      "test_auroc_painting_on_wall_vs_real_photos": 0.9275166666666667,
+      "per_group": {
+        "caltech_objects": {
+          "auroc": 0.9836798088410992,
+          "fpr_at_tpr": 0.06666666666666667,
+          "accepted_at_validation_threshold": 0.15
+        },
+        "caltech_faces": {
+          "auroc": 0.9989247311827957,
+          "fpr_at_tpr": 0.006666666666666667,
+          "accepted_at_validation_threshold": 0.006666666666666667
+        },
+        "dtd": {
+          "auroc": 0.9578255675029869,
+          "fpr_at_tpr": 0.24333333333333335,
+          "accepted_at_validation_threshold": 0.43666666666666665
+        },
+        "imagenette": {
+          "auroc": 0.9936798088410992,
+          "fpr_at_tpr": 0.016666666666666666,
+          "accepted_at_validation_threshold": 0.04666666666666667
+        },
+        "uniform_wall": {
+          "auroc": 0.9796893667861409,
+          "fpr_at_tpr": 0.016666666666666666,
+          "accepted_at_validation_threshold": 0.15
+        },
+        "plaster_wall": {
+          "auroc": 0.9876344086021506,
+          "fpr_at_tpr": 0.0,
+          "accepted_at_validation_threshold": 0.0
+        },
+        "black_frame": {
+          "auroc": 0.9961170848267622,
+          "fpr_at_tpr": 0.0,
+          "accepted_at_validation_threshold": 0.0
+        },
+        "gaussian_noise": {
+          "auroc": 0.9590203106332139,
+          "fpr_at_tpr": 0.21666666666666667,
+          "accepted_at_validation_threshold": 0.9833333333333333
+        }
+      },
+      "all_real_photos": {
+        "auroc": 0.9835274790919952,
+        "fpr_at_tpr": 0.08333333333333333,
+        "accepted_at_validation_threshold": 0.16
+      },
+      "all_synthetic": {
+        "auroc": 0.9806152927120669,
+        "fpr_at_tpr": 0.058333333333333334,
+        "accepted_at_validation_threshold": 0.2833333333333333
+      },
+      "all_non_paintings": {
+        "auroc": 0.9830421146953405,
+        "fpr_at_tpr": 0.07916666666666666,
+        "accepted_at_validation_threshold": 0.18055555555555555
+      }
+    },
+    "zero_shot:museum_vs_everyday": {
+      "validation_auroc_all_non_paintings": 0.9727276345113022,
+      "threshold_from_validation": -0.012774451044653218,
+      "test_tpr_at_validation_threshold": 0.978494623655914,
+      "test_accepted_blurred_painting": 0.0,
+      "test_accepted_painting_on_wall": 0.89,
+      "test_auroc_painting_on_wall_vs_real_photos": 0.9571833333333334,
+      "per_group": {
+        "caltech_objects": {
+          "auroc": 0.9768100358422939,
+          "fpr_at_tpr": 0.05333333333333334,
+          "accepted_at_validation_threshold": 0.2833333333333333
+        },
+        "caltech_faces": {
+          "auroc": 0.9923775388291517,
+          "fpr_at_tpr": 0.0033333333333333335,
+          "accepted_at_validation_threshold": 0.0033333333333333335
+        },
+        "dtd": {
+          "auroc": 0.9872879330943847,
+          "fpr_at_tpr": 0.016666666666666666,
+          "accepted_at_validation_threshold": 0.08666666666666667
+        },
+        "imagenette": {
+          "auroc": 0.9875746714456392,
+          "fpr_at_tpr": 0.006666666666666667,
+          "accepted_at_validation_threshold": 0.07666666666666666
+        },
+        "uniform_wall": {
+          "auroc": 0.9847670250896058,
+          "fpr_at_tpr": 0.0,
+          "accepted_at_validation_threshold": 0.0
+        },
+        "plaster_wall": {
+          "auroc": 0.9951612903225806,
+          "fpr_at_tpr": 0.0,
+          "accepted_at_validation_threshold": 0.0
+        },
+        "black_frame": {
+          "auroc": 0.9861409796893668,
+          "fpr_at_tpr": 0.0,
+          "accepted_at_validation_threshold": 0.0
+        },
+        "gaussian_noise": {
+          "auroc": 0.9967144563918757,
+          "fpr_at_tpr": 0.0,
+          "accepted_at_validation_threshold": 0.0
+        }
+      },
+      "all_real_photos": {
+        "auroc": 0.9860125448028674,
+        "fpr_at_tpr": 0.02,
+        "accepted_at_validation_threshold": 0.1125
+      },
+      "all_synthetic": {
+        "auroc": 0.9906959378733572,
+        "fpr_at_tpr": 0.0,
+        "accepted_at_validation_threshold": 0.0
+      },
+      "all_non_paintings": {
+        "auroc": 0.9867931103146157,
+        "fpr_at_tpr": 0.016666666666666666,
+        "accepted_at_validation_threshold": 0.09375
+      }
+    },
+    "zero_shot:oil_painting_vs_snapshot": {
+      "validation_auroc_all_non_paintings": 0.9651345113021331,
+      "threshold_from_validation": 0.003748881314452168,
+      "test_tpr_at_validation_threshold": 0.9713261648745519,
+      "test_accepted_blurred_painting": 0.07,
+      "test_accepted_painting_on_wall": 0.84,
+      "test_auroc_painting_on_wall_vs_real_photos": 0.92265,
+      "per_group": {
+        "caltech_objects": {
+          "auroc": 0.9755197132616488,
+          "fpr_at_tpr": 0.11666666666666667,
+          "accepted_at_validation_threshold": 0.21666666666666667
+        },
+        "caltech_faces": {
+          "auroc": 0.9945519713261649,
+          "fpr_at_tpr": 0.006666666666666667,
+          "accepted_at_validation_threshold": 0.006666666666666667
+        },
+        "dtd": {
+          "auroc": 0.9587933094384707,
+          "fpr_at_tpr": 0.22666666666666666,
+          "accepted_at_validation_threshold": 0.37
+        },
+        "imagenette": {
+          "auroc": 0.9938351254480287,
+          "fpr_at_tpr": 0.013333333333333334,
+          "accepted_at_validation_threshold": 0.05
+        },
+        "uniform_wall": {
+          "auroc": 0.9902031063321386,
+          "fpr_at_tpr": 0.016666666666666666,
+          "accepted_at_validation_threshold": 0.016666666666666666
+        },
+        "plaster_wall": {
+          "auroc": 0.9871565113500598,
+          "fpr_at_tpr": 0.0,
+          "accepted_at_validation_threshold": 0.0
+        },
+        "black_frame": {
+          "auroc": 0.9982078853046595,
+          "fpr_at_tpr": 0.0,
+          "accepted_at_validation_threshold": 0.0
+        },
+        "gaussian_noise": {
+          "auroc": 0.987037037037037,
+          "fpr_at_tpr": 0.0,
+          "accepted_at_validation_threshold": 0.0
+        }
+      },
+      "all_real_photos": {
+        "auroc": 0.9806750298685782,
+        "fpr_at_tpr": 0.09083333333333334,
+        "accepted_at_validation_threshold": 0.16083333333333333
+      },
+      "all_synthetic": {
+        "auroc": 0.9906511350059737,
+        "fpr_at_tpr": 0.004166666666666667,
+        "accepted_at_validation_threshold": 0.004166666666666667
+      },
+      "all_non_paintings": {
+        "auroc": 0.9823377140581442,
+        "fpr_at_tpr": 0.0763888888888889,
+        "accepted_at_validation_threshold": 0.13472222222222222
+      }
+    },
+    "zero_shot:artwork_vs_scene": {
+      "validation_auroc_all_non_paintings": 0.8891435848455905,
+      "threshold_from_validation": -0.03442687657888038,
+      "test_tpr_at_validation_threshold": 0.953405017921147,
+      "test_accepted_blurred_painting": 0.34,
+      "test_accepted_painting_on_wall": 0.86,
+      "test_auroc_painting_on_wall_vs_real_photos": 0.871,
+      "per_group": {
+        "caltech_objects": {
+          "auroc": 0.9192592592592592,
+          "fpr_at_tpr": 0.36666666666666664,
+          "accepted_at_validation_threshold": 0.37333333333333335
+        },
+        "caltech_faces": {
+          "auroc": 0.9710513739545997,
+          "fpr_at_tpr": 0.15666666666666668,
+          "accepted_at_validation_threshold": 0.15666666666666668
+        },
+        "dtd": {
+          "auroc": 0.8302508960573477,
+          "fpr_at_tpr": 0.7133333333333334,
+          "accepted_at_validation_threshold": 0.7133333333333334
+        },
+        "imagenette": {
+          "auroc": 0.946857825567503,
+          "fpr_at_tpr": 0.28,
+          "accepted_at_validation_threshold": 0.2866666666666667
+        },
+        "uniform_wall": {
+          "auroc": 0.7522700119474313,
+          "fpr_at_tpr": 0.9,
+          "accepted_at_validation_threshold": 0.9
+        },
+        "plaster_wall": {
+          "auroc": 0.682258064516129,
+          "fpr_at_tpr": 1.0,
+          "accepted_at_validation_threshold": 1.0
+        },
+        "black_frame": {
+          "auroc": 0.9633213859020311,
+          "fpr_at_tpr": 0.11666666666666667,
+          "accepted_at_validation_threshold": 0.11666666666666667
+        },
+        "gaussian_noise": {
+          "auroc": 0.4771206690561529,
+          "fpr_at_tpr": 1.0,
+          "accepted_at_validation_threshold": 1.0
+        }
+      },
+      "all_real_photos": {
+        "auroc": 0.9168548387096774,
+        "fpr_at_tpr": 0.37916666666666665,
+        "accepted_at_validation_threshold": 0.3825
+      },
+      "all_synthetic": {
+        "auroc": 0.7187425328554361,
+        "fpr_at_tpr": 0.7541666666666667,
+        "accepted_at_validation_threshold": 0.7541666666666667
+      },
+      "all_non_paintings": {
+        "auroc": 0.8838361210673039,
+        "fpr_at_tpr": 0.44166666666666665,
+        "accepted_at_validation_threshold": 0.4444444444444444
+      }
+    },
+    "combination:museum_vs_everyday+similarity_top5": {
+      "validation_auroc_all_non_paintings": 0.9913323782234957,
+      "threshold_from_validation": 0.07088986149095788,
+      "test_tpr_at_validation_threshold": 0.978494623655914,
+      "test_accepted_blurred_painting": 0.0,
+      "test_accepted_painting_on_wall": 0.82,
+      "test_auroc_painting_on_wall_vs_real_photos": 0.9827166666666667,
+      "per_group": {
+        "caltech_objects": {
+          "auroc": 0.9961290322580645,
+          "fpr_at_tpr": 0.006666666666666667,
+          "accepted_at_validation_threshold": 0.02666666666666667
+        },
+        "caltech_faces": {
+          "auroc": 0.9998924731182796,
+          "fpr_at_tpr": 0.0,
+          "accepted_at_validation_threshold": 0.0
+        },
+        "dtd": {
+          "auroc": 0.9897849462365591,
+          "fpr_at_tpr": 0.02666666666666667,
+          "accepted_at_validation_threshold": 0.09333333333333334
+        },
+        "imagenette": {
+          "auroc": 0.9987574671445639,
+          "fpr_at_tpr": 0.0,
+          "accepted_at_validation_threshold": 0.01
+        },
+        "uniform_wall": {
+          "auroc": 0.9832138590203107,
+          "fpr_at_tpr": 0.0,
+          "accepted_at_validation_threshold": 0.016666666666666666
+        },
+        "plaster_wall": {
+          "auroc": 0.9954002389486261,
+          "fpr_at_tpr": 0.0,
+          "accepted_at_validation_threshold": 0.0
+        },
+        "black_frame": {
+          "auroc": 0.9921146953405018,
+          "fpr_at_tpr": 0.0,
+          "accepted_at_validation_threshold": 0.0
+        },
+        "gaussian_noise": {
+          "auroc": 1.0,
+          "fpr_at_tpr": 0.0,
+          "accepted_at_validation_threshold": 0.0
+        }
+      },
+      "all_real_photos": {
+        "auroc": 0.9961409796893668,
+        "fpr_at_tpr": 0.008333333333333333,
+        "accepted_at_validation_threshold": 0.0325
+      },
+      "all_synthetic": {
+        "auroc": 0.9926821983273596,
+        "fpr_at_tpr": 0.0,
+        "accepted_at_validation_threshold": 0.004166666666666667
+      },
+      "all_non_paintings": {
+        "auroc": 0.9955645161290323,
+        "fpr_at_tpr": 0.006944444444444444,
+        "accepted_at_validation_threshold": 0.027777777777777776
+      }
+    }
+  },
+  "validation_auroc_pooled": {
+    "resnet_max_probability": 0.6325334288443171,
+    "clip_head_max_probability": 0.7659463546641198,
+    "collection_similarity_top1": 0.968059535179879,
+    "collection_similarity_top5": 0.9779290035020693,
+    "zero_shot:painting_vs_photograph": 0.9633397007322508,
+    "zero_shot:museum_vs_everyday": 0.9727276345113022,
+    "zero_shot:oil_painting_vs_snapshot": 0.9651345113021331,
+    "zero_shot:artwork_vs_scene": 0.8891435848455905,
+    "combination:museum_vs_everyday+similarity_top5": 0.9913323782234957
+  },
+  "tpr_target": 0.95,
+  "chosen_rule": {
+    "method": "combination:museum_vs_everyday+similarity_top5",
+    "pair": "museum_vs_everyday",
+    "weights": {
+      "margin": 76.75139237188466,
+      "similarity": 39.683135341154674,
+      "bias": -30.11928731173927
+    },
+    "threshold": 0.07088986149095788,
+    "top_k": 5
+  },
+  "chosen_method_tradeoff_validation_thresholds": {
+    "0.9": {
+      "threshold": 1.2854731117147864,
+      "paintings_accepted_test": 0.9713261648745519,
+      "real_photos_accepted_test": 0.013333333333333334,
+      "synthetic_accepted_test": 0.0,
+      "painting_on_wall_accepted_test": 0.75
+    },
+    "0.95": {
+      "threshold": 0.07088986149095788,
+      "paintings_accepted_test": 0.978494623655914,
+      "real_photos_accepted_test": 0.0325,
+      "synthetic_accepted_test": 0.004166666666666667,
+      "painting_on_wall_accepted_test": 0.82
+    },
+    "0.98": {
+      "threshold": -1.4605757861725621,
+      "paintings_accepted_test": 0.982078853046595,
+      "real_photos_accepted_test": 0.07833333333333334,
+      "synthetic_accepted_test": 0.13333333333333333,
+      "painting_on_wall_accepted_test": 0.96
+    },
+    "0.99": {
+      "threshold": -2.865319176346368,
+      "paintings_accepted_test": 0.996415770609319,
+      "real_photos_accepted_test": 0.15833333333333333,
+      "synthetic_accepted_test": 0.5875,
+      "painting_on_wall_accepted_test": 1.0
+    }
+  }
+}

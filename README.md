@@ -454,6 +454,90 @@ Limits: the head is trained on 972 images and calibrated on 249, both from one s
 as the training data, not on camera photos; the first call downloads CLIP's weights (about 600 MB); "similar paintings" are neighbours in CLIP's space (they look or read alike), not curatorial links; and
 the cost of the CLIP encoder on a kiosk is in the [kiosk budget](#kiosk-budget-measured).
 
+### What if it is not a painting?
+
+A visitor may point the phone at a wall, a face or an object. The classifiers only know five genres, so they answer anyway. `scripts/non_painting.py`
+measures this and compares ways to refuse such photos (about 400 MB of ordinary photos are downloaded by `scripts/fetch_non_paintings.py`, kept in `data/ood/`, never committed):
+Caltech-101 objects and faces, Imagenette (objects, animals, a church), DTD (textures of surfaces), and synthetic frames (a plain wall, plaster, a black frame, noise). Each source has 300
+photos for the test and 150 others for validation; they are resized and cropped to 128 x 128 JPEG like the paintings, so that only the content differs. The paintings are the seed-0
+test (279) and validation (249) paintings. Everything is in `reports/non_painting.json`.
+
+**What the guide does today.** Share of each group that is still *answered* (not "unsure") at the documented thresholds (ResNet 0.71, CLIP head 0.83):
+
+| Photo | ResNet (0.71) | CLIP head (0.83) |
+|---|---|---|
+| Paintings (test) | 64.2% | 78.5% |
+| Caltech objects / faces | 37.0% / 35.3% | 12.0% / **90.0%** |
+| Imagenette / textures (DTD) | 34.0% / 16.3% | 15.3% / 20.7% |
+| Plain wall / plaster / black frame / noise | 0% / 0% / 0% / 0% | 10.0% / 0% / 0% / 0% |
+
+The confidence thresholds were chosen to keep accuracy high among paintings, not to detect non-paintings: about a third of real non-painting photos still get an answer (30.7% for the ResNet, 34.5% for the CLIP head),
+and the CLIP head answers for 9 faces out of 10 and calls every one of those 270 a portrait (the objects it answers are mostly called still lifes: 27 of 36). The top probability separates paintings from other photos poorly (AUROC 0.725 for the ResNet, 0.825 for the CLIP head, against 0.5 for chance).
+
+**Ways to tell a painting from a non-painting.** AUROC (chance of ranking a test painting above a non-painting; 1 is perfect) over the 1,200 real test photos, and the share of those photos accepted
+when the threshold lets 95% of the test paintings through:
+
+| Score | AUROC | Real photos accepted at 95% of paintings |
+|---|---|---|
+| ResNet top probability | 0.725 | 88.8% |
+| CLIP head top probability | 0.825 | 71.8% |
+| CLIP zero-shot "a painting" vs "a photograph" | 0.984 | 8.3% |
+| CLIP zero-shot "a painting in a museum" vs "a photo of an object, a person or a wall" | 0.986 | 2.0% |
+| CLIP zero-shot "an oil painting"... vs "a photograph"... | 0.981 | 9.1% |
+| CLIP zero-shot "a work of art on canvas" vs "a photo taken with a phone camera" | 0.917 | 37.9% |
+| Similarity to the 5 closest paintings of the collection | 0.991 | 4.7% |
+| **Zero-shot "museum" pair + similarity to the collection (fitted on validation)** | **0.996** | **0.8%** |
+
+The four sentence pairs were written before looking at any result on the photos, and all four are shown. The zero-shot sentence pair is the best choice on the validation draw, and the combination of the
+two signals (two weights and a bias, fitted by logistic regression on the validation photos only) is the best method there too, so it is the one in the guide. Everything above uses the
+test photos only for reporting.
+
+**The rule in the guide** (`reports/non_painting_rule.json`): score = 76.8 x (cos(photo, "a painting in a museum") - cos(photo, "a photo of an object, a person or a wall")) + 39.7 x (mean cosine to the
+5 closest paintings of the collection) - 30.1; a photo is accepted when the score is at least 0.07. The threshold is the one that accepts 95% of the *validation* paintings: the 249 cropped ones and 100 more
+framed on a wall (see the limits). On the test photos, with that threshold:
+
+| Test photos | Accepted as paintings |
+|---|---|
+| Paintings, cropped to the canvas | 97.8% |
+| Paintings framed on a wall (a proxy for a visitor's photo) | 82.0% |
+| Caltech objects / faces | 2.7% / 0.0% |
+| Imagenette / textures (DTD) | 1.0% / 9.3% |
+| Plain wall / plaster / black frame / noise | 1.7% / 0% / 0% / 0% |
+| All 1,200 real photos / all 240 synthetic frames | 3.3% (39 photos) / 0.4% (1 frame) |
+| Heavily blurred paintings (a bad photo of a painting) | 0.0% |
+
+The cut can be moved. Thresholds fitted on validation for other shares of paintings accepted (`python scripts/non_painting.py --tpr 0.98` saves one):
+
+| Share of validation paintings accepted | 90% | 95% (default) | 98% | 99% |
+|---|---|---|---|---|
+| Test paintings accepted (cropped) | 97.1% | 97.8% | 98.2% | 99.6% |
+| Test paintings framed on a wall accepted | 75% | 82% | 96% | 100% |
+| Real non-painting photos accepted | 1.3% | 3.3% | 7.8% | 15.8% |
+| Synthetic frames accepted | 0% | 0.4% | 13.3% | 58.8% |
+
+**Using it.** The check is off by default and changes nothing unless asked:
+
+```bash
+python scripts/predict.py photo.jpg --model clip --reject-non-paintings
+# photo.jpg: this does not look like a painting (score -9.07, threshold 0.07)
+python scripts/guide.py photo.jpg --reject-non-paintings --ask "a stormy sea"   # no genre, but the question is still answered
+```
+
+It needs CLIP even with `--model resnet` (about 600 MB on first use) and the saved collection index (`data/search_index.npz`, built by the first `scripts/search.py`). With `--json`, each photo gets
+`"not_a_painting"` (true or false) and `"painting_score"`; a rejected photo has no story.
+
+**What I saw in the failures.** The non-paintings that get accepted are mostly textures that really look like paint (brush strokes, polka dots, an illuminated initial), an illustrated animal, a framed
+lamp and a church under a painterly sky: arguably not errors. The paintings that get rejected are mostly drawings, etchings and black-and-white sketches (WikiArt files them under the same genres), plus one dark painted portrait: the rule treats
+drawings and prints as non-paintings, which a museum would not want. I looked at the 12 highest-scoring non-paintings and the 12 lowest-scoring paintings; the grid is written to `data/ood/` and not committed.
+
+Limits:
+- The photos are ordinary datasets (objects, faces, textures, plain frames), resized to 128 px like the paintings. A real camera photo is larger and shows its surroundings; a gallery wall with several frames, a
+  glare, a visitor's hand, a label or a poster of a painting are **not** covered. The "framed on a wall" images are crude compositions (a thin frame, a small rotation, a plaster background), not photos.
+- A photo of a painting on a screen or a postcard is accepted by design: it is still a painting. Drawings and prints are often rejected (see above).
+- One draw of 300 photos per source and one painting split; no confidence intervals. The validation and test photos come from the same four datasets, so another kind of non-painting (signs, objects in
+  a showcase, a sculpture) may behave differently. Caltech-101 also holds a few drawn or sculpted items (cartoon characters, a statue of a Buddha) that are in the pool.
+- The rule has three numbers fitted on 249 paintings, 100 framed compositions and 720 other photos. CLIP was trained on web images that may include some of these paintings.
+
 ## Data
 
 A subset of [WikiArt](https://huggingface.co/datasets/huggan/wikiart), built with the course script:
