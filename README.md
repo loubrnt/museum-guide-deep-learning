@@ -336,6 +336,32 @@ A threshold chosen on the validation set carries over to the test set: 0.71 (aim
 These figures come from one split (seed 0) and 279 test photos, so they are rough: the shape (fewer answers, more accurate ones) is the finding, not the second decimal.
 With `--json`, `--min-confidence` changes each entry to `{"unsure": bool, "predictions": [...]}`; without it the output is unchanged.
 
+### The story of the tradition
+
+The brief asks the guide to recognise a painting "and tell the story of that tradition". `src/museum_guide/notices.py` holds a short notice
+(2 to 4 sentences, 40 to 57 words) for each of the 5 genres and for the 19 styles that appear at least 15 times in the subset, in French (the museum's language) and in English.
+`--story` adds the notice of the predicted genre after the usual answer (French by default, `--lang en` for English); without `--story` nothing changes:
+
+```bash
+python scripts/predict.py data/wikiart_genre5/portrait/s33_r0513.jpg --story
+# data/wikiart_genre5/portrait/s33_r0513.jpg: portrait 86%, religious_painting 7%, ...   (the usual line, a test-set image)
+#   Le portrait représente une personne précise, pour garder son souvenir ou affirmer son rang. À la Renaissance, en Italie comme en Flandre, [...]
+python scripts/predict.py photo.jpg --story --lang en                      # "A portrait shows a particular person, to preserve their memory or to assert their rank. [...]"
+python scripts/search.py "a Cubist still life" --story    # the notice of the style of the top result
+```
+
+With `--json`, `--story` changes each entry to `{"predictions": [...], "story": {"label", "lang", "title", "text"}}`
+(plus `"unsure"` when `--min-confidence` is given); a guess the guide is "unsure" about gets `"story": null` and no text, since it should not tell the story of a tradition it is not sure about.
+From Python: `notice_for("Post-Impressionism", "en")`, `title_for(...)`, `story_entry(...)`, `normalise_label(...)` (WikiArt spellings such as `Post_Impressionism` and human ones such as `Religious painting` both work).
+
+**These texts are drafts written by an AI assistant.** They stick to widely known general facts (where and when, what the artists were after, what to look for, a few famous names),
+but nobody has checked them against the literature. They must be read by the team, and ideally by someone trained in art history, before visitors see them.
+
+Covered labels: the genres `cityscape`, `landscape`, `portrait`, `religious_painting`, `still_life`; the styles Impressionism, Post-Impressionism, Realism, Expressionism, Romanticism, Baroque,
+Northern Renaissance, Cubism, Synthetic Cubism, Early Renaissance, High Renaissance, Mannerism (Late Renaissance), Rococo, Symbolism, Art Nouveau, Naive Art (Primitivism), Fauvism, Pop Art and Ukiyo-e.
+Four rarer styles of the subset have no notice yet (Pointillism, Contemporary Realism, New Realism, Analytical Cubism: 26 images out of 1,500); `search.py --story` says so on the error output instead of guessing.
+The notices tell the story of a tradition, not of the painting in the photo: the guide does not identify the individual work or its painter.
+
 ## Data
 
 A subset of [WikiArt](https://huggingface.co/datasets/huggan/wikiart), built with the course script:

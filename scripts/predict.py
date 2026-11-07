@@ -3,6 +3,8 @@
     python scripts/predict.py photo1.jpg photo2.jpg
     python scripts/predict.py data/wikiart_genre5/portrait/*.jpg --top-k 2 --json
     python scripts/predict.py photo.jpg --min-confidence 0.6     # "unsure" below 60% confidence
+    python scripts/predict.py photo.jpg --story                  # add the story of the genre (French)
+    python scripts/predict.py photo.jpg --story --lang en        # ... in English
 
 Needs `reports/resnet18.pt`, written by `python scripts/train_resnet.py`. If `reports/calibration.json`
 (from `python scripts/calibrate_resnet.py`) exists next to the weights, the probabilities are calibrated with it.
@@ -13,6 +15,7 @@ import sys
 from pathlib import Path
 
 from museum_guide.calibration import load_temperature
+from museum_guide.notices import LANGS, notice_for, story_entry
 from museum_guide.predict import CLASSES, DEFAULT_WEIGHTS, classify, load_classifier, open_image
 
 
@@ -34,7 +37,16 @@ def main(argv=None) -> int:
         default=None,
         help="answer 'unsure' when the top probability is below this value (default: always answer)",
     )
+    p.add_argument(
+        "--story",
+        action="store_true",
+        help="after the genre, add a short notice on that tradition (draft texts, see museum_guide.notices)",
+    )
+    p.add_argument("--lang", choices=LANGS, default=None, help="language of the story (with --story; default: fr)")
     args = p.parse_args(argv)
+    if args.lang is not None and not args.story:
+        p.error("--lang only applies together with --story")
+    lang = args.lang or "fr"
 
     try:
         model = load_classifier(args.weights)
@@ -59,8 +71,15 @@ def main(argv=None) -> int:
     if args.json:
         def entry(top):
             preds = [{"class": c, "probability": round(pr, 4)} for c, pr in top]
-            # The shape only changes when the flag is given, so existing consumers keep working.
-            return preds if args.min_confidence is None else {"unsure": unsure(top), "predictions": preds}
+            # The shape only changes when a flag is given, so existing consumers keep working.
+            if not args.story:
+                return preds if args.min_confidence is None else {"unsure": unsure(top), "predictions": preds}
+            out = {"predictions": preds}
+            if args.min_confidence is not None:
+                out = {"unsure": unsure(top), **out}
+            # No story for a guess the guide is not sure about.
+            out["story"] = None if unsure(top) else story_entry(top[0][0], lang)
+            return out
 
         print(json.dumps({k: entry(v) for k, v in results.items()}, indent=2))
     else:
@@ -69,6 +88,8 @@ def main(argv=None) -> int:
                 print(f"{path}: unsure (best guess: {top[0][0]} {top[0][1]:.0%})")
             else:
                 print(f"{path}: " + ", ".join(f"{c} {pr:.0%}" for c, pr in top))
+                if args.story:
+                    print(f"  {notice_for(top[0][0], lang)}")
     return 1 if failed else 0
 
 
