@@ -14,7 +14,7 @@ intervals on the paired difference.
     python scripts/clip_classifier.py --seeds 10
 
 Writes `reports/clip_classifier.json` and `reports/figures/clip_classifier.png`.
-The image vectors are cached in `data/clip_embeddings.npz` (not versioned).
+The image vectors are cached in `data/wikiart_genre5/clip_embeddings.npz` (not versioned).
 """
 import argparse
 import json
