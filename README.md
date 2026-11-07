@@ -132,6 +132,26 @@ python scripts/predict.py a.jpg b.jpg --top-k 2 --json
 Photos are resized and centre-cropped to 128 px exactly as at evaluation time, and phone EXIF rotation is applied.
 The code is in `src/museum_guide/predict.py` (`load_classifier`, `classify`) for use in a kiosk or app.
 
+**Calibrated confidence and "I am not sure".** The raw network is over-confident: on the test set it claims 88.8% confidence on average for 74.6% accuracy
+(expected calibration error 0.151). `python scripts/calibrate_resnet.py` fits one temperature T on the **validation** set (T = 2.05, 249 images) and divides the logits by it.
+The predicted class does not change; on the test set the calibration error falls to 0.077, the log-loss from 0.925 to 0.697, and the mean confidence to 76.2%
+(`reports/calibration.json`, `reports/figures/calibration.png`). `predict.py` reads `reports/calibration.json` automatically, and `--min-confidence` turns low confidence into an answer of "unsure":
+
+```bash
+python scripts/predict.py photo.jpg --min-confidence 0.7
+# photo.jpg: unsure (best guess: cityscape 55%)
+```
+
+Answering only the photos the network is surest about raises the accuracy of the answers (test set, calibrated confidence):
+
+| Share of photos answered | 100% | 90% | 80% | 70% | 50% |
+|---|---|---|---|---|---|
+| Accuracy of the answers | 74.6% | 79.0% | 83.0% | 85.7% | 92.1% |
+
+A threshold chosen on the validation set carries over to the test set: 0.71 (aimed at 85%) answers 64% of the test photos with 86.0% accuracy, and 0.77 (aimed at 90%) answers 54% with 90.7%.
+These figures come from one split (seed 0) and 279 test photos, so they are rough: the shape (fewer answers, more accurate ones) is the finding, not the second decimal.
+With `--json`, `--min-confidence` changes each entry to `{"unsure": bool, "predictions": [...]}`; without it the output is unchanged.
+
 ## Data
 
 A subset of [WikiArt](https://huggingface.co/datasets/huggan/wikiart), built with the course script:

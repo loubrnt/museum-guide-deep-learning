@@ -108,3 +108,38 @@ def test_cli_skips_unreadable_files_but_reports_failure(weights, photo, tmp_path
     assert out.returncode == 1
     assert "cannot read image" in out.stderr
     assert str(photo) in out.stdout  # the good file was still classified
+
+
+def test_classify_temperature_flattens_probabilities_without_changing_the_ranking(weights, photo):
+    model = load_classifier(weights)
+    (raw,) = classify(model, [open_image(photo)], top_k=5)
+    (flat,) = classify(model, [open_image(photo)], top_k=5, temperature=50.0)
+    assert [c for c, _ in raw] == [c for c, _ in flat]
+    assert flat[0][1] < raw[0][1]
+    assert flat[0][1] == pytest.approx(0.2, abs=0.05)  # almost uniform over 5 classes
+
+
+def test_cli_min_confidence_prints_unsure(weights, photo):
+    out = _run(photo, "--weights", weights, "--min-confidence", "1.01")  # no probability can reach 1.01
+    assert out.returncode == 0, out.stderr
+    assert out.stdout.startswith(f"{photo}: unsure (best guess: ")
+    out = _run(photo, "--weights", weights, "--min-confidence", "0")
+    assert "unsure" not in out.stdout
+
+
+def test_cli_json_unsure_flag_only_appears_with_min_confidence(weights, photo):
+    plain = json.loads(_run(photo, "--weights", weights, "--json").stdout)
+    assert isinstance(plain[str(photo)], list)  # shape unchanged without the flag
+    sure = json.loads(_run(photo, "--weights", weights, "--json", "--min-confidence", "0").stdout)
+    unsure = json.loads(_run(photo, "--weights", weights, "--json", "--min-confidence", "1.01").stdout)
+    assert sure[str(photo)]["unsure"] is False and unsure[str(photo)]["unsure"] is True
+    assert len(unsure[str(photo)]["predictions"]) == 3
+
+
+def test_cli_reads_the_temperature_saved_next_to_the_weights(weights, photo):
+    raw = json.loads(_run(photo, "--weights", weights, "--json").stdout)[str(photo)][0]["probability"]
+    (weights.parent / "calibration.json").write_text(json.dumps({"temperature": 100.0}))
+    calibrated = json.loads(_run(photo, "--weights", weights, "--json").stdout)[str(photo)][0]["probability"]
+    assert calibrated < raw and calibrated == pytest.approx(0.2, abs=0.05)
+    forced = json.loads(_run(photo, "--weights", weights, "--json", "--temperature", "1").stdout)[str(photo)][0]["probability"]
+    assert forced == pytest.approx(raw, abs=1e-4)  # --temperature overrides the file
