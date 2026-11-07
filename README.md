@@ -105,3 +105,13 @@ src/        reusable code (models, training loop, evaluation)
 notebooks/  experiments
 reports/    figures and results
 ```
+
+## Tests
+
+```bash
+pip install -e ".[dev]"
+pytest
+```
+
+The tests use synthetic data (no download, no GPU, a few seconds). They check the artist-disjoint split,
+the models, and the training loop (best-epoch restoration, early stopping). GitHub Actions runs them on every pull request.
