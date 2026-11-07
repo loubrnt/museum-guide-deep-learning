@@ -146,6 +146,52 @@ On the other hand one CLIP model serves recognition **and** natural-language sea
 Limits: same 5 broad, visually distinct genres and 1,500 images; the seed-to-seed spread mixes split and training noise; CLIP was trained on web images that may include some of these paintings,
 so its numbers could be flattering; and no real camera photos yet. The recommendation to the director below was written before this comparison and should be revisited.
 
+### Recognising the style, not only the genre
+
+The brief asks for a painting's "style or genre"; everything above is the 5-genre task. `scripts/style_task.py` runs the same comparison on **6 styles**
+(Impressionism, Post-Impressionism, Realism, Romanticism, Expressionism, Symbolism: the six most frequent in WikiArt), 300 images each, with the same
+artist-disjoint split and the same 10 seeds. The subset has 1800 images, 79 named painters and 49.6% "Unknown Artist" images;
+the test parts have 199 to 313 images. It is built with `--strategy spread` (7 source files, about 3.3 GB), which mixes the sources more than the default
+(see the last bullet):
+
+```bash
+python project/make_wikiart_subset.py --label style \
+    --classes Impressionism Realism Romanticism Expressionism Post_Impressionism Symbolism \
+    --per-class 300 --size 128 --strategy spread --out data/wikiart_style6
+python scripts/style_task.py          # about 5 minutes; writes reports/style_task.json and two figures
+```
+
+| Model | Test accuracy, 10 seeds | Macro-F1 | Seed 0, 95% interval |
+|---|---|---|---|
+| Logistic regression, colour/edge features | 32.1 ± 2.2% | 31.5 | 34.2 [29.3, 39.3] |
+| Random forest, colour/edge features | 32.4 ± 2.2% | 31.3 | 33.1 [28.2, 38.4] |
+| ResNet-18 pretrained, `layer4` + head | 40.6 ± 5.4% | 39.7 | 40.5 [32.6, 51.4] |
+| CLIP zero-shot, "a painting in the style of ..." | 37.5 ± 3.5% | 35.2 | 37.7 [32.4, 45.1] |
+| CLIP zero-shot, "a ... painting" | 37.1 ± 5.2% | 31.8 | 42.0 [34.6, 48.6] |
+| **CLIP + linear probe** | **55.4 ± 5.2%** | **54.2** | **52.5 [44.8, 62.7]** |
+
+Chance is 16.7%; always answering the most common style scores 26.5% on average. Metadata floors (a random forest that sees no pixel): the painting's genre label
+26.4 ± 4.7%, the source file 26.7 ± 5.9%, the original shape 21.3 ± 2.7%, genre and shape 28.3 ± 3.1%: about the majority class, so no shortcut explains the results.
+
+- **Style is much harder than genre.** The best model reaches 55.4%, against 90.2% on the 5 genres.
+- **CLIP + linear probe is the best model on all 10 seeds** (10/10 against the ResNet; on seed 0 the paired gap is +12.1 points, interval [+4.0, +20.4]).
+  The ResNet beats the random forest on 10/10 seeds and the logistic regression on 9/10, but on seed 0 alone the gaps are not clear
+  (+7.4 points, interval [-0.3, +18.1] and +6.2 points, interval [-2.1, +18.3]). CLIP with no training at all (37.5%) beats the ResNet on only 2 seeds out of 10.
+- **The mistakes are neighbouring movements.** Pooled over the 10 seeds, the commonest are Post-Impressionism predicted as Impressionism (24% of its images for the ResNet,
+  25% for the CLIP probe) or as Expressionism (21%, 22%), Realism and Romanticism mixed up in both directions
+  (ResNet: 25% and 25%), and Expressionism and Symbolism (21% and 18% for the ResNet). On seed 0 the recall of Post-Impressionism is only
+  22.5% for the ResNet and 39.4% for the CLIP probe (`reports/figures/style_task_confusion.png`).
+- **Unknown Artist images are easier, not harder.** Pooled over the seeds (1331 unknown and 1367 named test images), the ResNet scores 44.9% on unknown artists and 36.1% on named ones; the CLIP probe
+  59.7% and 50.5%. Named painters never cross the split, so their accuracy is the cleaner estimate of how the guide would do on a painter it has never seen:
+  **50.5% for the CLIP probe and 36.1% for the ResNet.** The gap is consistent with unknown paintings sharing a hand with training images, but this does not prove it.
+- **How the subset is built matters.** The default `--strategy fewest-shards` (3 source files, 1.4 GB, 74.3% unknown artists) gives different numbers (`reports/style_task_fewest.json`):
+  ResNet 46.4 ± 2.6% instead of 40.6%, CLIP probe 55.9 ± 3.4% instead of 55.4%, and the source file alone predicts the style at 36.7 ± 5.3% instead of 26.7%.
+  The ResNet gains about 6 points on the more confounded build, so use `spread` for style experiments.
+
+Limits: 6 styles, 1,800 images of 128 px; the test parts are small and the seed-to-seed spread mixes split and training noise; WikiArt style labels are themselves debatable (Impressionism and
+Post-Impressionism are neighbours, and one painter can belong to two movements); style is strongly tied to the painter, so generalising to a painter the model has never seen is the hard part and the
+artist-disjoint split only protects named painters; CLIP was trained on web images that may include these paintings; no timing is given here.
+
 ## Natural-language search
 
 A pretrained CLIP dual encoder (`openai/clip-vit-base-patch32`) maps paintings and questions into the same space.

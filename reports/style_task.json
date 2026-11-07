@@ -1,0 +1,854 @@
+{
+  "data_dir": "data/wikiart_style6",
+  "composition": {
+    "n_images": 1800,
+    "classes": [
+      "Expressionism",
+      "Impressionism",
+      "Post_Impressionism",
+      "Realism",
+      "Romanticism",
+      "Symbolism"
+    ],
+    "unknown_artist_share": 0.4955555555555556,
+    "named_artists": 79,
+    "named_artists_per_class": {
+      "Expressionism": 14,
+      "Impressionism": 22,
+      "Post_Impressionism": 22,
+      "Realism": 25,
+      "Romanticism": 11,
+      "Symbolism": 19
+    },
+    "n_shards": 7,
+    "largest_shard_share_per_class": {
+      "Expressionism": 0.39666666666666667,
+      "Impressionism": 1.0,
+      "Post_Impressionism": 0.5333333333333333,
+      "Realism": 0.72,
+      "Romanticism": 0.3566666666666667,
+      "Symbolism": 0.36666666666666664
+    },
+    "genre_label_counts_per_class": {
+      "Expressionism": {
+        "Unknown Genre": 132,
+        "landscape": 75,
+        "portrait": 37,
+        "genre_painting": 27,
+        "cityscape": 12,
+        "sketch_and_study": 8,
+        "nude_painting": 5,
+        "still_life": 2,
+        "abstract_painting": 1,
+        "illustration": 1
+      },
+      "Impressionism": {
+        "landscape": 300
+      },
+      "Post_Impressionism": {
+        "landscape": 198,
+        "Unknown Genre": 29,
+        "sketch_and_study": 18,
+        "genre_painting": 16,
+        "portrait": 11,
+        "cityscape": 11,
+        "still_life": 11,
+        "nude_painting": 5,
+        "religious_painting": 1
+      },
+      "Realism": {
+        "landscape": 232,
+        "sketch_and_study": 22,
+        "portrait": 19,
+        "Unknown Genre": 8,
+        "genre_painting": 8,
+        "still_life": 8,
+        "cityscape": 1,
+        "nude_painting": 1,
+        "illustration": 1
+      },
+      "Romanticism": {
+        "landscape": 120,
+        "Unknown Genre": 109,
+        "illustration": 28,
+        "religious_painting": 18,
+        "portrait": 10,
+        "cityscape": 6,
+        "genre_painting": 5,
+        "sketch_and_study": 3,
+        "still_life": 1
+      },
+      "Symbolism": {
+        "Unknown Genre": 115,
+        "landscape": 113,
+        "religious_painting": 26,
+        "genre_painting": 15,
+        "illustration": 9,
+        "portrait": 7,
+        "sketch_and_study": 6,
+        "cityscape": 6,
+        "nude_painting": 3
+      }
+    }
+  },
+  "n_seeds": 10,
+  "chance": 0.16666666666666666,
+  "majority_class_share_mean": 0.2646053960853696,
+  "per_seed": [
+    {
+      "seed": 0,
+      "n_test": 257,
+      "test_acc": {
+        "logistic_regression": 0.3424124513618677,
+        "random_forest": 0.33073929961089493,
+        "resnet18_layer4": 0.4046692607003891,
+        "clip_zero_shot_style_of": 0.377431906614786,
+        "clip_zero_shot_plain": 0.42023346303501946,
+        "clip_probe": 0.5252918287937743,
+        "floor_genre": 0.20622568093385213,
+        "floor_shard": 0.23346303501945526,
+        "floor_format": 0.20622568093385213,
+        "floor_genre+format": 0.2490272373540856
+      },
+      "macro_f1": {
+        "logistic_regression": 0.34262838956178565,
+        "random_forest": 0.3153358966374032,
+        "resnet18_layer4": 0.406528598309537,
+        "clip_zero_shot_style_of": 0.3509125097791699,
+        "clip_zero_shot_plain": 0.34645884235101176,
+        "clip_probe": 0.5256741947555124,
+        "floor_genre": 0.12670523910290857,
+        "floor_shard": 0.18296274189528453,
+        "floor_format": 0.19629406103533134,
+        "floor_genre+format": 0.25070725944299255
+      },
+      "majority_class_share": 0.27626459143968873
+    },
+    {
+      "seed": 1,
+      "n_test": 276,
+      "test_acc": {
+        "logistic_regression": 0.3079710144927536,
+        "random_forest": 0.35144927536231885,
+        "resnet18_layer4": 0.37318840579710144,
+        "clip_zero_shot_style_of": 0.32971014492753625,
+        "clip_zero_shot_plain": 0.3188405797101449,
+        "clip_probe": 0.4963768115942029,
+        "floor_genre": 0.32971014492753625,
+        "floor_shard": 0.2391304347826087,
+        "floor_format": 0.23550724637681159,
+        "floor_genre+format": 0.2898550724637681
+      },
+      "macro_f1": {
+        "logistic_regression": 0.30156145957262476,
+        "random_forest": 0.327392803529564,
+        "resnet18_layer4": 0.36659937747931065,
+        "clip_zero_shot_style_of": 0.32326861246506877,
+        "clip_zero_shot_plain": 0.29789469789469786,
+        "clip_probe": 0.4836331454061044,
+        "floor_genre": 0.2242753283905543,
+        "floor_shard": 0.16366620777295351,
+        "floor_format": 0.22195327876230375,
+        "floor_genre+format": 0.25653172191924617
+      },
+      "majority_class_share": 0.2427536231884058
+    },
+    {
+      "seed": 2,
+      "n_test": 284,
+      "test_acc": {
+        "logistic_regression": 0.31690140845070425,
+        "random_forest": 0.31338028169014087,
+        "resnet18_layer4": 0.38380281690140844,
+        "clip_zero_shot_style_of": 0.35563380281690143,
+        "clip_zero_shot_plain": 0.3908450704225352,
+        "clip_probe": 0.5352112676056338,
+        "floor_genre": 0.22183098591549297,
+        "floor_shard": 0.21830985915492956,
+        "floor_format": 0.19718309859154928,
+        "floor_genre+format": 0.2711267605633803
+      },
+      "macro_f1": {
+        "logistic_regression": 0.30312593917049124,
+        "random_forest": 0.29989491924215617,
+        "resnet18_layer4": 0.3610667223197636,
+        "clip_zero_shot_style_of": 0.340067335891513,
+        "clip_zero_shot_plain": 0.32497591417972116,
+        "clip_probe": 0.5185945205791486,
+        "floor_genre": 0.1542410242473654,
+        "floor_shard": 0.1758913571695285,
+        "floor_format": 0.1795203879330809,
+        "floor_genre+format": 0.2552360319908238
+      },
+      "majority_class_share": 0.2887323943661972
+    },
+    {
+      "seed": 3,
+      "n_test": 313,
+      "test_acc": {
+        "logistic_regression": 0.2939297124600639,
+        "random_forest": 0.2747603833865815,
+        "resnet18_layer4": 0.38338658146964855,
+        "clip_zero_shot_style_of": 0.31309904153354634,
+        "clip_zero_shot_plain": 0.28753993610223644,
+        "clip_probe": 0.5463258785942492,
+        "floor_genre": 0.19169329073482427,
+        "floor_shard": 0.17252396166134185,
+        "floor_format": 0.16293929712460065,
+        "floor_genre+format": 0.24600638977635783
+      },
+      "macro_f1": {
+        "logistic_regression": 0.2899646972228111,
+        "random_forest": 0.2700839053642792,
+        "resnet18_layer4": 0.3758573237962808,
+        "clip_zero_shot_style_of": 0.31447966811565026,
+        "clip_zero_shot_plain": 0.2662937101965716,
+        "clip_probe": 0.51267274927375,
+        "floor_genre": 0.12367242258546605,
+        "floor_shard": 0.15869638635596084,
+        "floor_format": 0.1629863089495129,
+        "floor_genre+format": 0.2329714818674745
+      },
+      "majority_class_share": 0.28753993610223644
+    },
+    {
+      "seed": 4,
+      "n_test": 293,
+      "test_acc": {
+        "logistic_regression": 0.2832764505119454,
+        "random_forest": 0.310580204778157,
+        "resnet18_layer4": 0.36177474402730375,
+        "clip_zero_shot_style_of": 0.36860068259385664,
+        "clip_zero_shot_plain": 0.4129692832764505,
+        "clip_probe": 0.49829351535836175,
+        "floor_genre": 0.24573378839590443,
+        "floor_shard": 0.24232081911262798,
+        "floor_format": 0.24232081911262798,
+        "floor_genre+format": 0.32764505119453924
+      },
+      "macro_f1": {
+        "logistic_regression": 0.270601191039656,
+        "random_forest": 0.30045823440853864,
+        "resnet18_layer4": 0.3542762262286037,
+        "clip_zero_shot_style_of": 0.33865983847868936,
+        "clip_zero_shot_plain": 0.3472434633762312,
+        "clip_probe": 0.49413539327290174,
+        "floor_genre": 0.16769443607941395,
+        "floor_shard": 0.1904373406468464,
+        "floor_format": 0.22996933448614124,
+        "floor_genre+format": 0.31619750890290726
+      },
+      "majority_class_share": 0.3003412969283277
+    },
+    {
+      "seed": 5,
+      "n_test": 229,
+      "test_acc": {
+        "logistic_regression": 0.3231441048034934,
+        "random_forest": 0.314410480349345,
+        "resnet18_layer4": 0.31877729257641924,
+        "clip_zero_shot_style_of": 0.4148471615720524,
+        "clip_zero_shot_plain": 0.4148471615720524,
+        "clip_probe": 0.5283842794759825,
+        "floor_genre": 0.31877729257641924,
+        "floor_shard": 0.36681222707423583,
+        "floor_format": 0.22707423580786026,
+        "floor_genre+format": 0.33624454148471616
+      },
+      "macro_f1": {
+        "logistic_regression": 0.3141416874927984,
+        "random_forest": 0.318781572458043,
+        "resnet18_layer4": 0.31529650537191606,
+        "clip_zero_shot_style_of": 0.38799391106696346,
+        "clip_zero_shot_plain": 0.3581405579006606,
+        "clip_probe": 0.5252872032786702,
+        "floor_genre": 0.2517433894088193,
+        "floor_shard": 0.30768809734326974,
+        "floor_format": 0.21938313846339766,
+        "floor_genre+format": 0.33493547215430497
+      },
+      "majority_class_share": 0.26200873362445415
+    },
+    {
+      "seed": 6,
+      "n_test": 291,
+      "test_acc": {
+        "logistic_regression": 0.32989690721649484,
+        "random_forest": 0.3333333333333333,
+        "resnet18_layer4": 0.49828178694158076,
+        "clip_zero_shot_style_of": 0.39862542955326463,
+        "clip_zero_shot_plain": 0.31958762886597936,
+        "clip_probe": 0.584192439862543,
+        "floor_genre": 0.27147766323024053,
+        "floor_shard": 0.27491408934707906,
+        "floor_format": 0.18556701030927836,
+        "floor_genre+format": 0.25773195876288657
+      },
+      "macro_f1": {
+        "logistic_regression": 0.32273055589600275,
+        "random_forest": 0.32211257876523985,
+        "resnet18_layer4": 0.4658162819985287,
+        "clip_zero_shot_style_of": 0.36091483637617316,
+        "clip_zero_shot_plain": 0.28055804015731484,
+        "clip_probe": 0.565601440144878,
+        "floor_genre": 0.17268874943391344,
+        "floor_shard": 0.201344363004806,
+        "floor_format": 0.17454169545708212,
+        "floor_genre+format": 0.25122646427310974
+      },
+      "majority_class_share": 0.23367697594501718
+    },
+    {
+      "seed": 7,
+      "n_test": 245,
+      "test_acc": {
+        "logistic_regression": 0.3469387755102041,
+        "random_forest": 0.3224489795918367,
+        "resnet18_layer4": 0.44081632653061226,
+        "clip_zero_shot_style_of": 0.4163265306122449,
+        "clip_zero_shot_plain": 0.42857142857142855,
+        "clip_probe": 0.5714285714285714,
+        "floor_genre": 0.27346938775510204,
+        "floor_shard": 0.3306122448979592,
+        "floor_format": 0.23265306122448978,
+        "floor_genre+format": 0.27755102040816326
+      },
+      "macro_f1": {
+        "logistic_regression": 0.34554589648873496,
+        "random_forest": 0.3103893671947639,
+        "resnet18_layer4": 0.43443487583869406,
+        "clip_zero_shot_style_of": 0.3634111127421073,
+        "clip_zero_shot_plain": 0.34527356902356904,
+        "clip_probe": 0.57541207241397,
+        "floor_genre": 0.15508221225710014,
+        "floor_shard": 0.23093509315300245,
+        "floor_format": 0.22985878564715656,
+        "floor_genre+format": 0.26727358529591383
+      },
+      "majority_class_share": 0.24081632653061225
+    },
+    {
+      "seed": 8,
+      "n_test": 199,
+      "test_acc": {
+        "logistic_regression": 0.32160804020100503,
+        "random_forest": 0.3417085427135678,
+        "resnet18_layer4": 0.47738693467336685,
+        "clip_zero_shot_style_of": 0.4020100502512563,
+        "clip_zero_shot_plain": 0.3316582914572864,
+        "clip_probe": 0.6733668341708543,
+        "floor_genre": 0.2864321608040201,
+        "floor_shard": 0.32663316582914576,
+        "floor_format": 0.24120603015075376,
+        "floor_genre+format": 0.27638190954773867
+      },
+      "macro_f1": {
+        "logistic_regression": 0.31554409002645645,
+        "random_forest": 0.3284839912076422,
+        "resnet18_layer4": 0.46204304473850666,
+        "clip_zero_shot_style_of": 0.38957026016158114,
+        "clip_zero_shot_plain": 0.2936581280451585,
+        "clip_probe": 0.6437328842443932,
+        "floor_genre": 0.17182121971595654,
+        "floor_shard": 0.2676963049586092,
+        "floor_format": 0.22183571847825143,
+        "floor_genre+format": 0.26140893801116805
+      },
+      "majority_class_share": 0.2663316582914573
+    },
+    {
+      "seed": 9,
+      "n_test": 311,
+      "test_acc": {
+        "logistic_regression": 0.34726688102893893,
+        "random_forest": 0.34726688102893893,
+        "resnet18_layer4": 0.41479099678456594,
+        "clip_zero_shot_style_of": 0.3762057877813505,
+        "clip_zero_shot_plain": 0.3890675241157556,
+        "clip_probe": 0.5787781350482315,
+        "floor_genre": 0.2958199356913183,
+        "floor_shard": 0.27009646302250806,
+        "floor_format": 0.20257234726688103,
+        "floor_genre+format": 0.2990353697749196
+      },
+      "macro_f1": {
+        "logistic_regression": 0.34735869173203343,
+        "random_forest": 0.33669231980121794,
+        "resnet18_layer4": 0.42871728737240317,
+        "clip_zero_shot_style_of": 0.3556967826322583,
+        "clip_zero_shot_plain": 0.32022764495443673,
+        "clip_probe": 0.5709970220091098,
+        "floor_genre": 0.22118281043330615,
+        "floor_shard": 0.17146190292151556,
+        "floor_format": 0.1992019512689868,
+        "floor_genre+format": 0.28711272348446565
+      },
+      "majority_class_share": 0.24758842443729903
+    }
+  ],
+  "test_accuracy": {
+    "logistic_regression": {
+      "mean": 0.32133457460374715,
+      "std": 0.02172219605086174
+    },
+    "random_forest": {
+      "mean": 0.3240077661845115,
+      "std": 0.02249124604877787
+    },
+    "resnet18_layer4": {
+      "mean": 0.40568751464023955,
+      "std": 0.05431045690416574
+    },
+    "clip_zero_shot_style_of": {
+      "mean": 0.3752490538256795,
+      "std": 0.03478350576218431
+    },
+    "clip_zero_shot_plain": {
+      "mean": 0.37141603671288886,
+      "std": 0.051659266455624665
+    },
+    "clip_probe": {
+      "mean": 0.5537649561932405,
+      "std": 0.052060926120706216
+    },
+    "floor_genre": {
+      "mean": 0.264117033096471,
+      "std": 0.04673512269763006
+    },
+    "floor_shard": {
+      "mean": 0.2674816299901891,
+      "std": 0.05910627749206105
+    },
+    "floor_format": {
+      "mean": 0.21332488268987052,
+      "std": 0.026684541420625308
+    },
+    "floor_genre+format": {
+      "mean": 0.2830605311330555,
+      "std": 0.030746028249158817
+    }
+  },
+  "macro_f1": {
+    "logistic_regression": {
+      "mean": 0.31532025982033945,
+      "std": 0.025216488233745605
+    },
+    "random_forest": {
+      "mean": 0.31296255886088475,
+      "std": 0.019171119684221773
+    },
+    "resnet18_layer4": {
+      "mean": 0.3970636243453544,
+      "std": 0.05014155652938574
+    },
+    "clip_zero_shot_style_of": {
+      "mean": 0.35249748677091747,
+      "std": 0.024681896439395418
+    },
+    "clip_zero_shot_plain": {
+      "mean": 0.3180724568079373,
+      "std": 0.03187817393341376
+    },
+    "clip_probe": {
+      "mean": 0.5415740625378438,
+      "std": 0.0477417255661547
+    },
+    "floor_genre": {
+      "mean": 0.1769106831654804,
+      "std": 0.042527541334441865
+    },
+    "floor_shard": {
+      "mean": 0.20507797952217768,
+      "std": 0.04908489219226134
+    },
+    "floor_format": {
+      "mean": 0.20355446604812447,
+      "std": 0.024607453429894312
+    },
+    "floor_genre+format": {
+      "mean": 0.27136011873424065,
+      "std": 0.03197489820004795
+    }
+  },
+  "seeds_where_first_model_is_better": {
+    "clip_probe_beats_resnet18_layer4": 10,
+    "resnet18_layer4_beats_random_forest": 10,
+    "resnet18_layer4_beats_logistic_regression": 9,
+    "clip_zero_shot_style_of_beats_resnet18_layer4": 2
+  },
+  "seed0_confidence_intervals_95": {
+    "logistic_regression": {
+      "acc": 0.3424124513618677,
+      "low": 0.2930835543766578,
+      "high": 0.39344591480676805
+    },
+    "random_forest": {
+      "acc": 0.33073929961089493,
+      "low": 0.28203125,
+      "high": 0.38432126696832575
+    },
+    "resnet18_layer4": {
+      "acc": 0.4046692607003891,
+      "low": 0.3258776968087016,
+      "high": 0.5141721698113207
+    },
+    "clip_zero_shot_style_of": {
+      "acc": 0.377431906614786,
+      "low": 0.3236358335542009,
+      "high": 0.45128640776699025
+    },
+    "clip_zero_shot_plain": {
+      "acc": 0.42023346303501946,
+      "low": 0.34594215711038145,
+      "high": 0.4858523628989596
+    },
+    "clip_probe": {
+      "acc": 0.5252918287937743,
+      "low": 0.44791440217391304,
+      "high": 0.6272748713550601
+    },
+    "floor_genre": {
+      "acc": 0.20622568093385213,
+      "low": 0.14156626506024098,
+      "high": 0.2962962962962963
+    },
+    "floor_shard": {
+      "acc": 0.23346303501945526,
+      "low": 0.15719301961806686,
+      "high": 0.32646970077948195
+    },
+    "floor_format": {
+      "acc": 0.20622568093385213,
+      "low": 0.16011410730129494,
+      "high": 0.2663316582914573
+    },
+    "floor_genre+format": {
+      "acc": 0.2490272373540856,
+      "low": 0.1960715754833402,
+      "high": 0.3259809448641334
+    }
+  },
+  "seed0_paired_differences_95": {
+    "clip_probe_minus_resnet18_layer4": {
+      "diff": 0.12062256809338523,
+      "low": 0.03954616413916147,
+      "high": 0.2041522491349481
+    },
+    "resnet18_layer4_minus_random_forest": {
+      "diff": 0.07392996108949418,
+      "low": -0.0029178668024869153,
+      "high": 0.18100275197798413
+    },
+    "resnet18_layer4_minus_logistic_regression": {
+      "diff": 0.0622568093385214,
+      "low": -0.020900838813846336,
+      "high": 0.18265071969960361
+    },
+    "clip_zero_shot_style_of_minus_resnet18_layer4": {
+      "diff": -0.027237354085603127,
+      "low": -0.13472215025906736,
+      "high": 0.04938928289992116
+    }
+  },
+  "seed0_per_class": {
+    "resnet18_layer4": {
+      "Expressionism": {
+        "precision": 0.5102040816326531,
+        "recall": 0.6756756756756757,
+        "f1": 0.5813953488372093,
+        "support": 37
+      },
+      "Impressionism": {
+        "precision": 0.42105263157894735,
+        "recall": 0.41025641025641024,
+        "f1": 0.4155844155844156,
+        "support": 39
+      },
+      "Post_Impressionism": {
+        "precision": 0.5161290322580645,
+        "recall": 0.22535211267605634,
+        "f1": 0.3137254901960784,
+        "support": 71
+      },
+      "Realism": {
+        "precision": 0.23809523809523808,
+        "recall": 0.5172413793103449,
+        "f1": 0.32608695652173914,
+        "support": 29
+      },
+      "Romanticism": {
+        "precision": 0.37735849056603776,
+        "recall": 0.5555555555555556,
+        "f1": 0.449438202247191,
+        "support": 36
+      },
+      "Symbolism": {
+        "precision": 0.5217391304347826,
+        "recall": 0.26666666666666666,
+        "f1": 0.35294117647058826,
+        "support": 45
+      }
+    },
+    "clip_probe": {
+      "Expressionism": {
+        "precision": 0.40298507462686567,
+        "recall": 0.7297297297297297,
+        "f1": 0.5192307692307693,
+        "support": 37
+      },
+      "Impressionism": {
+        "precision": 0.5333333333333333,
+        "recall": 0.6153846153846154,
+        "f1": 0.5714285714285714,
+        "support": 39
+      },
+      "Post_Impressionism": {
+        "precision": 0.6086956521739131,
+        "recall": 0.39436619718309857,
+        "f1": 0.47863247863247865,
+        "support": 71
+      },
+      "Realism": {
+        "precision": 0.5,
+        "recall": 0.4482758620689655,
+        "f1": 0.4727272727272727,
+        "support": 29
+      },
+      "Romanticism": {
+        "precision": 0.5806451612903226,
+        "recall": 0.5,
+        "f1": 0.5373134328358209,
+        "support": 36
+      },
+      "Symbolism": {
+        "precision": 0.5952380952380952,
+        "recall": 0.5555555555555556,
+        "f1": 0.5747126436781609,
+        "support": 45
+      }
+    }
+  },
+  "accuracy_by_artist_known": {
+    "logistic_regression": {
+      "unknown_artist": 0.34335086401202103,
+      "named_artist": 0.29846378931967815,
+      "n_unknown": 1331,
+      "n_named": 1367
+    },
+    "random_forest": {
+      "unknown_artist": 0.36363636363636365,
+      "named_artist": 0.28383321141185075,
+      "n_unknown": 1331,
+      "n_named": 1367
+    },
+    "resnet18_layer4": {
+      "unknown_artist": 0.4492862509391435,
+      "named_artist": 0.36137527432333577,
+      "n_unknown": 1331,
+      "n_named": 1367
+    },
+    "clip_zero_shot_style_of": {
+      "unknown_artist": 0.4184823441021788,
+      "named_artist": 0.32772494513533285,
+      "n_unknown": 1331,
+      "n_named": 1367
+    },
+    "clip_zero_shot_plain": {
+      "unknown_artist": 0.3899323816679189,
+      "named_artist": 0.35040234089246525,
+      "n_unknown": 1331,
+      "n_named": 1367
+    },
+    "clip_probe": {
+      "unknown_artist": 0.5972952667167544,
+      "named_artist": 0.5054864667154353,
+      "n_unknown": 1331,
+      "n_named": 1367
+    }
+  },
+  "pooled_confusion_counts": {
+    "resnet18_layer4": [
+      [
+        239,
+        16,
+        51,
+        25,
+        40,
+        98
+      ],
+      [
+        10,
+        150,
+        60,
+        79,
+        20,
+        23
+      ],
+      [
+        122,
+        138,
+        168,
+        66,
+        31,
+        60
+      ],
+      [
+        47,
+        71,
+        50,
+        164,
+        122,
+        32
+      ],
+      [
+        20,
+        27,
+        7,
+        89,
+        184,
+        31
+      ],
+      [
+        84,
+        24,
+        46,
+        48,
+        69,
+        187
+      ]
+    ],
+    "clip_probe": [
+      [
+        309,
+        15,
+        56,
+        8,
+        9,
+        72
+      ],
+      [
+        8,
+        200,
+        59,
+        47,
+        14,
+        14
+      ],
+      [
+        128,
+        148,
+        243,
+        28,
+        3,
+        35
+      ],
+      [
+        39,
+        47,
+        37,
+        269,
+        65,
+        29
+      ],
+      [
+        16,
+        9,
+        11,
+        71,
+        208,
+        43
+      ],
+      [
+        93,
+        18,
+        22,
+        20,
+        48,
+        257
+      ]
+    ]
+  },
+  "top_confusions": {
+    "resnet18_layer4": [
+      {
+        "true": "Post_Impressionism",
+        "predicted": "Impressionism",
+        "count": 138,
+        "share_of_true_class": 0.2358974358974359
+      },
+      {
+        "true": "Post_Impressionism",
+        "predicted": "Expressionism",
+        "count": 122,
+        "share_of_true_class": 0.20854700854700856
+      },
+      {
+        "true": "Realism",
+        "predicted": "Romanticism",
+        "count": 122,
+        "share_of_true_class": 0.25102880658436216
+      },
+      {
+        "true": "Expressionism",
+        "predicted": "Symbolism",
+        "count": 98,
+        "share_of_true_class": 0.208955223880597
+      },
+      {
+        "true": "Romanticism",
+        "predicted": "Realism",
+        "count": 89,
+        "share_of_true_class": 0.24860335195530725
+      },
+      {
+        "true": "Symbolism",
+        "predicted": "Expressionism",
+        "count": 84,
+        "share_of_true_class": 0.18340611353711792
+      }
+    ],
+    "clip_probe": [
+      {
+        "true": "Post_Impressionism",
+        "predicted": "Impressionism",
+        "count": 148,
+        "share_of_true_class": 0.252991452991453
+      },
+      {
+        "true": "Post_Impressionism",
+        "predicted": "Expressionism",
+        "count": 128,
+        "share_of_true_class": 0.2188034188034188
+      },
+      {
+        "true": "Symbolism",
+        "predicted": "Expressionism",
+        "count": 93,
+        "share_of_true_class": 0.20305676855895197
+      },
+      {
+        "true": "Expressionism",
+        "predicted": "Symbolism",
+        "count": 72,
+        "share_of_true_class": 0.1535181236673774
+      },
+      {
+        "true": "Romanticism",
+        "predicted": "Realism",
+        "count": 71,
+        "share_of_true_class": 0.19832402234636873
+      },
+      {
+        "true": "Realism",
+        "predicted": "Romanticism",
+        "count": 65,
+        "share_of_true_class": 0.1337448559670782
+      }
+    ]
+  },
+  "clip_zero_shot_templates": {
+    "style_of": "a painting in the style of {name}",
+    "plain": "a {name} painting"
+  },
+  "ci_method": "percentile bootstrap, 2000 resamples of artists (each Unknown Artist image is its own group)"
+}
