@@ -1,0 +1,21 @@
+# Keep the build context small and the image free of data, weights and caches.
+.git
+.github
+data/
+*.pt
+*.pth
+*.ckpt
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+*.egg-info/
+.venv/
+.env
+.env.*
+.DS_Store
+# Figures and slides are not needed to run the code or the tests.
+reports/figures/
+presentation/

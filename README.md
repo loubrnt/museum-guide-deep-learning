@@ -624,6 +624,32 @@ Limits:
 - **The page cannot say "this is the same painting".** A lightly recompressed copy of a painting of the collection comes back as its own nearest neighbour (similarity close to 1), but a real photo of it generally would not: in a quick check
   (not saved in the repository), stronger compression, rescaling or lighting changes lowered the similarity to its own painting below that of the closest *different* painting, so no threshold separates the two.
 
+### Reproducible environment
+
+`pyproject.toml` only gives minimum versions, so a fresh install gets the latest of everything. `constraints/py311.txt` lists the versions the test suite is known to pass with
+(Python 3.11, Linux, CPU-only PyTorch; `torch` and `torchvision` are minor-version ranges because their wheels differ between platforms):
+
+```bash
+pip install -c constraints/py311.txt torch torchvision --index-url https://download.pytorch.org/whl/cpu   # Linux; on macOS: pip install -c constraints/py311.txt torch torchvision
+pip install -c constraints/py311.txt -e ".[dev]"
+```
+
+Or in a container (the data and the model downloads are not baked in; mount them):
+
+```bash
+make docker-build                  # docker build -t museum-guide .
+make docker-test                   # runs the test suite in the image
+docker run --rm -v "$PWD/data:/app/data" -v "$PWD/reports:/app/reports" \
+    -v "$HOME/.cache/huggingface:/home/app/.cache/huggingface" museum-guide python scripts/baseline_classical.py
+```
+
+`make constraints` (or `bash constraints/regenerate.sh`) regenerates the file: it installs the project in a clean `python:3.11-slim` container, runs the tests there, and writes the versions only if they pass.
+
+What was checked, on an Apple silicon Mac with Docker Desktop: the file was generated that way and the suite passed in that container (363 passed, 2 skipped: the Gradio tests, since the `demo` extra is not installed);
+the image builds in about 2 minutes and is 2.5 GB (PyTorch and the dependencies are most of it); the tests pass inside it as a non-root user in about 2 minutes; with `data/` and `reports/` mounted, the 1500 images
+load and the split is the usual 972/249/279. Not checked: macOS with the pinned file, the `multilingual` and `demo` extras (not pinned), an `x86_64` image (the `pinned versions` workflow runs the pinned install and the tests on Linux x86_64 when the
+constraints, `pyproject.toml`, `src/` or `tests/` change, and the `docker` workflow builds the image when the recipe changes). The image is not published anywhere.
+
 ## Data
 
 A subset of [WikiArt](https://huggingface.co/datasets/huggan/wikiart), built with the course script:
