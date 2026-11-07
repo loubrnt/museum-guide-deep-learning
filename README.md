@@ -239,6 +239,39 @@ python scripts/encoder_comparison.py                   # everything: embeddings,
 python scripts/encoder_comparison.py --stage latency   # only the timings (leave the machine idle)
 ```
 
+### Adapting CLIP: richer features and partial fine-tuning
+
+The proposed model is CLIP's image encoder, **frozen**, with a linear head. The style task has the most room (55.4% over 10 seeds), so `scripts/clip_adapt.py`
+asks whether adapting the encoder beats that head. It uses the same artist-disjoint splits, seeds 0 to 4 (the probe scores 52.0% on these five splits and 55.4% on all ten:
+compare only within a table). Settings were fixed in advance, not searched; the validation set picks the epoch (and C for the probes); the test set is read once per run.
+
+- **frozen last 4 layers**: logistic regression on the class tokens of the last 4 blocks, concatenated (3072 values), standardised; **frozen last layer** is the control (768 values).
+- **finetune 1 / finetune 2**: the last 1 or 2 transformer blocks, the final layer norm and the projection are trained, with a linear head that starts as the probe (so epoch 0 *is* the probe).
+  AdamW, learning rate 1e-5 for the encoder and 1e-4 for the head, at most 6 epochs, early stopping on validation accuracy.
+- **LoRA**: rank-8 low-rank updates on the attention queries and values of the last 4 blocks (0.10 M trainable parameters), same head.
+
+| Variant | Style, 6 classes (1800 images) | Difference to the probe (5 seeds) | Genre, 5 classes (1500 images) | Difference to the probe | Extra weights to ship |
+|---|---|---|---|---|---|
+| Frozen probe (baseline) | 52.0% ± 2.2 | | 89.0% ± 2.5 | | 12.8 KB head |
+| Frozen, last layer (control) | 52.2% ± 1.3 | +0.1 | 88.3% ± 3.8 | -0.7 | head |
+| Frozen, last 4 layers | 53.3% ± 1.4 | +1.3 (higher on 3/5 seeds) | 87.5% ± 2.2 | -1.5 (0/5) | head |
+| Fine-tune last block | 51.0% ± 1.9 | -1.1 (0/5) | 88.9% ± 2.4 | -0.1 | 29.9 MB |
+| Fine-tune last 2 blocks | 52.0% ± 1.7 | -0.0 (1/5) | 89.2% ± 2.2 | +0.2 (2/5) | 58.3 MB |
+| LoRA, last 4 blocks | 52.2% ± 2.3 | +0.2 (2/5) | 89.1% ± 2.5 | +0.1 (1/5) | 0.4 MB |
+
+- **Adapting the encoder does not help.** The validation set kept the starting model (the probe) on 3 of 5 style seeds for each fine-tuned variant, and on 3 to 4 of 5 genre seeds.
+  Training loss falls (on style seed 0, 0.73 to 0.62 in 3 epochs) while validation accuracy stays flat or drops: with 1176 to 1326 training images (style) the encoder overfits.
+- **A second setting is no better.** With a learning rate 3 times higher (encoder 3e-5, head 3e-4, LoRA 1e-3), 8 epochs and patience 3, style accuracy is 50.3% (last block), 50.8% (last 2 blocks) and
+  51.1% (LoRA): -1.7, -1.2 and -0.9 points against the probe, never higher on any of the 5 seeds (`reports/clip_adapt_style_lr3e-5.json`).
+- **Richer frozen features are not a clear gain either.** The last 4 layers give +1.3 points on style, higher on only 3 of 5 seeds (the per-seed differences have a standard deviation of 2.2 points), and cost 1.5 points on genre.
+- **Cost.** Fine-tuning ships 30 to 58 MB of changed weights instead of a 12.8 KB head, and one training run took about 30 to 40 seconds on the Apple GPU while the machine was shared (indicative only).
+
+**Reading: the recommendation does not change, keep a frozen CLIP and a linear head.** Nothing here beats it by more than the noise between seeds, and fine-tuning would complicate deployment for no measured gain.
+
+Limits: 5 seeds; 1176 to 1326 training images for style and 972 to 1110 for genre, with validation sets of 181 to 365 and 167 to 257 images, so early stopping is noisy; settings fixed in advance with only one alternative tried;
+one backbone (ViT-B/32); the source images are 128 px upsampled to 224; no layer-wise learning-rate decay, longer schedules or stronger augmentation, so another recipe could do better.
+`python scripts/clip_adapt.py` (style) and `python scripts/clip_adapt.py --task genre` need the datasets and CLIP's weights; results are in `reports/clip_adapt_*.json`.
+
 ## Natural-language search
 
 A pretrained CLIP dual encoder (`openai/clip-vit-base-patch32`) maps paintings and questions into the same space.

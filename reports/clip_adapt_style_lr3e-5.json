@@ -1,0 +1,569 @@
+{
+  "task": "style",
+  "data_dir": "data/wikiart_style6",
+  "classes": [
+    "Expressionism",
+    "Impressionism",
+    "Post_Impressionism",
+    "Realism",
+    "Romanticism",
+    "Symbolism"
+  ],
+  "n_images": 1800,
+  "n_seeds": 5,
+  "settings": {
+    "lr_encoder": 3e-05,
+    "lr_head": 0.0003,
+    "lr_lora": 0.001,
+    "weight_decay": 0.01,
+    "batch_size": 32,
+    "max_epochs": 8,
+    "patience": 3,
+    "device": "mps",
+    "chosen": "fixed in advance; the epoch (and C for the probes) is chosen on validation only; the test set is read once per run"
+  },
+  "chance": 0.16666666666666666,
+  "per_seed": [
+    {
+      "seed": 0,
+      "n_test": 257,
+      "variants": {
+        "probe": {
+          "test_acc": 0.5252918287937743,
+          "test_macro_f1": 0.5256741947555124,
+          "val_acc": 0.547945205479452,
+          "C": 10
+        },
+        "finetune_1": {
+          "test_acc": 0.48638132295719844,
+          "test_macro_f1": 0.4812870882499994,
+          "best_val_acc": 0.5616438356164384,
+          "epoch0_val_acc": 0.547945205479452,
+          "best_epoch": 1,
+          "epochs_run": 4,
+          "trainable_params": 7485702,
+          "shipped_params_besides_head": 7482624,
+          "shipped_mb_besides_head_fp32": 29.930496,
+          "train_seconds": 48.26815387499664,
+          "seconds_per_epoch": 11.431903864751803,
+          "val_acc_curve": [
+            0.547945205479452,
+            0.5616438356164384,
+            0.5232876712328767,
+            0.4849315068493151,
+            0.4520547945205479
+          ],
+          "train_loss_curve": [
+            0.8023633369970402,
+            0.6573977779046789,
+            0.545212711259748,
+            0.47277484477477083
+          ]
+        },
+        "finetune_2": {
+          "test_acc": 0.5252918287937743,
+          "test_macro_f1": 0.5256741947555124,
+          "best_val_acc": 0.547945205479452,
+          "epoch0_val_acc": 0.547945205479452,
+          "best_epoch": 0,
+          "epochs_run": 3,
+          "trainable_params": 14573574,
+          "shipped_params_besides_head": 14570496,
+          "shipped_mb_besides_head_fp32": 58.281984,
+          "train_seconds": 32.57967791699775,
+          "seconds_per_epoch": 10.1800976526647,
+          "val_acc_curve": [
+            0.547945205479452,
+            0.5342465753424658,
+            0.46301369863013697,
+            0.4520547945205479
+          ],
+          "train_loss_curve": [
+            0.840796293143708,
+            0.5941373376975845,
+            0.41745912062291984
+          ]
+        },
+        "lora_last4": {
+          "test_acc": 0.5252918287937743,
+          "test_macro_f1": 0.5256741947555124,
+          "best_val_acc": 0.547945205479452,
+          "epoch0_val_acc": 0.547945205479452,
+          "best_epoch": 0,
+          "epochs_run": 3,
+          "trainable_params": 101382,
+          "shipped_params_besides_head": 98304,
+          "shipped_mb_besides_head_fp32": 0.393216,
+          "train_seconds": 32.47040858299442,
+          "seconds_per_epoch": 10.172122291332926,
+          "val_acc_curve": [
+            0.547945205479452,
+            0.5452054794520548,
+            0.5013698630136987,
+            0.5013698630136987
+          ],
+          "train_loss_curve": [
+            0.7259598452287943,
+            0.6384745350515498,
+            0.5311847808304383
+          ]
+        }
+      }
+    },
+    {
+      "seed": 1,
+      "n_test": 276,
+      "variants": {
+        "probe": {
+          "test_acc": 0.4963768115942029,
+          "test_macro_f1": 0.4836331454061044,
+          "val_acc": 0.526984126984127,
+          "C": 10
+        },
+        "finetune_1": {
+          "test_acc": 0.4927536231884058,
+          "test_macro_f1": 0.4689771511005631,
+          "best_val_acc": 0.5650793650793651,
+          "epoch0_val_acc": 0.526984126984127,
+          "best_epoch": 3,
+          "epochs_run": 6,
+          "trainable_params": 7485702,
+          "shipped_params_besides_head": 7482624,
+          "shipped_mb_besides_head_fp32": 29.930496,
+          "train_seconds": 70.7305729159998,
+          "seconds_per_epoch": 11.496906305498365,
+          "val_acc_curve": [
+            0.526984126984127,
+            0.5365079365079365,
+            0.4888888888888889,
+            0.5650793650793651,
+            0.49206349206349204,
+            0.5333333333333333,
+            0.4888888888888889
+          ],
+          "train_loss_curve": [
+            0.8136676944317751,
+            0.6837129251487596,
+            0.5919837227431677,
+            0.4983718562855811,
+            0.4034113974685606,
+            0.30011438365757614
+          ]
+        },
+        "finetune_2": {
+          "test_acc": 0.4963768115942029,
+          "test_macro_f1": 0.4973712994968125,
+          "best_val_acc": 0.5333333333333333,
+          "epoch0_val_acc": 0.526984126984127,
+          "best_epoch": 1,
+          "epochs_run": 4,
+          "trainable_params": 14573574,
+          "shipped_params_besides_head": 14570496,
+          "shipped_mb_besides_head_fp32": 58.281984,
+          "train_seconds": 55.545371874999546,
+          "seconds_per_epoch": 13.327508656500868,
+          "val_acc_curve": [
+            0.526984126984127,
+            0.5333333333333333,
+            0.49206349206349204,
+            0.4984126984126984,
+            0.4380952380952381
+          ],
+          "train_loss_curve": [
+            0.8639207336407638,
+            0.6232653273049221,
+            0.4430066646501188,
+            0.29869235703233254
+          ]
+        },
+        "lora_last4": {
+          "test_acc": 0.4891304347826087,
+          "test_macro_f1": 0.4780609906774271,
+          "best_val_acc": 0.5428571428571428,
+          "epoch0_val_acc": 0.526984126984127,
+          "best_epoch": 5,
+          "epochs_run": 8,
+          "trainable_params": 101382,
+          "shipped_params_besides_head": 98304,
+          "shipped_mb_besides_head_fp32": 0.393216,
+          "train_seconds": 110.93844129199715,
+          "seconds_per_epoch": 13.580624843625628,
+          "val_acc_curve": [
+            0.526984126984127,
+            0.5301587301587302,
+            0.5301587301587302,
+            0.5333333333333333,
+            0.49206349206349204,
+            0.5428571428571428,
+            0.49523809523809526,
+            0.42857142857142855,
+            0.473015873015873
+          ],
+          "train_loss_curve": [
+            0.7497832324999832,
+            0.6582597373091947,
+            0.5610224189987056,
+            0.46388328849431204,
+            0.3582419771069431,
+            0.2758132734014734,
+            0.22832145808130577,
+            0.16186920398764615
+          ]
+        }
+      }
+    },
+    {
+      "seed": 2,
+      "n_test": 284,
+      "variants": {
+        "probe": {
+          "test_acc": 0.5352112676056338,
+          "test_macro_f1": 0.5185945205791486,
+          "val_acc": 0.5981308411214953,
+          "C": 10
+        },
+        "finetune_1": {
+          "test_acc": 0.5352112676056338,
+          "test_macro_f1": 0.5185945205791486,
+          "best_val_acc": 0.5981308411214953,
+          "epoch0_val_acc": 0.5981308411214953,
+          "best_epoch": 0,
+          "epochs_run": 3,
+          "trainable_params": 7485702,
+          "shipped_params_besides_head": 7482624,
+          "shipped_mb_besides_head_fp32": 29.930496,
+          "train_seconds": 38.356435542002146,
+          "seconds_per_epoch": 12.251598861665116,
+          "val_acc_curve": [
+            0.5981308411214953,
+            0.5327102803738317,
+            0.5747663551401869,
+            0.4953271028037383
+          ],
+          "train_loss_curve": [
+            0.8550831830263504,
+            0.6986695528030396,
+            0.608584547601354
+          ]
+        },
+        "finetune_2": {
+          "test_acc": 0.5352112676056338,
+          "test_macro_f1": 0.5185945205791486,
+          "best_val_acc": 0.5981308411214953,
+          "epoch0_val_acc": 0.5981308411214953,
+          "best_epoch": 0,
+          "epochs_run": 3,
+          "trainable_params": 14573574,
+          "shipped_params_besides_head": 14570496,
+          "shipped_mb_besides_head_fp32": 58.281984,
+          "train_seconds": 40.87170154100022,
+          "seconds_per_epoch": 13.134230625000782,
+          "val_acc_curve": [
+            0.5981308411214953,
+            0.5373831775700935,
+            0.5841121495327103,
+            0.43457943925233644
+          ],
+          "train_loss_curve": [
+            0.9097676308290567,
+            0.6385401550983687,
+            0.47712669440311956
+          ]
+        },
+        "lora_last4": {
+          "test_acc": 0.5352112676056338,
+          "test_macro_f1": 0.5185945205791486,
+          "best_val_acc": 0.5981308411214953,
+          "epoch0_val_acc": 0.5981308411214953,
+          "best_epoch": 0,
+          "epochs_run": 3,
+          "trainable_params": 101382,
+          "shipped_params_besides_head": 98304,
+          "shipped_mb_besides_head_fp32": 0.393216,
+          "train_seconds": 40.26760904100229,
+          "seconds_per_epoch": 12.89663391699772,
+          "val_acc_curve": [
+            0.5981308411214953,
+            0.5280373831775701,
+            0.5467289719626168,
+            0.4672897196261682
+          ],
+          "train_loss_curve": [
+            0.7636359733187474,
+            0.6803357141083836,
+            0.5978609222329341
+          ]
+        }
+      }
+    },
+    {
+      "seed": 3,
+      "n_test": 313,
+      "variants": {
+        "probe": {
+          "test_acc": 0.5463258785942492,
+          "test_macro_f1": 0.51267274927375,
+          "val_acc": 0.5176848874598071,
+          "C": 10
+        },
+        "finetune_1": {
+          "test_acc": 0.5047923322683706,
+          "test_macro_f1": 0.4768436743848734,
+          "best_val_acc": 0.5369774919614148,
+          "epoch0_val_acc": 0.5176848874598071,
+          "best_epoch": 3,
+          "epochs_run": 6,
+          "trainable_params": 7485702,
+          "shipped_params_besides_head": 7482624,
+          "shipped_mb_besides_head_fp32": 29.930496,
+          "train_seconds": 70.59686337499443,
+          "seconds_per_epoch": 11.433943500001382,
+          "val_acc_curve": [
+            0.5176848874598071,
+            0.5112540192926045,
+            0.5337620578778135,
+            0.5369774919614148,
+            0.5209003215434084,
+            0.5305466237942122,
+            0.4662379421221865
+          ],
+          "train_loss_curve": [
+            0.818920777363031,
+            0.6664374170660161,
+            0.5807744264602661,
+            0.43910938278347456,
+            0.38843712879686937,
+            0.3111701297516726
+          ]
+        },
+        "finetune_2": {
+          "test_acc": 0.48562300319488816,
+          "test_macro_f1": 0.45953093788754273,
+          "best_val_acc": 0.5305466237942122,
+          "epoch0_val_acc": 0.5176848874598071,
+          "best_epoch": 3,
+          "epochs_run": 6,
+          "trainable_params": 14573574,
+          "shipped_params_besides_head": 14570496,
+          "shipped_mb_besides_head_fp32": 58.281984,
+          "train_seconds": 82.36294320800516,
+          "seconds_per_epoch": 13.376353298668013,
+          "val_acc_curve": [
+            0.5176848874598071,
+            0.4855305466237942,
+            0.5144694533762058,
+            0.5305466237942122,
+            0.5048231511254019,
+            0.5241157556270096,
+            0.47266881028938906
+          ],
+          "train_loss_curve": [
+            0.8934310532751537,
+            0.6227554658643243,
+            0.4832694757552374,
+            0.272552866007195,
+            0.22017343372714762,
+            0.16744570555735608
+          ]
+        },
+        "lora_last4": {
+          "test_acc": 0.5079872204472844,
+          "test_macro_f1": 0.48148561372247967,
+          "best_val_acc": 0.5369774919614148,
+          "epoch0_val_acc": 0.5176848874598071,
+          "best_epoch": 3,
+          "epochs_run": 6,
+          "trainable_params": 101382,
+          "shipped_params_besides_head": 98304,
+          "shipped_mb_besides_head_fp32": 0.393216,
+          "train_seconds": 81.49225804099842,
+          "seconds_per_epoch": 13.225147534663847,
+          "val_acc_curve": [
+            0.5176848874598071,
+            0.5209003215434084,
+            0.5337620578778135,
+            0.5369774919614148,
+            0.5273311897106109,
+            0.5112540192926045,
+            0.4855305466237942
+          ],
+          "train_loss_curve": [
+            0.7378275747201881,
+            0.6585390770516428,
+            0.5494828345824261,
+            0.42372505660770704,
+            0.3639833876470319,
+            0.27230883698885133
+          ]
+        }
+      }
+    },
+    {
+      "seed": 4,
+      "n_test": 293,
+      "variants": {
+        "probe": {
+          "test_acc": 0.49829351535836175,
+          "test_macro_f1": 0.49413539327290174,
+          "val_acc": 0.6022099447513812,
+          "C": 10
+        },
+        "finetune_1": {
+          "test_acc": 0.49829351535836175,
+          "test_macro_f1": 0.4938057539134589,
+          "best_val_acc": 0.6022099447513812,
+          "epoch0_val_acc": 0.6022099447513812,
+          "best_epoch": 0,
+          "epochs_run": 3,
+          "trainable_params": 7485702,
+          "shipped_params_besides_head": 7482624,
+          "shipped_mb_besides_head_fp32": 29.930496,
+          "train_seconds": 37.943444709002506,
+          "seconds_per_epoch": 12.176674736004012,
+          "val_acc_curve": [
+            0.6022099447513812,
+            0.585635359116022,
+            0.6022099447513812,
+            0.5911602209944752
+          ],
+          "train_loss_curve": [
+            0.836300074065253,
+            0.6719175795624159,
+            0.596514618145035
+          ]
+        },
+        "finetune_2": {
+          "test_acc": 0.49829351535836175,
+          "test_macro_f1": 0.4938057539134589,
+          "best_val_acc": 0.6022099447513812,
+          "epoch0_val_acc": 0.6022099447513812,
+          "best_epoch": 0,
+          "epochs_run": 3,
+          "trainable_params": 14573574,
+          "shipped_params_besides_head": 14570496,
+          "shipped_mb_besides_head_fp32": 58.281984,
+          "train_seconds": 41.58343283300201,
+          "seconds_per_epoch": 13.443721624998338,
+          "val_acc_curve": [
+            0.6022099447513812,
+            0.6022099447513812,
+            0.56353591160221,
+            0.5911602209944752
+          ],
+          "train_loss_curve": [
+            0.8991948585524638,
+            0.6287664627237737,
+            0.4876442557905954
+          ]
+        },
+        "lora_last4": {
+          "test_acc": 0.49829351535836175,
+          "test_macro_f1": 0.4938057539134589,
+          "best_val_acc": 0.6022099447513812,
+          "epoch0_val_acc": 0.6022099447513812,
+          "best_epoch": 0,
+          "epochs_run": 3,
+          "trainable_params": 101382,
+          "shipped_params_besides_head": 98304,
+          "shipped_mb_besides_head_fp32": 0.393216,
+          "train_seconds": 42.70722658299928,
+          "seconds_per_epoch": 13.790242819668492,
+          "val_acc_curve": [
+            0.6022099447513812,
+            0.5580110497237569,
+            0.580110497237569,
+            0.580110497237569
+          ],
+          "train_loss_curve": [
+            0.7501118225389656,
+            0.6557355030449628,
+            0.574955760443732
+          ]
+        }
+      }
+    }
+  ],
+  "summary": {
+    "probe": {
+      "test_acc": {
+        "mean": 0.5202998603892444,
+        "std": 0.022255420253279007
+      },
+      "test_macro_f1": {
+        "mean": 0.5069420006574834,
+        "std": 0.017513064564678812
+      }
+    },
+    "finetune_1": {
+      "test_acc": {
+        "mean": 0.503486412275594,
+        "std": 0.018992859798571946
+      },
+      "test_macro_f1": {
+        "mean": 0.4879016376456087,
+        "std": 0.01937187818625633
+      },
+      "trainable_params": 7485702,
+      "shipped_mb_besides_head_fp32": 29.930496,
+      "mean_train_seconds": 53.17909408339911,
+      "seeds_where_fine_tuning_changed_the_model": 3,
+      "mean_best_epoch": 1.4,
+      "epoch0_val_acc_mean": 0.5585910011592525
+    },
+    "finetune_2": {
+      "test_acc": {
+        "mean": 0.5081592853093722,
+        "std": 0.02103198699315348
+      },
+      "test_macro_f1": {
+        "mean": 0.49899534132649503,
+        "std": 0.02589834703141846
+      },
+      "trainable_params": 14573574,
+      "shipped_mb_besides_head_fp32": 58.281984,
+      "mean_train_seconds": 50.588625474800935,
+      "seeds_where_fine_tuning_changed_the_model": 2,
+      "mean_best_epoch": 0.8,
+      "epoch0_val_acc_mean": 0.5585910011592525
+    },
+    "lora_last4": {
+      "test_acc": {
+        "mean": 0.5111828533975326,
+        "std": 0.018967631295818167
+      },
+      "test_macro_f1": {
+        "mean": 0.4995242147296053,
+        "std": 0.021600115321824903
+      },
+      "trainable_params": 101382,
+      "shipped_mb_besides_head_fp32": 0.393216,
+      "mean_train_seconds": 61.575188707998315,
+      "seeds_where_fine_tuning_changed_the_model": 2,
+      "mean_best_epoch": 1.6,
+      "epoch0_val_acc_mean": 0.5585910011592525
+    }
+  },
+  "paired_vs_probe": {
+    "finetune_1_minus_probe": {
+      "mean": -0.01681344811365031,
+      "std": 0.0214402089643149,
+      "seeds_a_higher": 0,
+      "seeds_tied": 2,
+      "n_seeds": 5
+    },
+    "finetune_2_minus_probe": {
+      "mean": -0.012140575079872207,
+      "std": 0.027147151164534193,
+      "seeds_a_higher": 0,
+      "seeds_tied": 4,
+      "n_seeds": 5
+    },
+    "lora_last4_minus_probe": {
+      "mean": -0.009117006991711796,
+      "std": 0.01663402839791696,
+      "seeds_a_higher": 0,
+      "seeds_tied": 3,
+      "n_seeds": 5
+    }
+  }
+}
