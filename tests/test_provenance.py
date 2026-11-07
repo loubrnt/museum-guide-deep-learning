@@ -20,7 +20,7 @@ DOC = (ROOT / "docs" / "PROVENANCE.md").read_text()
 MAKEFILE = (ROOT / "Makefile").read_text()
 
 # Tools to use the models: they write no report, so `make reproduce-all` does not run them.
-INTERACTIVE = {"predict", "guide", "search", "demo"}
+INTERACTIVE = {"predict", "guide", "search", "demo", "evaluate_photos"}
 SCRIPTS = sorted(p.stem for p in (ROOT / "scripts").glob("*.py"))
 REPORT_SUFFIXES = {".json", ".png", ".npz"}  # committed outputs; model weights (.pt) are not committed
 
