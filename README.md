@@ -46,6 +46,27 @@ Latency = median time for one image on **one thread** of a development machine, 
 - **Overfitting:** without regularisation train accuracy hits 100% while validation stays at 42%. Dropout 0.5 + weight decay narrows the gap (71% train / 43% val); augmentation brings no extra gain.
 - **Failure diagnosis:** an MLP ties every weight to one pixel position. A circular shift of the test images by 8 pixels changes **63%** of its predictions (accuracy 41.9% -> 30.8%). A painting framed differently could be misread. Convolutions share weights across positions, which should help; the same test on the ResNet is in [How solid are these numbers?](#how-solid-are-these-numbers) below.
 
+### Per-class results and errors
+
+`scripts/error_analysis.py` retrains the four models on the split of the table (seed 0; it reproduces 50.2 / 53.8 / 41.9 / 74.6%) and reports more than an accuracy (`reports/error_analysis.json`).
+Macro-F1 is 0.491 (logistic regression), 0.529 (random forest), 0.411 (feed-forward network) and **0.746** (ResNet-18), so no model hides behind one easy class. ResNet-18 per genre on the 279 test images:
+
+| Genre | Precision | Recall | F1 | Images |
+|---|---|---|---|---|
+| cityscape | 77.6% | 72.2% | 74.8% | 72 |
+| landscape | 64.7% | 66.0% | 65.3% | 50 |
+| portrait | 78.3% | 80.0% | 79.1% | 45 |
+| religious painting | 78.6% | 69.8% | 73.9% | 63 |
+| still life | 72.9% | 87.8% | 79.6% | 49 |
+
+- **Mistakes are between neighbouring genres.** The 12 most confident mistakes (`reports/figures/error_confident_mistakes.png`) are all one of two confusions: landscape <-> cityscape (7 images: villages, churches and squares inside a landscape) and portrait <-> religious painting (5 images: a praying friar, a bearded man in a robe, ladies in ruffs, all Baroque except one Impressionist). Many of these labels are arguable, since a genre label is a single choice for a picture that can be both.
+- **The ResNet is sure of itself when wrong.** Those 12 mistakes have 98-100% confidence; the mean confidence is 93% on correct predictions and 77% on mistakes.
+- **Hesitant but correct** (`reports/figures/error_hesitant_correct.png`): the least confident correct predictions (37-65%) include several drawings and strongly stylised paintings.
+- **No sign that "Unknown Artist" images are easier or harder**: ResNet accuracy is 75.5% on them (102 images) and 74.0% on named artists (177 images).
+- **By style**, the ResNet is best on Realism (90%, 31 images) and Post-Impressionism (83%, 59) and weakest on Northern Renaissance (54%, 13) and Impressionism (65%, 46). With 10 to 59 images per style, differences of this size are within noise, so this is a hint to look at with more data, not a finding.
+
+Limits: one split and one training run, and genre labels that overlap (a religious scene in a landscape).
+
 ### Pretrained CNN
 
 Trained from scratch, ResNet-18 overfits 972 images (46.2% val). With ImageNet weights, training only the new head gives 68.7% val
