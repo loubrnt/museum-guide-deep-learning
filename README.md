@@ -73,6 +73,22 @@ Trained from scratch, ResNet-18 overfits 972 images (46.2% val). With ImageNet w
 with 2,565 trainable parameters; also fine-tuning `layer4` gives 73.5% val and 74.6% test.
 The jump comes from pretraining: from scratch, the same network does not beat the random forest on validation (46.2% vs 47.4%).
 
+### Frozen BatchNorm layers
+
+`pretrained_resnet18` freezes the backbone weights, but the training loop puts the model in train mode, so the frozen BatchNorm
+layers still update their running statistics and normalise each batch with its own statistics instead of the ImageNet ones.
+`pretrained_resnet18(..., bn_eval=True)` keeps them in eval mode. The default is unchanged: **every number in this README was produced without it**.
+`scripts/bn_study.py` compares both over 10 seeds (`reports/bn_study.json`, `reports/figures/bn_study.png`); the default at seed 0 reproduces 71.3% and 74.6%.
+
+| Variant | Default (mean ± std) | `bn_eval=True` | Paired difference | Seeds improved |
+|---|---|---|---|---|
+| Head only | 69.6% ± 3.6 | 73.9% ± 3.5 | +4.3 points (s.e. 0.5) | 10/10 |
+| `layer4` + head (the recommended model) | 74.0% ± 3.8 | 75.2% ± 4.0 | +1.2 points (s.e. 0.9) | 6/10 |
+
+With the head only the gain is clear and consistent. For the recommended `layer4` model it is within the noise: the layers being trained
+re-estimate their own statistics anyway. Making `bn_eval=True` the default would change the head-only numbers and require
+regenerating the figures and tables above (a possible follow-up); for the recommended model it would be about +1 point on average.
+
 ### How solid are these numbers?
 
 The table above comes from one split and one training run, on a 279-image test set. `scripts/robustness.py` repeats the
