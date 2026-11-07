@@ -1,6 +1,5 @@
 # Keep the build context small and the image free of data, weights and caches.
 .git
-.github
 data/
 *.pt
 *.pth
@@ -16,6 +15,6 @@ __pycache__/
 .env
 .env.*
 .DS_Store
-# Figures and slides are not needed to run the code or the tests.
-reports/figures/
+# The deck is not needed to run the code or the tests. reports/figures/ and .github/ ARE kept: the tests read them
+# (every figure named in docs/PROVENANCE.md must exist, and the repository-file tests read .github/).
 presentation/
