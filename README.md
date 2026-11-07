@@ -725,6 +725,19 @@ results in `reports/photo_robustness.json` and `reports/figures/photo_robustness
 
 Limits: these are synthetic proxies, not phone photos (which also have glare, frames, walls, hands and combined effects); each perturbation is applied alone; 5 seeds only; the augmentation strength was not tuned.
 
+### Testing on real photos
+
+**No result on real photos exists yet**: everything above uses clean dataset scans or synthetic perturbations of them. This repository now has what the team needs to
+produce one: [`docs/REAL_PHOTO_PROTOCOL.md`](docs/REAL_PHOTO_PROTOCOL.md) says what to photograph (at least 10 paintings and 30 photos per genre, 30 non-paintings,
+varied distance, angle and light), how to name the files, what the privacy rules are, and how to read the numbers; `scripts/evaluate_photos.py` turns a folder of photos
+(one sub-folder per label) into the guide's own verdicts (answer, "unsure", "not a painting"), the accuracy with a 95% interval that resamples paintings rather than photos,
+per-class scores, a confusion matrix and a per-photo CSV, written under `data/photo_eval/` (not versioned).
+
+```bash
+python scripts/evaluate_photos.py --demo                              # try it: perturbed dataset images, NOT real photos
+python scripts/evaluate_photos.py my_photos/ --reject-non-paintings   # the real thing, with the guide's rules
+```
+
 ## Kiosk budget (measured)
 
 The recommendation below says kiosk memory "must be checked". `scripts/benchmark_kiosk.py` measures it for the ResNet-18 and for
