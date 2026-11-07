@@ -6,6 +6,9 @@ one text encoding plus a dot product.
 
 Evaluation: with no hand-labelled questions, we use the genres as relevance labels. For each genre,
 a visitor-style question ("I would like to see portraits") must return paintings of that genre.
+
+Writes `reports/search_clip.json`, and `search_examples.png` under `data/figures_local/` (it shows paintings, which are
+not published: see `museum_guide.figures`).
 """
 import json
 import time
@@ -20,6 +23,7 @@ from PIL import Image
 from transformers import CLIPModel, CLIPProcessor
 
 from museum_guide.data import DATA_DIR, load_metadata
+from museum_guide.figures import painting_figure_path
 from museum_guide.train import REPORTS
 
 MODEL = "openai/clip-vit-base-patch32"
@@ -83,7 +87,10 @@ def main():
             if col == 0:
                 ax.set_title(q, loc="left", fontsize=10)
     fig.tight_layout()
-    fig.savefig(REPORTS / "figures" / "search_examples.png", dpi=110)
+    # The figure shows paintings: it goes to data/figures_local/ (not versioned), see museum_guide.figures.
+    figure = painting_figure_path("search_examples.png")
+    fig.savefig(figure, dpi=110)
+    print(f"figure with paintings saved to {figure} (not versioned)")
     (REPORTS / "search_clip.json").write_text(json.dumps(results, indent=2))
 
 

@@ -59,9 +59,9 @@ Macro-F1 is 0.491 (logistic regression), 0.529 (random forest), 0.411 (feed-forw
 | religious painting | 78.6% | 69.8% | 73.9% | 63 |
 | still life | 72.9% | 87.8% | 79.6% | 49 |
 
-- **Mistakes are between neighbouring genres.** The 12 most confident mistakes (`reports/figures/error_confident_mistakes.png`) are all one of two confusions: landscape <-> cityscape (7 images: villages, churches and squares inside a landscape) and portrait <-> religious painting (5 images: a praying friar, a bearded man in a robe, ladies in ruffs, all Baroque except one Impressionist). Many of these labels are arguable, since a genre label is a single choice for a picture that can be both.
+- **Mistakes are between neighbouring genres.** The 12 most confident mistakes (a gallery that `scripts/error_analysis.py` generates locally, see [Figures that show paintings](#figures-that-show-paintings)) are all one of two confusions: landscape <-> cityscape (7 images: villages, churches and squares inside a landscape) and portrait <-> religious painting (5 images: a praying friar, a bearded man in a robe, ladies in ruffs, all Baroque except one Impressionist). Many of these labels are arguable, since a genre label is a single choice for a picture that can be both.
 - **The ResNet is sure of itself when wrong.** Those 12 mistakes have 98-100% confidence; the mean confidence is 93% on correct predictions and 77% on mistakes.
-- **Hesitant but correct** (`reports/figures/error_hesitant_correct.png`): the least confident correct predictions (37-65%) include several drawings and strongly stylised paintings.
+- **Hesitant but correct** (the second local gallery): the least confident correct predictions (37-65%) include several drawings and strongly stylised paintings.
 - **No sign that "Unknown Artist" images are easier or harder**: ResNet accuracy is 75.5% on them (102 images) and 74.0% on named artists (177 images).
 - **By style**, the ResNet is best on Realism (90%, 31 images) and Post-Impressionism (83%, 59) and weakest on Northern Renaissance (54%, 13) and Impressionism (65%, 46). With 10 to 59 images per style, differences of this size are within noise, so this is a hint to look at with more data, not a finding.
 
@@ -246,7 +246,7 @@ The 1,500 image vectors are computed once; a question costs one text encoding pl
 
 - **Genre questions** ("I would like to see portraits of people", "paintings showing saints, angels or scenes from the Bible"…):
   precision@10 = **1.00** for all five genres. This test is easy: the genres are broad and visually distinct.
-- **Free questions** (`reports/figures/search_examples.png`): "portraits of children", "a snowy winter village",
+- **Free questions** (the figure `search_examples.png`, generated locally by `scripts/search_clip.py`): "portraits of children", "a snowy winter village",
   "the crucifixion of Christ" and "a vase of flowers" return 5/5 relevant paintings. "Which painting shows a stormy sea?"
   is the weak case: dramatic skies and boats, but only one or two real seascapes in the top 5, because the
   subset holds few marine paintings (no "marina" genre was downloaded).
@@ -285,7 +285,7 @@ Writing "a painting: " before each question gives the same picture (all queries:
   the Renaissance labels), and the model must know a painter's name. A missed result is not always a visual error.
 
 Limits: relevance comes from WikiArt metadata, so this measures knowledge of genre, style and artist, **not** fine content such as "a stormy sea",
-which stays judged by eye (`reports/figures/search_examples.png`). Paintings by "Unknown Artist" can never be relevant to an artist question.
+which stays judged by eye (the local figure `search_examples.png`). Paintings by "Unknown Artist" can never be relevant to an artist question.
 The collection has 1,500 paintings and the scores depend on it; the two phrasings were fixed before looking at the results.
 
 ### Questions in French
@@ -671,6 +671,17 @@ level, the random forest (53.9%) is a few points above it, and the ResNet (74.0%
 Limits: a perceptual hash only catches near-identical copies (not a crop, a different photograph of the same canvas, or a colour-only
 change); the audit cannot tell whether two "Unknown Artist" paintings share a hand, and they are 48% of the data; the shard
 is a trace of how the subset was built, not something a model sees.
+
+### Figures that show paintings
+
+Two scripts draw galleries of WikiArt paintings: `scripts/search_clip.py` (`search_examples.png`, the answers to five free questions) and
+`scripts/error_analysis.py` (`error_confident_mistakes.png` and `error_hesitant_correct.png`, 12 test paintings each). The WikiArt dataset card says
+`license: unknown` and the course script asks not to publish the images, so these figures are **not committed**: the scripts write them to
+`data/figures_local/` (ignored by Git), and `reports/figures/` holds charts only. The findings read from them are kept as text above and in `reports/*.json`.
+To look at them, run the two scripts (see Reproduce) and open `data/figures_local/`. Set `MUSEUM_GUIDE_FIGURES_LOCAL=/some/dir` to write them elsewhere.
+`tests/test_tracked_figures.py` fails when an image that is not on its allow-list (`tests/tracked_images.json`) is committed.
+
+Earlier versions of these three figures are still in the Git history; removing them from it is a decision for the repository owner (see the pull request that introduced this rule).
 
 ## Repository layout
 
