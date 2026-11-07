@@ -44,13 +44,44 @@ Latency = median time for one image on **one thread** of a development machine, 
 - **Sanity check:** it memorises 64 images (100% train accuracy, loss 0), so the code and gradients work.
 - **Learning rate:** at 1e-1 the loss explodes in the first epoch, then stays stuck at ln(5) = 1.61 (best val 21.7%); 1e-2 is unstable; 1e-3 to 1e-5 all plateau around 40-41% val.
 - **Overfitting:** without regularisation train accuracy hits 100% while validation stays at 42%. Dropout 0.5 + weight decay narrows the gap (71% train / 43% val); augmentation brings no extra gain.
-- **Failure diagnosis:** an MLP ties every weight to one pixel position. A circular shift of the test images by 8 pixels changes **63%** of its predictions (accuracy 41.9% -> 30.8%). A painting framed differently could be misread. Convolutions share weights across positions, which should help, but the same test has not been run on the ResNet.
+- **Failure diagnosis:** an MLP ties every weight to one pixel position. A circular shift of the test images by 8 pixels changes **63%** of its predictions (accuracy 41.9% -> 30.8%). A painting framed differently could be misread. Convolutions share weights across positions, which should help; the same test on the ResNet is in [How solid are these numbers?](#how-solid-are-these-numbers) below.
 
 ### Pretrained CNN
 
 Trained from scratch, ResNet-18 overfits 972 images (46.2% val). With ImageNet weights, training only the new head gives 68.7% val
 with 2,565 trainable parameters; also fine-tuning `layer4` gives 73.5% val and 74.6% test.
 The jump comes from pretraining: from scratch, the same network does not beat the random forest on validation (46.2% vs 47.4%).
+
+### How solid are these numbers?
+
+The table above comes from one split and one training run, on a 279-image test set. `scripts/robustness.py` repeats the
+comparison for **10 seeds** (a seed changes the artist-disjoint split *and* the training randomness; the test set has 195 to 301 images)
+and computes bootstrap intervals that resample **artists**, not single images (`reports/robustness.json`, `reports/figures/robustness.png`).
+Seed 0 is the split of the table and reproduces it exactly.
+
+| Model | Test accuracy, 10 seeds (mean ± std) | Seed 0, 95% interval |
+|---|---|---|
+| Logistic regression | 49.0% ± 3.7 | 50.2% [44.7, 55.6] |
+| Random forest | 53.9% ± 5.2 | 53.8% [48.2, 59.3] |
+| Feed-forward network | 40.9% ± 6.0 | 41.9% [35.5, 48.2] |
+| **ResNet-18, layer4 + head fine-tuned** | **74.0% ± 3.8** | **74.6% [69.0, 80.3]** |
+
+- **The ResNet gain is real.** It beats the random forest and the logistic regression on all 10 seeds. On seed 0 the paired gap
+  to the random forest is +20.8 points, 95% interval [+14.5, +26.9].
+- **Random forest vs logistic regression is a tie.** On seed 0 the gap is +3.6 points, interval [-2.1, +9.9], and the forest wins on 8 seeds out of 10.
+  The README ranking between the two classical models should not be over-read.
+- **The feed-forward network is worse than the forest on all 10 seeds** (seed 0: the forest is ahead by 11.8 points, interval [+5.9, +18.1]).
+- **Shift test on the ResNet** (the circular shift of the MLP test, as a fraction of the image width so 64 and 128 px compare):
+
+| Shift (fraction of the width) | MLP: accuracy, predictions changed | ResNet-18: accuracy, predictions changed |
+|---|---|---|
+| 6.25% (4 px / 8 px) | 40.9% -> 36.3%, 44.5% | 74.0% -> 70.9%, 16.3% |
+| 12.5% (8 px / 16 px) | 40.9% -> 29.3%, 60.9% | 74.0% -> 69.0%, 19.7% |
+
+  Convolutions help a lot (about 5 points lost instead of 12, and 20% of predictions changed instead of 61%), but the ResNet is
+  **not** invariant to framing: one prediction in five changes under a 12.5% shift.
+
+Limits: the seed-to-seed spread mixes split and training noise; the shift is circular (it creates a seam), not a real re-framing; there are still no real camera photos.
 
 ## Natural-language search
 
@@ -70,7 +101,8 @@ The 1,500 image vectors are computed once; a question costs one text encoding pl
 
 Use the **fine-tuned ResNet-18** for recognition and **CLIP** for search, both run locally. It is 21 points more accurate than the best classical model, at the same order of CPU cost
 (about 12 ms for the forward pass on one thread, no GPU, no API fee). The weights are 45 MB for the ResNet and 605 MB for the full CLIP checkpoint, so kiosk memory must be checked.
-Still to measure: real camera photos, several seeds, and the shift test on the ResNet.
+Over 10 seeds the ResNet stays at 74.0% ± 3.8 and wins every time; its predictions are not invariant to framing (20% change under a 12.5% shift).
+Still to measure: real camera photos.
 The feed-forward network is not worth deploying: it is less accurate than the classical baseline and fragile to framing.
 
 ## Reproduce
@@ -80,6 +112,7 @@ python scripts/baseline_classical.py
 python scripts/train_mlp.py
 python scripts/train_resnet.py
 pip install transformers && python scripts/search_clip.py
+python scripts/robustness.py --seeds 10    # about 10 minutes: seeds, confidence intervals, shift test
 ```
 
 Each script writes its numbers to `reports/<name>.json` and its figures to `reports/figures/`.
