@@ -768,3 +768,5 @@ the models, and the training loop (best-epoch restoration, early stopping). GitH
 `make test` runs the tests and `make lint` runs [ruff](https://docs.astral.sh/ruff/) (errors, unused names, import order, likely bugs; configured in `pyproject.toml`).
 GitHub Actions runs both. The `Makefile` also has `install`, `data` (rebuilds the dataset), `reproduce` (every experiment of this README, in order) and `clean` (caches only).
 `make coverage` reports the coverage of `src/museum_guide` and `make typecheck` runs [mypy](https://mypy.readthedocs.io/) on it (`make check` runs everything CI does); CI fails below 95% coverage, and a test starts every script with `--help`.
+
+How to contribute: [CONTRIBUTING.md](CONTRIBUTING.md). What the models are and where they should not be used: [MODEL_CARD.md](MODEL_CARD.md). Where the data comes from and the open copyright point: [DATA_STATEMENT.md](DATA_STATEMENT.md).
