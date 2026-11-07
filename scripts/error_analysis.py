@@ -8,7 +8,8 @@ predictions, as images.
 
     python scripts/error_analysis.py
 
-Writes `reports/error_analysis.json` and `reports/figures/error_*.png`.
+Writes `reports/error_analysis.json`. The two galleries `error_*.png` show paintings, so they are written under
+`data/figures_local/` (not versioned; see `museum_guide.figures`).
 """
 import json
 
@@ -28,6 +29,7 @@ from train_mlp import SIZE as MLP_SIZE
 from train_resnet import SIZE as RESNET_SIZE
 
 from museum_guide.data import DATA_DIR, class_names, device, load_metadata, loaders, split
+from museum_guide.figures import painting_figure_path
 from museum_guide.metrics import (
     accuracy_by_group,
     least_confident_correct,
@@ -37,7 +39,6 @@ from museum_guide.metrics import (
 from museum_guide.models import FeedForward, pretrained_resnet18
 from museum_guide.train import REPORTS, fit
 
-FIG = REPORTS / "figures"
 MIN_STYLE_IMAGES = 10  # styles with fewer test images are too noisy to report
 
 
@@ -122,9 +123,10 @@ def main():
     probs = models["resnet18_layer4"][1]
     wrong = most_confident_errors(probs, y, k=12)
     right = least_confident_correct(probs, y, k=12)
-    FIG.mkdir(parents=True, exist_ok=True)
-    gallery(test, wrong, probs, classes, "ResNet-18: the 12 most confident mistakes (test, seed 0)", FIG / "error_confident_mistakes.png")
-    gallery(test, right, probs, classes, "ResNet-18: the 12 least confident correct predictions (test, seed 0)", FIG / "error_hesitant_correct.png")
+    mistakes, hesitant = painting_figure_path("error_confident_mistakes.png"), painting_figure_path("error_hesitant_correct.png")
+    gallery(test, wrong, probs, classes, "ResNet-18: the 12 most confident mistakes (test, seed 0)", mistakes)
+    gallery(test, right, probs, classes, "ResNet-18: the 12 least confident correct predictions (test, seed 0)", hesitant)
+    print(f"galleries with paintings saved to {mistakes.parent} (not versioned)")
     results["resnet18_layer4"] = {
         "most_confident_mistakes": [
             {"id": test["id"].iloc[i], "artist": test["artist"].iloc[i], "style": test["style"].iloc[i],

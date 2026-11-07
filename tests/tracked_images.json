@@ -1,0 +1,47 @@
+{
+  "comment": [
+    "Allow-list of the image-like files that may be committed (see tests/test_tracked_figures.py and src/museum_guide/figures.py).",
+    "WikiArt paintings must not be published (dataset licence 'unknown'): figures that show paintings are written to data/figures_local/ instead.",
+    "To add an image, look at it first, then add it to 'charts' (curves, bars, tables, matrices, histograms only) with the reason below."
+  ],
+  "charts": {
+    "reason": "charts only (curves, bars, scatter plots, confusion matrices, histograms): checked by eye, no painting and no third-party photo",
+    "files": [
+      "reports/figures/bn_study.png",
+      "reports/figures/calibration.png",
+      "reports/figures/clip_classifier.png",
+      "reports/figures/clip_probe_calibration.png",
+      "reports/figures/cm_logistic_regression.png",
+      "reports/figures/cm_mlp.png",
+      "reports/figures/cm_random_forest.png",
+      "reports/figures/cm_resnet.png",
+      "reports/figures/encoder_comparison.png",
+      "reports/figures/kiosk_benchmark.png",
+      "reports/figures/mlp_lr_0.0001.png",
+      "reports/figures/mlp_lr_0.001.png",
+      "reports/figures/mlp_lr_0.01.png",
+      "reports/figures/mlp_lr_0.1.png",
+      "reports/figures/mlp_lr_1e-05.png",
+      "reports/figures/mlp_reg_dropout_wd.png",
+      "reports/figures/mlp_reg_dropout_wd_augment.png",
+      "reports/figures/mlp_reg_none.png",
+      "reports/figures/mlp_sanity.png",
+      "reports/figures/non_painting_scores.png",
+      "reports/figures/photo_robustness.png",
+      "reports/figures/resnet_pretrained_head_only.png",
+      "reports/figures/resnet_pretrained_layer4.png",
+      "reports/figures/resnet_scratch.png",
+      "reports/figures/robustness.png",
+      "reports/figures/search_eval.png",
+      "reports/figures/search_french.png",
+      "reports/figures/style_task.png",
+      "reports/figures/style_task_confusion.png",
+      "reports/figures/style_task_confusion_fewest.png",
+      "reports/figures/style_task_fewest.png"
+    ]
+  },
+  "needs_decision": {
+    "presentation/museum-guide.pptx": "the 10-minute deck: 11 full-slide images, slides 1 (5 thumbnails) and 9 (10 thumbnails) show WikiArt paintings; kept until the team decides"
+  },
+  "notebooks_with_plot_outputs": {}
+}

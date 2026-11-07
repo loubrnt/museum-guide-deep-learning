@@ -1,5 +1,8 @@
 # Data and model weights (rebuilt with project/make_wikiart_subset.py)
 data/
+/data
+# Figures that show WikiArt paintings are generated here, never committed (see src/museum_guide/figures.py)
+data/figures_local/
 *.pt
 *.pth
 *.ckpt
