@@ -88,6 +88,7 @@ reproduce-search: data
 	$(PYTHON) scripts/search_clip.py
 	$(PYTHON) scripts/search_eval.py
 	$(PYTHON) scripts/search_french.py
+	$(PYTHON) scripts/search_hybrid_eval.py
 
 # 4. CLIP as a recognition model: needs reports/robustness.json (to compare with the ResNet).
 reproduce-clip: reproduce-robustness reproduce-search
