@@ -4,8 +4,6 @@ Final project for **Neural Networks & Deep Learning Foundations** (MSA-DATB09-91
 
 **Group 5:** Lou Brunet, Mathis Meimoun, Alexis Maeder
 
-**En français :** un résumé d'une page dans [README.fr.md](README.fr.md).
-
 **New here?** Start with [`notebooks/museum_guide_walkthrough.ipynb`](notebooks/museum_guide_walkthrough.ipynb): the whole story in charts, computed from the committed results (no data or model needed).
 
 ## Contents
@@ -111,7 +109,7 @@ make data                         # builds the genre subset in data/ (about 2.3 
 python scripts/guide.py photo.jpg # genre, story, similar paintings (downloads CLIP's weights, about 600 MB, on first use)
 ```
 
-To see the results without any data or model, open the [walkthrough notebook](notebooks/museum_guide_walkthrough.ipynb). To rebuild every number, see [Reproduce](#reproduce) and [Where each number comes from](#where-each-number-comes-from).
+To see the results without any data or model, open the [walkthrough notebook](notebooks/museum_guide_walkthrough.ipynb). To rebuild every number, see [Reproduce](#reproduce) and [Where each number comes from](#where-each-number-comes-from). En français : un résumé d'une page dans [README.fr.md](README.fr.md).
 
 ## Using the guide
 
