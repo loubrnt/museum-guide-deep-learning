@@ -1,0 +1,269 @@
+{
+  "model": "openai/clip-vit-base-patch32",
+  "n_seeds": 10,
+  "prompts": {
+    "simple": [
+      "a cityscape",
+      "a landscape",
+      "a portrait",
+      "a religious painting",
+      "a still life"
+    ],
+    "painting": [
+      "a painting of a cityscape",
+      "a painting of a landscape",
+      "a painting of a portrait",
+      "a painting of a religious painting",
+      "a painting of a still life"
+    ]
+  },
+  "per_seed": [
+    {
+      "seed": 0,
+      "n_test": 279,
+      "probe_C": 1,
+      "test_acc": {
+        "zero_shot_simple": 0.7419354838709677,
+        "zero_shot_painting": 0.8422939068100358,
+        "linear_probe": 0.8960573476702509,
+        "resnet18_layer4": 0.7455197132616488
+      },
+      "test_macro_f1": {
+        "zero_shot_simple": 0.7530641096564017,
+        "zero_shot_painting": 0.8450850341350853,
+        "linear_probe": 0.8949652780436752
+      }
+    },
+    {
+      "seed": 1,
+      "n_test": 236,
+      "probe_C": 1,
+      "test_acc": {
+        "zero_shot_simple": 0.7627118644067796,
+        "zero_shot_painting": 0.8177966101694916,
+        "linear_probe": 0.847457627118644,
+        "resnet18_layer4": 0.6949152542372882
+      },
+      "test_macro_f1": {
+        "zero_shot_simple": 0.7234843392880265,
+        "zero_shot_painting": 0.8011863248259322,
+        "linear_probe": 0.8461214491722966
+      }
+    },
+    {
+      "seed": 2,
+      "n_test": 276,
+      "probe_C": 10,
+      "test_acc": {
+        "zero_shot_simple": 0.6811594202898551,
+        "zero_shot_painting": 0.8152173913043478,
+        "linear_probe": 0.9021739130434783,
+        "resnet18_layer4": 0.7427536231884058
+      },
+      "test_macro_f1": {
+        "zero_shot_simple": 0.7349583469130241,
+        "zero_shot_painting": 0.8314678171103023,
+        "linear_probe": 0.9083912370051257
+      }
+    },
+    {
+      "seed": 3,
+      "n_test": 215,
+      "probe_C": 10,
+      "test_acc": {
+        "zero_shot_simple": 0.7767441860465116,
+        "zero_shot_painting": 0.8651162790697674,
+        "linear_probe": 0.9116279069767442,
+        "resnet18_layer4": 0.7627906976744186
+      },
+      "test_macro_f1": {
+        "zero_shot_simple": 0.7329703546291592,
+        "zero_shot_painting": 0.8639047332722217,
+        "linear_probe": 0.9042370456330658
+      }
+    },
+    {
+      "seed": 4,
+      "n_test": 205,
+      "probe_C": 10,
+      "test_acc": {
+        "zero_shot_simple": 0.824390243902439,
+        "zero_shot_painting": 0.8780487804878049,
+        "linear_probe": 0.8926829268292683,
+        "resnet18_layer4": 0.6682926829268293
+      },
+      "test_macro_f1": {
+        "zero_shot_simple": 0.7450605802268206,
+        "zero_shot_painting": 0.8356731468516287,
+        "linear_probe": 0.8689086352244247
+      }
+    },
+    {
+      "seed": 5,
+      "n_test": 195,
+      "probe_C": 100,
+      "test_acc": {
+        "zero_shot_simple": 0.7794871794871795,
+        "zero_shot_painting": 0.8769230769230769,
+        "linear_probe": 0.9384615384615385,
+        "resnet18_layer4": 0.7846153846153846
+      },
+      "test_macro_f1": {
+        "zero_shot_simple": 0.7671493348920417,
+        "zero_shot_painting": 0.8759908593729939,
+        "linear_probe": 0.940373411764936
+      }
+    },
+    {
+      "seed": 6,
+      "n_test": 234,
+      "probe_C": 1,
+      "test_acc": {
+        "zero_shot_simple": 0.7863247863247863,
+        "zero_shot_painting": 0.8717948717948718,
+        "linear_probe": 0.9102564102564102,
+        "resnet18_layer4": 0.7777777777777778
+      },
+      "test_macro_f1": {
+        "zero_shot_simple": 0.7672203502711977,
+        "zero_shot_painting": 0.8708270716869231,
+        "linear_probe": 0.9145483006922461
+      }
+    },
+    {
+      "seed": 7,
+      "n_test": 301,
+      "probe_C": 1,
+      "test_acc": {
+        "zero_shot_simple": 0.7009966777408638,
+        "zero_shot_painting": 0.8272425249169435,
+        "linear_probe": 0.8837209302325582,
+        "resnet18_layer4": 0.707641196013289
+      },
+      "test_macro_f1": {
+        "zero_shot_simple": 0.6815962918185032,
+        "zero_shot_painting": 0.8235361524505512,
+        "linear_probe": 0.8817191092990078
+      }
+    },
+    {
+      "seed": 8,
+      "n_test": 202,
+      "probe_C": 1,
+      "test_acc": {
+        "zero_shot_simple": 0.7574257425742574,
+        "zero_shot_painting": 0.8514851485148515,
+        "linear_probe": 0.9108910891089109,
+        "resnet18_layer4": 0.7475247524752475
+      },
+      "test_macro_f1": {
+        "zero_shot_simple": 0.7572876551902884,
+        "zero_shot_painting": 0.8519842022872665,
+        "linear_probe": 0.9088742912895496
+      }
+    },
+    {
+      "seed": 9,
+      "n_test": 257,
+      "probe_C": 10,
+      "test_acc": {
+        "zero_shot_simple": 0.7859922178988327,
+        "zero_shot_painting": 0.867704280155642,
+        "linear_probe": 0.9221789883268483,
+        "resnet18_layer4": 0.7665369649805448
+      },
+      "test_macro_f1": {
+        "zero_shot_simple": 0.7976469421348078,
+        "zero_shot_painting": 0.874618545647528,
+        "linear_probe": 0.9262260087771617
+      }
+    }
+  ],
+  "summary": {
+    "test_acc": {
+      "zero_shot_simple": {
+        "mean": 0.7597167802542473,
+        "std": 0.04244152300142127
+      },
+      "zero_shot_painting": {
+        "mean": 0.8513622870146833,
+        "std": 0.024350149802926723
+      },
+      "linear_probe": {
+        "mean": 0.9015508678024652,
+        "std": 0.024507782378950363
+      },
+      "resnet18_layer4": {
+        "mean": 0.7398368047150835,
+        "std": 0.03794351139786669
+      }
+    },
+    "test_macro_f1": {
+      "zero_shot_simple": {
+        "mean": 0.7460438305020272,
+        "std": 0.031072786831718945
+      },
+      "zero_shot_painting": {
+        "mean": 0.8474273887640432,
+        "std": 0.024726116153974294
+      },
+      "linear_probe": {
+        "mean": 0.8994364766901489,
+        "std": 0.027733899102222785
+      }
+    },
+    "seeds_where_clip_beats_resnet": {
+      "zero_shot_simple": 6,
+      "zero_shot_painting": 10,
+      "linear_probe": 10
+    }
+  },
+  "seed0_confidence_intervals_95": {
+    "zero_shot_simple": {
+      "acc": 0.7419354838709677,
+      "low": 0.6634271517766663,
+      "high": 0.8165485663045495
+    },
+    "zero_shot_painting": {
+      "acc": 0.8422939068100358,
+      "low": 0.7936699743918054,
+      "high": 0.8884861627426682
+    },
+    "linear_probe": {
+      "acc": 0.8960573476702509,
+      "low": 0.8575936199722608,
+      "high": 0.9353615400532836
+    },
+    "resnet18_layer4": {
+      "acc": 0.7455197132616488,
+      "low": 0.6901287032540068,
+      "high": 0.8028169014084507
+    }
+  },
+  "seed0_paired_differences_95": {
+    "zero_shot_simple_minus_resnet18_layer4": {
+      "diff": -0.0035842293906810374,
+      "low": -0.07408662900188323,
+      "high": 0.06944578507078507
+    },
+    "zero_shot_painting_minus_resnet18_layer4": {
+      "diff": 0.09677419354838701,
+      "low": 0.044202848924804826,
+      "high": 0.14919934186132738
+    },
+    "linear_probe_minus_resnet18_layer4": {
+      "diff": 0.15053763440860213,
+      "low": 0.09450990526536167,
+      "high": 0.21003807499293659
+    }
+  },
+  "ci_method": "percentile bootstrap, 2000 resamples of artists (each Unknown Artist image is its own group)",
+  "cost": {
+    "params_full_checkpoint": 151277313,
+    "params_image_tower": 87849216,
+    "fp32_mb_full_checkpoint": 605.1,
+    "fp32_mb_image_tower": 351.4,
+    "image_encoder_latency_ms_1thread_indicative": 41.3,
+    "latency_note": "forward pass of the image encoder only (no image loading), measured while other jobs may run: indicative, not a benchmark"
+  }
+}
