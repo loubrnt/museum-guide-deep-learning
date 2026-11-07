@@ -352,7 +352,7 @@ Limits:
 - [x] A pretrained CNN (ResNet) for image classification (`scripts/train_resnet.py`)
 - [x] A classical baseline and a measured recommendation (`scripts/baseline_classical.py`, [recommendation](#recommendation-to-the-director))
 - [x] Natural-language search over the collection (`scripts/search_clip.py`, `scripts/search.py`)
-- [x] 10-minute presentation (`presentation/museum-guide.pptx`; it still carries the first recommendation, not the CLIP-based one below)
+- [x] 10-minute presentation (`presentation/museum-guide.pptx`; it still carries the first recommendation, not the CLIP-based one below; replacement text slide by slide: [`presentation/SLIDE_UPDATES.md`](presentation/SLIDE_UPDATES.md))
 
 **Beyond the brief**
 
