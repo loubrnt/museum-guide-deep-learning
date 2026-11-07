@@ -281,11 +281,47 @@ Relevance still comes from the metadata, so this measures genre, style and artis
 
 ## Recommendation to the director
 
-Use the **fine-tuned ResNet-18** for recognition and **CLIP** for search, both run locally. It is 21 points more accurate than the best classical model, at the same order of CPU cost
-(about 12 ms for the forward pass on one thread, no GPU, no API fee). The weights are 45 MB for the ResNet and 605 MB for the full CLIP checkpoint, so kiosk memory must be checked.
-Over 10 seeds the ResNet stays at 74.0% ± 3.8 and wins every time; its predictions are not invariant to framing (20% change under a 12.5% shift).
-Still to measure: real camera photos.
-The feed-forward network is not worth deploying: it is less accurate than the classical baseline and fragile to framing.
+**Is a neural network worth it? Yes, provided it is a pretrained one.** A network trained from scratch on a few hundred images is not
+(the feed-forward network is worse than the classical baseline), but a pretrained model gives the guide a clear lead, with no GPU and no API fee.
+All figures below are test accuracy on the artist-disjoint split, mean over 10 seeds, unless stated otherwise (sections above give the details).
+
+| Approach | Genre (5 classes) | Style (6 classes) | Cost on the kiosk |
+|---|---|---|---|
+| Logistic regression, colour/edge features | 49.0% ± 3.7 | 32.1% ± 2.2 | about 1.5 ms (first table) |
+| Random forest, colour/edge features | 53.9% ± 5.2 | 32.4% ± 2.2 | about 12 ms (first table) |
+| Feed-forward network from scratch | 40.9% ± 6.0 | not run | 0.5 ms (first table) |
+| ResNet-18 pretrained, fine-tuned | 74.0% ± 3.8 | 40.6% ± 5.4 | 45 MB, 7.2 ms, +120 MB memory |
+| **CLIP image encoder + linear head** | **90.2% ± 2.5** | **55.4% ± 5.2** | 351 MB, 20.9 ms, +729 MB memory |
+
+Chance is 20% for the genre task and 16.7% for the style task. Kiosk costs are from the [kiosk budget](#kiosk-budget-measured) (Apple M4, one thread, image
+read and resize included); the classical and feed-forward latencies come from the first results table, measured earlier on another machine, so compare orders of magnitude only.
+
+**What I would deploy**
+
+1. **Recognition: CLIP's image encoder with a linear head**, if the kiosk has about 2 GB of memory and a CPU not far below a recent laptop. It beats the fine-tuned
+   ResNet on all 10 seeds for genre (paired gap on seed 0: +15.1 points, interval [+9.5, +21.0]) and for style, at about 3 times the time and 6 times the added memory,
+   which is still a fraction of a second. It also serves the search below, so the kiosk loads one model, not two. If the CPU or memory is very constrained,
+   the **fine-tuned ResNet-18** is the fallback (74.0%, 45 MB).
+2. **Search: CLIP, run locally.** Genre questions are solved (precision@10 = 1.00); style and artist questions are far above chance but often imprecise (precision@10 of 0.27
+   for style x genre and 0.40 for artists, against 0.02 and 0.01 by chance). It was trained mostly on English: French questions lose some accuracy (average precision 0.327 to 0.263 on
+   66 queries), mostly through artists' spellings; a multilingual encoder did not help.
+3. **Do not hide the uncertainty.** The ResNet is over-confident (mean confidence 88.8% for 74.6% accuracy). A temperature fitted on validation data halves the calibration error
+   (0.151 to 0.077), and answering only when the top probability is at least 0.71 gives 86.0% accuracy on 64% of the photos (threshold chosen on validation data, measured on test);
+   below it the kiosk can say "not sure". These figures are for the ResNet and one split; the same should be done for the CLIP head before deployment.
+4. **Show the story, with human review.** The short notices on each genre and style are drafts written by an AI: they must be read and corrected by the team before visitors see them.
+
+**What the classical model can and cannot do.** It is cheap, but at about 50% genre accuracy it is little better than guessing from the painting's *style label* alone (45%,
+see the [sanity checks](#sanity-checks-on-the-data)). It would only make sense as a fallback when no pretrained model can run.
+
+**Not deployed.** The feed-forward network: less accurate than the classical baseline and fragile to framing (a circular shift changes 61% of its predictions).
+
+**Still open before a real deployment**
+- **Real camera photos.** Nothing here uses them. A 15 degree rotation or a blur costs the ResNet about 20 points (72.3% to 51.7% and 54.6%, 5 seeds); photo-style augmentation recovers part
+  of it (rotation back to 62.7%) at a cost of about 2 points on clean images, see [robustness to camera conditions](#robustness-to-camera-conditions). Not measured for CLIP.
+- **New painters.** Style is tied to the painter, and the split only guarantees unseen *named* painters. On those, the style accuracy drops to 50.5% for CLIP and 36.1% for the ResNet.
+- **The real kiosk CPU.** The latencies are from a laptop. int8 quantisation made CLIP slower on Apple silicon (97.9 ms against 20.9 ms); whether it helps on an x86 kiosk was not measured.
+  Decoding a 12-megapixel phone photo costs 29 ms (15 ms with draft decoding), more than the ResNet itself.
+- **Label quality.** WikiArt genres overlap (a religious scene in a landscape) and its style labels are debatable; 5 genres and 6 styles are far fewer than a museum collection.
 
 ## Reproduce
 
