@@ -336,6 +336,7 @@ python scripts/search_clip.py
 python scripts/robustness.py --seeds 10    # about 10 minutes: seeds, confidence intervals, shift test
 python scripts/benchmark_kiosk.py                # about 15 minutes: leave the machine idle, it measures time and memory
 python scripts/clip_classifier.py --seeds 10    # CLIP zero-shot and linear probe vs the ResNet (needs reports/robustness.json)
+python scripts/train_clip_probe.py              # refit and calibrate the CLIP head saved in reports/clip_probe.npz (seconds)
 ```
 
 Each script writes its numbers to `reports/<name>.json` and its figures to `reports/figures/`.
@@ -397,6 +398,61 @@ Covered labels: the genres `cityscape`, `landscape`, `portrait`, `religious_pain
 Northern Renaissance, Cubism, Synthetic Cubism, Early Renaissance, High Renaissance, Mannerism (Late Renaissance), Rococo, Symbolism, Art Nouveau, Naive Art (Primitivism), Fauvism, Pop Art and Ukiyo-e.
 Four rarer styles of the subset have no notice yet (Pointillism, Contemporary Realism, New Realism, Analytical Cubism: 26 images out of 1,500); `search.py --story` says so on the error output instead of guessing.
 The notices tell the story of a tradition, not of the painting in the photo: the guide does not identify the individual work or its painter.
+
+
+### One model for recognition and search
+
+CLIP's image encoder already serves the [search](#natural-language-search), and a linear head on its image vectors recognises the genre better than the
+ResNet (90.2% against 74.0% over 10 seeds, see [CLIP as a recognition model](#clip-as-a-recognition-model)). So the guide can load **one** model for both.
+`scripts/train_clip_probe.py` fits the head on the README split (seed 0) and saves it with its calibration in `reports/clip_probe.npz` (12.8 KB, versioned, so nothing needs refitting);
+`scripts/predict.py --model clip` and `scripts/guide.py` use it.
+
+```bash
+python scripts/predict.py photo.jpg --model clip --min-confidence 0.83 --story   # same flags as the ResNet
+python scripts/guide.py photo.jpg --ask "a snowy winter village" --k 3 --lang en
+```
+
+`guide.py` is the whole guide for one photo: the genre (top 3, "unsure" below the saved confidence threshold), the story of that tradition (French by default, `--lang en`), the paintings of the
+collection closest to the photo (never the photo itself) and, with `--ask`, the paintings that best answer a question. CLIP is loaded once; the 1,500 collection vectors are computed once and saved
+(`data/search_index.npz`), so a photo costs one image encoding and a few dot products. A real run on a test-set painting (a Pissarro cityscape), and on one the guide is not sure about:
+
+```
+$ python scripts/guide.py data/wikiart_genre5/cityscape/s11_r0265.jpg --ask "a snowy winter village" --k 3 --lang en
+Genre: cityscape 86% (then landscape 14%, still_life 0%)
+  The cityscape shows streets, squares and monuments. In the 18th century Canaletto made views of Venice famous; [...]
+Similar paintings:
+   1  0.844  cityscape/s11_r0638.jpg  [cityscape, Post_Impressionism, pyotr-konchalovsky]
+   2  0.840  cityscape/s07_r0053.jpg  [cityscape, Post_Impressionism, vincent-van-gogh]
+   3  0.830  cityscape/s11_r0678.jpg  [cityscape, Art_Nouveau, boris-kustodiev]
+Paintings for "a snowy winter village":
+   1  0.318  cityscape/s38_r0237.jpg  [cityscape, Expressionism, mstislav-dobuzhinsky]
+   [...]
+
+$ python scripts/guide.py data/wikiart_genre5/cityscape/s11_r0669.jpg --k 3 --lang en
+Genre: unsure (best guess: cityscape 56%)          # no story for a guess the guide doubts
+Similar paintings:
+   1  0.844  religious_painting/s33_r0912.jpg  [religious_painting, Early_Renaissance, Unknown Artist]
+   [...]
+```
+
+**Calibration of the CLIP head** (fitted on 972 training images, C = 1 chosen on 249 validation images; 89.6% on the 279 test images, the seed-0 value in `reports/clip_classifier.json`).
+The temperature is fitted on the validation set only, with the method of the ResNet calibration above, and the test set is used once. The result is the **opposite** of the ResNet:
+the head is *under*-confident (mean confidence 71.8% for 89.6% accuracy), so the temperature is below 1 (T = 0.44; the ResNet needed 2.05).
+
+| Test set (279 images) | Raw probabilities | After temperature scaling |
+|---|---|---|
+| Mean confidence | 71.8% | 90.3% |
+| Calibration error (ECE) | 0.178 | 0.033 |
+| Negative log-likelihood | 0.443 | 0.301 |
+
+Answering only the most confident photos keeps accuracy high: 94.0% on the 90% most confident, 96.0% on 80%, 96.4% on 70%, 98.6% on 50% (89.6% on all).
+The threshold saved in the file, 0.83, was chosen on the validation set as the smallest confidence that reaches 95% accuracy there (95.1% on 73.5% of the validation photos). On the test set it
+answers 219 of the 279 photos (78.5%) with 96.3% accuracy (8 errors). The 60 photos it declines are 39 correct and 21 wrong guesses: the rule removes 21 of the 29 errors, at the price of
+dropping 39 correct answers. It is not a guarantee: 5 test photos are wrong with 95% confidence or more (for instance a religious scene by Murillo read as a portrait at 99.7%).
+
+Limits: the head is trained on 972 images and calibrated on 249, both from one split, with no confidence intervals on these figures; the calibration was measured on the same painting collection
+as the training data, not on camera photos; the first call downloads CLIP's weights (about 600 MB); "similar paintings" are neighbours in CLIP's space (they look or read alike), not curatorial links; and
+the cost of the CLIP encoder on a kiosk is in the [kiosk budget](#kiosk-budget-measured).
 
 ## Data
 

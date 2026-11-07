@@ -41,20 +41,33 @@ def load_clip(model_name: str = MODEL):
     return CLIPModel.from_pretrained(model_name).eval(), CLIPProcessor.from_pretrained(model_name)
 
 
-def embed_images(model, processor, paths: Sequence[Path | str], batch_size: int = 64) -> np.ndarray:
-    """Normalised image vectors, one row per path."""
+def _embed_batch(model, processor, images) -> np.ndarray:
+    """Raw (not yet normalised) CLIP vectors for a list of RGB PIL images."""
     import torch
+
+    with torch.no_grad():
+        out = _as_tensor(model.get_image_features(**processor(images=list(images), return_tensors="pt")))
+    return out.cpu().numpy()
+
+
+def embed_pil_images(model, processor, images: Sequence, batch_size: int = 64) -> np.ndarray:
+    """Normalised image vectors for PIL images already in memory (a photo from the camera), one row per image."""
+    images = [img.convert("RGB") for img in images]
+    vecs = [_embed_batch(model, processor, images[i : i + batch_size]) for i in range(0, len(images), batch_size)]
+    return normalise(np.concatenate(vecs))
+
+
+def embed_images(model, processor, paths: Sequence[Path | str], batch_size: int = 64) -> np.ndarray:
+    """Normalised image vectors, one row per path (files are opened one batch at a time)."""
     from PIL import Image
 
     vecs = []
-    with torch.no_grad():
-        for i in range(0, len(paths), batch_size):
-            images = []
-            for p in paths[i : i + batch_size]:
-                with Image.open(p) as img:
-                    images.append(img.convert("RGB"))
-            out = _as_tensor(model.get_image_features(**processor(images=images, return_tensors="pt")))
-            vecs.append(out.cpu().numpy())
+    for i in range(0, len(paths), batch_size):
+        images = []
+        for p in paths[i : i + batch_size]:
+            with Image.open(p) as img:
+                images.append(img.convert("RGB"))
+        vecs.append(_embed_batch(model, processor, images))
     return normalise(np.concatenate(vecs))
 
 
@@ -109,3 +122,26 @@ def cached_embeddings(
     cache_file.parent.mkdir(parents=True, exist_ok=True)
     np.savez(cache_file, key=key, embeddings=emb)
     return emb
+
+
+class ClipEncoder:
+    """One loaded CLIP model that turns photos into vectors (`images`) and questions into vectors (`texts`).
+
+    The guide loads CLIP once and shares it between recognition, similar paintings and search; tests pass
+    a fake object with the same two methods instead.
+    """
+
+    def __init__(self, model, processor, model_name: str = MODEL):
+        self.model, self.processor, self.model_name = model, processor, model_name
+
+    def images(self, images: Sequence, batch_size: int = 32) -> np.ndarray:
+        return embed_pil_images(self.model, self.processor, images, batch_size)
+
+    def texts(self, texts: Sequence[str]) -> np.ndarray:
+        return embed_texts(self.model, self.processor, texts)
+
+
+def load_encoder(model_name: str = MODEL) -> ClipEncoder:
+    """Load CLIP (downloads the weights on first use) and wrap it as a `ClipEncoder`."""
+    model, processor = load_clip(model_name)
+    return ClipEncoder(model, processor, model_name)
