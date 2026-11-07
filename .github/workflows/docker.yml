@@ -1,0 +1,23 @@
+name: docker
+
+# Builds the image and runs the tests in it. Only when the recipe or what it installs changes, or on demand,
+# so that ordinary pull requests stay fast.
+on:
+  pull_request:
+    paths:
+      - "Dockerfile"
+      - ".dockerignore"
+      - "constraints/**"
+      - "pyproject.toml"
+      - ".github/workflows/docker.yml"
+  workflow_dispatch:
+
+jobs:
+  image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the image
+        run: docker build -t museum-guide .
+      - name: Run the tests in the container
+        run: docker run --rm museum-guide

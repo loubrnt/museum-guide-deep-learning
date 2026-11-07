@@ -121,3 +121,17 @@ check-provenance:
 clean:
 	rm -rf .pytest_cache .ruff_cache
 	find . -name __pycache__ -type d -not -path "./data/*" -not -path "./.venv/*" -prune -exec rm -rf {} +
+
+# Container and pinned versions (see "Reproducible environment" in the README).
+.PHONY: docker-build docker-test constraints
+
+docker-build:
+	docker build -t museum-guide .
+
+# Runs the test suite inside the image.
+docker-test:
+	docker run --rm museum-guide
+
+# Regenerates constraints/py311.txt in a python:3.11 container (needs Docker; a few minutes).
+constraints:
+	bash constraints/regenerate.sh
