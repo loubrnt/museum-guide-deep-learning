@@ -538,6 +538,37 @@ Limits:
   a showcase, a sculpture) may behave differently. Caltech-101 also holds a few drawn or sculpted items (cartoon characters, a statue of a Buddha) that are in the pool.
 - The rule has three numbers fitted on 249 paintings, 100 framed compositions and 720 other photos. CLIP was trained on web images that may include some of these paintings.
 
+### Try it in a browser
+
+A small web page over the guide, for the presentation and for trying the kiosk idea (`scripts/demo.py`, built with Gradio):
+
+```bash
+pip install -e ".[demo]"
+python scripts/demo.py                 # then open http://127.0.0.1:7860
+python scripts/demo.py --lang en --port 8000
+python scripts/demo.py --offline       # once CLIP's weights are cached: no network connection at all
+```
+
+Upload a photo (the widget also offers the webcam) and, if you like, type a question. The page shows a **verdict banner** (green: a painting; amber: not sure,
+with the best guess; red: this does not look like a painting; grey: no photo), the **top 3 genres**, the **story** of the tradition (an AI-written draft, flagged as such on the page),
+the **paintings of the collection closest to the photo** and, for a question, the **paintings that answer it**. A question is answered even when the photo is not a painting,
+or when there is no photo. French is the default (`--lang en` or the switch on the page for English); switching language re-renders the last answer without computing it again.
+The logic is in `src/museum_guide/demo_logic.py` and is tested without Gradio; one CLIP model is loaded at start-up and shared by all requests (one request at a time).
+
+I checked it in a browser with the real model: a test-set portrait gives "C'est un tableau : Le portrait (94%)"; a test-set cityscape that the head is only 82% sure of (threshold 0.83) gives the amber banner and no story; a face from Caltech and a plain grey wall give the red banner;
+removing the photo gives the grey one; the French question "un village enneigé en hiver" returns snowy townscapes; the language switch and `--lang en` work. The webcam input was **not** tested.
+
+Limits:
+
+- **A local demonstration, not a kiosk application.** The server listens on `127.0.0.1` only, Gradio's analytics are off and the page only talks to the local server, but loading CLIP contacts the Hugging Face hub
+  (to download the weights, then to check the cached files) unless you pass `--offline`. `--share` (a public Gradio link) exists but is off by default and should stay off: see the next point.
+- **The galleries show WikiArt paintings read from your local `data/` folder, which must not be published**: do not share the page or screenshots of it.
+- The first start loads CLIP (about 600 MB downloaded the first time) and builds the collection index if `data/search_index.npz` does not exist (about 30 s).
+- The story texts are drafts written by an AI assistant, pending review by the team.
+- The rule that refuses non-paintings is not perfect (see the previous section): a genuine test-set landscape was refused in my checks.
+- **The page cannot say "this is the same painting".** A lightly recompressed copy of a painting of the collection comes back as its own nearest neighbour (similarity close to 1), but a real photo of it generally would not: in a quick check
+  (not saved in the repository), stronger compression, rescaling or lighting changes lowered the similarity to its own painting below that of the closest *different* painting, so no threshold separates the two.
+
 ## Data
 
 A subset of [WikiArt](https://huggingface.co/datasets/huggan/wikiart), built with the course script:
