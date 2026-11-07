@@ -322,3 +322,21 @@ def test_offline_flag_sets_the_hub_to_offline(monkeypatch):
     import os
 
     assert os.environ["HF_HUB_OFFLINE"] == "1" and os.environ["TRANSFORMERS_OFFLINE"] == "1"
+
+
+def test_load_builds_the_index_when_there_is_none_but_there_is_data(saved, tmp_path, monkeypatch):
+    import museum_guide.search as search_module  # demo_logic imports the function inside `load`, at call time
+
+    data_dir = saved["data_dir"]
+    pd.DataFrame({"id": ["x"], "path": ["portrait/x.jpg"], "label": ["portrait"], "label_idx": [2], "style": ["Realism"],
+                  "artist": ["a"]}).to_csv(data_dir / "metadata.csv", index=False)  # one row: not the default data
+    built = {}
+
+    def fake_build(df, directory, index_path, cache_file=None):
+        built.update(rows=len(df), directory=directory, index_path=index_path, cache_file=cache_file)
+        return make_index(np.stack([PAINTING_DIRECTION]), pd.DataFrame({
+            "id": ["x"], "path": ["portrait/x.jpg"], "label": ["portrait"], "style": ["Realism"], "artist": ["a"]}))
+
+    monkeypatch.setattr(search_module, "load_or_build_index", fake_build)
+    guide = DemoGuide.load(**{**saved, "index_path": tmp_path / "absent.npz"}, encoder=FakeEncoder())
+    assert built["rows"] == 1 and built["cache_file"] == data_dir / "clip_embeddings.npz" and len(guide.index) == 1

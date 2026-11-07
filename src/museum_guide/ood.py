@@ -158,7 +158,7 @@ class NonPaintingRule:
             s = s + self.w_similarity * collection_similarity(image_vectors, reference, self.top_k, SAME_PAINTING)
         return s
 
-    def accepts(self, scores: np.ndarray) -> np.ndarray:
+    def accepts(self, scores: float | np.ndarray) -> np.ndarray:
         return np.asarray(scores, dtype=float) >= self.threshold
 
 

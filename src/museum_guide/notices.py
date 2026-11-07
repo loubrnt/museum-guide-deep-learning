@@ -425,7 +425,7 @@ def notice_for(label: str, lang: str = "fr", fallback: bool = False) -> str | No
 
 def story_entry(label: str, lang: str = "fr") -> dict[str, str] | None:
     """The notice as a JSON-ready dict (label, language, title, text), or None for an unknown label."""
-    text = notice_for(label, lang)
-    if text is None:
+    text, canonical, title = notice_for(label, lang), normalise_label(label), title_for(label, lang)
+    if text is None or canonical is None or title is None:
         return None
-    return {"label": normalise_label(label), "lang": lang, "title": title_for(label, lang), "text": text}
+    return {"label": canonical, "lang": lang, "title": title, "text": text}

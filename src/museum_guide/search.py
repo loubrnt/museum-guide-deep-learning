@@ -102,12 +102,12 @@ def search(index: Index, text_embedding: np.ndarray, k: int = 5) -> pd.DataFrame
 # ---------------------------------------------------------------------------------------------
 
 
-def precision_at_k(relevant: Sequence[int], k: int = 10) -> float:
+def precision_at_k(relevant: Sequence[int] | np.ndarray, k: int = 10) -> float:
     r = np.asarray(relevant)[:k]
     return float(r.sum() / k)
 
 
-def average_precision(relevant: Sequence[int]) -> float:
+def average_precision(relevant: Sequence[int] | np.ndarray) -> float:
     """Mean of the precision at each relevant item, over the whole ranking (0 if nothing is relevant)."""
     r = np.asarray(relevant, dtype=float)
     if r.sum() == 0:
@@ -116,12 +116,12 @@ def average_precision(relevant: Sequence[int]) -> float:
     return float((precision * r).sum() / r.sum())
 
 
-def ndcg_at_k(relevant: Sequence[int], k: int = 10) -> float:
+def ndcg_at_k(relevant: Sequence[int] | np.ndarray, k: int = 10) -> float:
     """Binary-gain nDCG: 1.0 when all the best possible items are at the top."""
     r = np.asarray(relevant, dtype=float)
     discount = 1.0 / np.log2(np.arange(2, k + 2))
     dcg = float((r[:k] * discount[: len(r[:k])]).sum())
-    ideal = float(discount[: int(min(k, r.sum()))].sum())
+    ideal = float(discount[: int(min(k, float(r.sum())))].sum())
     return dcg / ideal if ideal > 0 else 0.0
 
 

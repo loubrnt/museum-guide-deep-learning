@@ -59,4 +59,9 @@ def main():
 
 
 if __name__ == "__main__":
+    import argparse
+
+    # This script takes no options. Parsing the command line gives `--help` (the docstring above) and rejects
+    # typos, instead of silently running a long experiment.
+    argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
     main()

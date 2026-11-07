@@ -8,6 +8,7 @@ head and an index, so it can be tested without downloading anything.
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
 
 import pandas as pd
 from PIL import Image
@@ -79,6 +80,7 @@ def build_answer(
     its score instead of a genre, a story and similar paintings; a question is still answered.
     """
     vector = encoder.images([photo.convert("RGB")])
+    answer: dict[str, Any]
     if reject_rule is not None:
         score = float(painting_scores(reject_rule, encoder, vector, index.vectors)[0])
         if not reject_rule.accepts(score):
