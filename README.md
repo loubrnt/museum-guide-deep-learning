@@ -388,6 +388,14 @@ python scripts/train_clip_probe.py              # refit and calibrate the CLIP h
 
 Each script writes its numbers to `reports/<name>.json` and its figures to `reports/figures/`.
 
+### Where each number comes from
+
+[docs/PROVENANCE.md](docs/PROVENANCE.md) lists, for each of the 23 scripts, its exact command, the data it needs, the reports and figures it writes,
+the README claim it supports (as a `file.json#key` you can look up), its run time when known, and which scripts must run before it.
+`make reproduce-all` rebuilds every report in dependency order (`make install-reproduce` first; more than 10 GB of downloads; total time not measured),
+and `make reproduce-genre`, `reproduce-robustness`, `reproduce-search`, `reproduce-clip`, `reproduce-ood`, `reproduce-style`, `reproduce-encoders` and
+`reproduce-kiosk` run one group at a time. The older `make reproduce` is unchanged. `make check-provenance` (also part of the tests) fails when the map and the repository disagree.
+
 ### Classify a photo
 
 Once `train_resnet.py` has written `reports/resnet18.pt` (not versioned), any photo can be classified on CPU:

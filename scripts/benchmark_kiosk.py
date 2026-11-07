@@ -14,7 +14,7 @@ encoder (fp32, fp16 and int8-quantised):
 Models in the timing part have RANDOM weights: shapes, size, memory and speed do not depend on the values. Each model
 is built and saved once, then loaded by fresh processes that only serve it (so memory excludes model construction).
 
-    python scripts/benchmark_kiosk.py                  # about 10 minutes; leave the machine alone while it runs
+    python scripts/benchmark_kiosk.py                  # about 15 minutes; leave the machine alone while it runs
     python scripts/benchmark_kiosk.py --skip-accuracy  # timings only
 
 Numbers are specific to the machine (printed in the report): the ratios between models travel better than the
