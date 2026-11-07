@@ -1,0 +1,465 @@
+{
+  "n_images": 1500,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "near_duplicates": {
+    "dhash8": {
+      "max_distance_0": {
+        "bits": 64,
+        "pairs": 0,
+        "pairs_across_parts_per_seed": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "pairs_across_parts_seed0": 0
+      },
+      "max_distance_3": {
+        "bits": 64,
+        "pairs": 0,
+        "pairs_across_parts_per_seed": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "pairs_across_parts_seed0": 0
+      },
+      "max_distance_6": {
+        "bits": 64,
+        "pairs": 1,
+        "pairs_across_parts_per_seed": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "pairs_across_parts_seed0": 0
+      },
+      "max_distance_9": {
+        "bits": 64,
+        "pairs": 7,
+        "pairs_across_parts_per_seed": [
+          2,
+          1,
+          4,
+          3,
+          3,
+          3,
+          3,
+          3,
+          4,
+          2
+        ],
+        "pairs_across_parts_seed0": 2
+      }
+    },
+    "dhash16": {
+      "max_distance_0": {
+        "bits": 256,
+        "pairs": 0,
+        "pairs_across_parts_per_seed": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "pairs_across_parts_seed0": 0
+      },
+      "max_distance_12": {
+        "bits": 256,
+        "pairs": 0,
+        "pairs_across_parts_per_seed": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "pairs_across_parts_seed0": 0
+      },
+      "max_distance_25": {
+        "bits": 256,
+        "pairs": 0,
+        "pairs_across_parts_per_seed": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "pairs_across_parts_seed0": 0
+      },
+      "max_distance_38": {
+        "bits": 256,
+        "pairs": 0,
+        "pairs_across_parts_per_seed": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "pairs_across_parts_seed0": 0
+      }
+    },
+    "dhash8_mirrored": {
+      "max_distance_0": {
+        "bits": 64,
+        "pairs": 0,
+        "pairs_across_parts_per_seed": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "pairs_across_parts_seed0": 0
+      },
+      "max_distance_3": {
+        "bits": 64,
+        "pairs": 0,
+        "pairs_across_parts_per_seed": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "pairs_across_parts_seed0": 0
+      },
+      "max_distance_6": {
+        "bits": 64,
+        "pairs": 1,
+        "pairs_across_parts_per_seed": [
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "pairs_across_parts_seed0": 0
+      },
+      "max_distance_9": {
+        "bits": 64,
+        "pairs": 10,
+        "pairs_across_parts_per_seed": [
+          4,
+          5,
+          3,
+          3,
+          5,
+          6,
+          5,
+          3,
+          3,
+          3
+        ],
+        "pairs_across_parts_seed0": 4
+      }
+    }
+  },
+  "closest_pairs_dhash8": [
+    {
+      "distance": 6,
+      "a": "portrait/s38_r0001.jpg",
+      "b": "religious_painting/s33_r0291.jpg",
+      "same_genre": false
+    },
+    {
+      "distance": 8,
+      "a": "portrait/s33_r1019.jpg",
+      "b": "still_life/s33_r0602.jpg",
+      "same_genre": false
+    },
+    {
+      "distance": 8,
+      "a": "portrait/s38_r0423.jpg",
+      "b": "portrait/s38_r0699.jpg",
+      "same_genre": true
+    },
+    {
+      "distance": 8,
+      "a": "religious_painting/s38_r0056.jpg",
+      "b": "religious_painting/s38_r0057.jpg",
+      "same_genre": true
+    },
+    {
+      "distance": 9,
+      "a": "cityscape/s11_r0858.jpg",
+      "b": "landscape/s38_r0148.jpg",
+      "same_genre": false
+    }
+  ],
+  "split_composition": {
+    "seed0": {
+      "train": {
+        "n": 972,
+        "unknown_artist_share": 0.5195473251028807,
+        "class_share": {
+          "cityscape": 0.1831275720164609,
+          "landscape": 0.20164609053497942,
+          "portrait": 0.23148148148148148,
+          "religious_painting": 0.19547325102880658,
+          "still_life": 0.1882716049382716
+        },
+        "class_spread": 0.04835390946502058
+      },
+      "val": {
+        "n": 249,
+        "unknown_artist_share": 0.44176706827309237,
+        "class_share": {
+          "cityscape": 0.20080321285140562,
+          "landscape": 0.21686746987951808,
+          "portrait": 0.12048192771084337,
+          "religious_painting": 0.18875502008032127,
+          "still_life": 0.27309236947791166
+        },
+        "class_spread": 0.15261044176706828
+      },
+      "test": {
+        "n": 279,
+        "unknown_artist_share": 0.3655913978494624,
+        "class_share": {
+          "cityscape": 0.25806451612903225,
+          "landscape": 0.17921146953405018,
+          "portrait": 0.16129032258064516,
+          "religious_painting": 0.22580645161290322,
+          "still_life": 0.17562724014336917
+        },
+        "class_spread": 0.0967741935483871
+      }
+    },
+    "across_seeds": {
+      "train": {
+        "n": {
+          "min": 972,
+          "max": 1110
+        },
+        "unknown_artist_share": {
+          "min": 0.44504504504504505,
+          "max": 0.5195473251028807
+        },
+        "class_spread": {
+          "min": 0.02367424242424243,
+          "max": 0.08514664143803219
+        }
+      },
+      "val": {
+        "n": {
+          "min": 167,
+          "max": 257
+        },
+        "unknown_artist_share": {
+          "min": 0.40239043824701193,
+          "max": 0.6766467065868264
+        },
+        "class_spread": {
+          "min": 0.056122448979591844,
+          "max": 0.20746887966804978
+        }
+      },
+      "test": {
+        "n": {
+          "min": 195,
+          "max": 301
+        },
+        "unknown_artist_share": {
+          "min": 0.36212624584717606,
+          "max": 0.5641025641025641
+        },
+        "class_spread": {
+          "min": 0.07179487179487182,
+          "max": 0.2898550724637681
+        }
+      }
+    },
+    "named_artists_in_several_parts": {
+      "0": [],
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": [],
+      "6": [],
+      "7": [],
+      "8": [],
+      "9": []
+    }
+  },
+  "neighbouring_rows": {
+    "same_shard_any_distance": 0.3012099341965612,
+    "chance_if_independent": 0.2,
+    "by_row_gap": {
+      "<=1": {
+        "pairs": 197,
+        "same_genre_share": 0.3604060913705584
+      },
+      "<=5": {
+        "pairs": 540,
+        "same_genre_share": 0.37222222222222223
+      },
+      "<=20": {
+        "pairs": 712,
+        "same_genre_share": 0.3848314606741573
+      },
+      "any": {
+        "pairs": 714,
+        "same_genre_share": 0.3865546218487395
+      }
+    }
+  },
+  "metadata_floors": {
+    "style": {
+      "per_seed": [
+        0.41935483870967744,
+        0.4025423728813559,
+        0.33695652173913043,
+        0.4883720930232558,
+        0.5024390243902439,
+        0.4461538461538462,
+        0.47863247863247865,
+        0.574750830564784,
+        0.4504950495049505,
+        0.41245136186770426
+      ],
+      "mean": 0.45121484174674276,
+      "std": 0.064965988892566
+    },
+    "format": {
+      "per_seed": [
+        0.3046594982078853,
+        0.2796610169491525,
+        0.2463768115942029,
+        0.3302325581395349,
+        0.25853658536585367,
+        0.37435897435897436,
+        0.31196581196581197,
+        0.28903654485049834,
+        0.3069306930693069,
+        0.311284046692607
+      ],
+      "mean": 0.3013042541193828,
+      "std": 0.03635479842288371
+    },
+    "style+format": {
+      "per_seed": [
+        0.4551971326164875,
+        0.4194915254237288,
+        0.40217391304347827,
+        0.4883720930232558,
+        0.5756097560975609,
+        0.4512820512820513,
+        0.47435897435897434,
+        0.4750830564784053,
+        0.4603960396039604,
+        0.4474708171206226
+      ],
+      "mean": 0.46494353590485255,
+      "std": 0.04666772012328745
+    },
+    "majority_class": {
+      "per_seed": [
+        0.16129032258064516,
+        0.16101694915254236,
+        0.10869565217391304,
+        0.11162790697674418,
+        0.08780487804878048,
+        0.2,
+        0.1452991452991453,
+        0.132890365448505,
+        0.24257425742574257,
+        0.1867704280155642
+      ],
+      "mean": 0.15379699051215825,
+      "std": 0.04700859046049288
+    },
+    "shard_majority": {
+      "per_seed": [
+        0.46953405017921146,
+        0.4661016949152542,
+        0.6014492753623188,
+        0.5023255813953489,
+        0.5170731707317073,
+        0.48205128205128206,
+        0.41025641025641024,
+        0.5282392026578073,
+        0.4306930693069307,
+        0.46303501945525294
+      ],
+      "mean": 0.4870758756311525,
+      "std": 0.05409783073271716
+    }
+  },
+  "limits": [
+    "A perceptual hash only catches near-identical copies (same picture, rescaled, recompressed or lightly noisy; mirrored copies are checked separately). A crop, a different photograph of the same canvas or a colour-only change can slip through.",
+    "Unknown Artist is 48% of the images and each one is its own split group, so the artist-disjoint guarantee covers named painters only. This audit cannot tell whether two unknown paintings share a hand.",
+    "The shard is where an image sat in the source dataset (5 shards here, chosen to build the classes), not something a model sees. The shard floor measures a construction bias; it is not a feature any model has.",
+    "Metadata floors use the original WikiArt labels; they show how much a shortcut explains, not what a model learnt."
+  ]
+}

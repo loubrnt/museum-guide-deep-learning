@@ -194,6 +194,40 @@ python project/make_wikiart_subset.py --label genre \
 `data/` is not versioned; the command above rebuilds it. The scripts look for it in `data/wikiart_genre5` relative to the working
 directory; set `MUSEUM_GUIDE_DATA=/path/to/wikiart_genre5` to put it elsewhere.
 
+### Sanity checks on the data
+
+`python scripts/data_audit.py` (about 10 seconds, writes `reports/data_audit.json`) runs the checks below.
+
+- **No near-duplicate images.** Perceptual hashes over the 1,500 images find no pair within 3 bits (of 64) and one pair within 6 bits
+  (two different genres, never across a split for seed 0). At the loosest setting (9 bits, plain or mirrored) there are 7 and 10 pairs;
+  I looked at all of them: different paintings with a similar layout or tone. A 16x16 hash finds none up to 38 bits of 256.
+- **No named painter in two parts**, for each of the 10 seeds (checked by an assertion). The split sizes move with the seed:
+  test 195 to 301 images, 36% to 56% "Unknown Artist" images in the test part (seed 0: 279 images, 37%; train 52%, val 44%).
+  Class balance also varies: the gap between the most and least frequent class is 7 to 29 points of the test part.
+- **Neighbouring unknown paintings look alike a little more than chance, not clearly more than their shard does.** The dataset is ordered in
+  blocks of artists, so consecutive "Unknown Artist" rows might share a hand. They share a genre in 36% to 39% of the cases (any
+  two unknown images of one shard: 30%; chance: 20%), and the share does not grow as the rows get closer. This is a small effect on a few
+  hundred pairs: it cannot show that unknown paintings leak between train and test, nor that they do not.
+
+How far can a model get without looking at a single pixel? A random forest on metadata only (test accuracy, mean ± std over 10 seeds):
+
+| Information used | Genre accuracy |
+|---|---|
+| Chance (5 classes) | 20% |
+| Most frequent training class | 15.4% ± 4.7 |
+| Original shape of the painting (aspect ratio, size) | 30.1% ± 3.6 |
+| Style label (23 styles) | 45.1% ± 6.5 |
+| Style + shape | 46.5% ± 4.7 |
+| Source block in WikiArt (shard) | 48.7% ± 5.4 |
+
+The style and the shard are not available to a camera, so these are floors, not deployable baselines. They show that the style alone
+predicts the genre of nearly half of the paintings: the feed-forward network (40.9%) and the logistic regression (49.0%) of the results above are at that
+level, the random forest (53.9%) is a few points above it, and the ResNet (74.0%) is far above.
+
+Limits: a perceptual hash only catches near-identical copies (not a crop, a different photograph of the same canvas, or a colour-only
+change); the audit cannot tell whether two "Unknown Artist" paintings share a hand, and they are 48% of the data; the shard
+is a trace of how the subset was built, not something a model sees.
+
 ## Repository layout
 
 ```
