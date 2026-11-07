@@ -20,6 +20,8 @@ dependencies = [
 dev = ["pytest", "ruff>=0.17,<0.18"]
 # Questions in other languages than English (see scripts/search_french.py); not needed by the tests or the CI.
 multilingual = ["sentence-transformers"]
+# The web demo (scripts/demo.py); tested with gradio 6.31. Not needed by the tests or the CI.
+demo = ["gradio>=6.31,<7"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
