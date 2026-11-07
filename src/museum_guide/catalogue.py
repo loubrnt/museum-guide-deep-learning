@@ -42,7 +42,7 @@ GENRE_SYNONYMS = {
 AMBIGUOUS_SURNAMES = {"gris", "leger", "chase", "wright", "martin", "turner", "dore"}
 CUES = {"by", "of", "from", "de", "d", "du", "par"}
 MIN_BARE_SURNAME = 5
-_AMBIGUOUS_STEMS = set()  # filled below, once `stem` exists
+_AMBIGUOUS_STEMS: set[str] = set()  # filled below, once `stem` exists
 
 # Particles that belong to the surname: "van Gogh", "da Vinci", "de Toulouse-Lautrec".
 _SURNAME_SUFFIX = {"the younger", "the elder"}  # 'hans-holbein-the-younger' -> 'holbein'
