@@ -647,8 +647,7 @@ docker run --rm -v "$PWD/data:/app/data" -v "$PWD/reports:/app/reports" \
 
 What was checked, on an Apple silicon Mac with Docker Desktop: the file was generated that way and the suite passed in that container (363 passed, 2 skipped: the Gradio tests, since the `demo` extra is not installed);
 the image builds in about 2 minutes and is 2.5 GB (PyTorch and the dependencies are most of it); the tests pass inside it as a non-root user in about 2 minutes; with `data/` and `reports/` mounted, the 1500 images
-load and the split is the usual 972/249/279. Not checked: macOS with the pinned file, the `multilingual` and `demo` extras (not pinned), an `x86_64` image (the `pinned versions` workflow runs the pinned install and the tests on Linux x86_64 when the
-constraints, `pyproject.toml`, `src/` or `tests/` change, and the `docker` workflow builds the image when the recipe changes). The image is not published anywhere.
+load and the split is the usual 972/249/279. CI also runs both on Linux x86_64, and both passed on the pull request that added them: the pinned install followed by the tests (`pinned versions` workflow, when the constraints, `pyproject.toml`, `src/` or `tests/` change), and the image build followed by the tests in the container (`docker` workflow, when the recipe changes). Not checked: macOS with the pinned file, and the `multilingual` and `demo` extras (not pinned). The image is not published anywhere.
 
 ## Data
 
