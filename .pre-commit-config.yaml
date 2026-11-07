@@ -1,0 +1,25 @@
+# Optional local checks before each commit: `pip install pre-commit && pre-commit install`.
+# The CI does not need pre-commit: it runs `ruff check .` and `pytest` itself.
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+        # The slide deck and the figures are binary; markdown keeps its two-space line breaks.
+        args: [--markdown-linebreak-ext=md]
+      - id: end-of-file-fixer
+        # reports/*.json are written by scripts with json.dumps (no final newline): leave the generated files alone.
+        exclude: ^reports/
+      - id: check-yaml
+      - id: check-toml
+      - id: check-added-large-files
+        # Data, weights and images of paintings must not be committed (see CONTRIBUTING.md).
+        # Only files being ADDED are checked: a few figures and the slide deck that are already tracked are larger.
+        # A new file above the limit needs a reason.
+        args: ["--maxkb=500"]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Same range as the `dev` extra in pyproject.toml (ruff>=0.17,<0.18).
+    rev: v0.17.4
+    hooks:
+      - id: ruff-check

@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it using the metadata of this file."
+title: "Museum guide: deep learning for artwork recognition"
+type: software
+authors:
+  - family-names: "Brunet"
+    given-names: "Lou"
+    alias: "loubrnt"
+  - family-names: "Meimoun"
+    given-names: "Mathis"
+    alias: "Mathmnms"
+  - family-names: "Maeder"
+    given-names: "Alexis"
+    alias: "AlexisMaeder"
+abstract: >-
+  Final project (group 5) of the course Neural Networks & Deep Learning Foundations
+  (MSA-DATB09-91), Albert School, 2026-27. A guide for a fictional French fine-arts museum that
+  recognises the genre or style of a painting from a photo, tells a short story of that tradition,
+  and answers questions in natural language. It compares a classical baseline, a feed-forward
+  network, a fine-tuned ResNet-18 and CLIP, and measures how solid, calibrated and costly each is.
+repository-code: "https://github.com/loubrnt/museum-guide-deep-learning"
+keywords:
+  - deep learning
+  - image classification
+  - CLIP
+  - WikiArt
+  - museum
