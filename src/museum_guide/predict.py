@@ -44,11 +44,16 @@ def classify(
     images: Sequence[Image.Image],
     classes: Sequence[str] = CLASSES,
     top_k: int = 3,
+    temperature: float = 1.0,
 ) -> list[list[tuple[str, float]]]:
-    """For each image, its `top_k` most likely classes as (name, probability), best first."""
+    """For each image, its `top_k` most likely classes as (name, probability), best first.
+
+    `temperature` divides the logits before the softmax (see `museum_guide.calibration`): it makes the
+    probabilities honest without changing the ranking. The default 1.0 is the raw network output.
+    """
     transform = make_transforms(SIZE, augment=False)  # same resize + centre crop as at evaluation time
     batch = torch.stack([transform(img.convert("RGB")) for img in images])
-    top = model.eval()(batch).softmax(dim=1).topk(min(top_k, len(classes)), dim=1)
+    top = (model.eval()(batch) / temperature).softmax(dim=1).topk(min(top_k, len(classes)), dim=1)
     return [
         [(classes[int(i)], float(p)) for p, i in zip(probs, idx)]
         for probs, idx in zip(top.values, top.indices)
