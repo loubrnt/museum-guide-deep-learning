@@ -88,7 +88,7 @@ place it comes from as `file.json#key.path` inside `reports/` (a dot separates n
 
 ## Tools to use the models (no report written)
 
-These four scripts are not experiments, so they are not part of `make reproduce-all`. Their prerequisites:
+These five scripts are not experiments, so they are not part of `make reproduce-all`. Their prerequisites:
 
 | Script | Needs |
 |---|---|
@@ -96,3 +96,4 @@ These four scripts are not experiments, so they are not part of `make reproduce-
 | `scripts/guide.py` | `reports/clip_probe.npz`, the search index (built on first use, about 30 s), optionally `reports/non_painting_rule.json` |
 | `scripts/search.py` | genre data and the search index; `--encoder multilingual` needs `pip install -e ".[multilingual]"` |
 | `scripts/demo.py` | `pip install -e ".[demo]"`, everything `scripts/guide.py` needs |
+| `scripts/evaluate_photos.py` | the team's own photos in `data/photos/<label>/` (see `docs/REAL_PHOTO_PROTOCOL.md`), `reports/clip_probe.npz`; writes only to `data/photo_eval/`, never to `reports/`; `--demo` needs the genre data |
