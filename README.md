@@ -4,7 +4,7 @@ Final project for **Neural Networks & Deep Learning Foundations** (MSA-DATB09-91
 
 **Group 5:** Lou Brunet, Mathis Meimoun, Alexis Maeder
 
-**New here?** Start with [`notebooks/museum_guide_walkthrough.ipynb`](notebooks/museum_guide_walkthrough.ipynb): the whole story in charts, computed from the committed results (no data or model needed).
+**New here?** Start with [`notebooks/museum_guide_walkthrough.ipynb`](notebooks/museum_guide_walkthrough.ipynb): the whole story in charts, computed from the committed results (no data or model needed). What was done, pull request by pull request: [CHANGELOG.md](CHANGELOG.md).
 
 ## Contents
 
