@@ -55,11 +55,11 @@ def subsample_train(train: pd.DataFrame, n: int, seed: int, group_col: str = "gr
 
 def few_shot_indices(labels: Sequence[int], k: int, seed: int) -> np.ndarray:
     """Positions of `k` randomly drawn examples per class (all of them for a class with fewer than k). Sorted."""
-    labels = np.asarray(labels)
+    y = np.asarray(labels)
     rng = np.random.default_rng(seed)
     chosen = []
-    for c in np.unique(labels):
-        rows = np.flatnonzero(labels == c)
+    for c in np.unique(y):
+        rows = np.flatnonzero(y == c)
         chosen.extend(rng.choice(rows, size=min(k, len(rows)), replace=False).tolist())
     return np.sort(np.array(chosen, dtype=int))
 
@@ -70,17 +70,17 @@ def images_needed(sizes: Sequence[float], accuracy: Sequence[float], target: flo
     Returns {"reached": bool, "images": float | None, "at_most": bool}. "at_most" is True when even the
     smallest size already reaches the target (the true need is then below the smallest size measured).
     """
-    sizes = np.asarray(sizes, dtype=float)
-    acc = np.asarray(accuracy, dtype=float)
-    if len(sizes) != len(acc) or len(sizes) == 0:
+    x_raw = np.asarray(sizes, dtype=float)
+    y_raw = np.asarray(accuracy, dtype=float)
+    if len(x_raw) != len(y_raw) or len(x_raw) == 0:
         raise ValueError("sizes and accuracy must be non-empty and have the same length")
-    order = np.argsort(sizes)
-    sizes, acc = sizes[order], acc[order]
+    order = np.argsort(x_raw)
+    x, acc = x_raw[order], y_raw[order]
     if acc[0] >= target:
-        return {"reached": True, "images": float(sizes[0]), "at_most": True}
-    for i in range(1, len(sizes)):
+        return {"reached": True, "images": float(x[0]), "at_most": True}
+    for i in range(1, len(x)):
         if acc[i] >= target:
             lo, hi = acc[i - 1], acc[i]
             frac = (target - lo) / (hi - lo)
-            return {"reached": True, "images": float(sizes[i - 1] + frac * (sizes[i] - sizes[i - 1])), "at_most": False}
+            return {"reached": True, "images": float(x[i - 1] + frac * (x[i] - x[i - 1])), "at_most": False}
     return {"reached": False, "images": None, "at_most": False}

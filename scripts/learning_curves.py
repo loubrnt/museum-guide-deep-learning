@@ -14,7 +14,7 @@ A training subset of about n images is class-balanced and drawn artist group by 
 `museum_guide.curves.subsample_train`). A few-shot view for CLIP alone draws k = 1, 2, 5, 10, 20 images per class,
 10 draws per seed. The number of images needed to reach 70, 80 and 85% is read on the mean curve.
 
-    python scripts/learning_curves.py                  # both tasks, about 30-40 minutes (the ResNet dominates)
+    python scripts/learning_curves.py                  # both tasks, about 25 minutes (the ResNet dominates)
     python scripts/learning_curves.py --skip-resnet    # a few minutes
 
 Each task runs in its own process because the data folder is read when `museum_guide.data` is imported.
@@ -127,7 +127,7 @@ def run_task(task, seeds, sizes, draws, ks, skip_resnet):
             continue
         stats = [mean_std(v) for v in per_size]
         entry = {"mean": [s[0] for s in stats], "std": [s[1] for s in stats], "per_seed": per_size}
-        entry["images_needed"] = {f"{t:.2f}": images_needed(mean_size, entry["mean"], t) for t in TARGETS}
+        entry["images_needed"] = {str(round(t * 100)): images_needed(mean_size, entry["mean"], t) for t in TARGETS}
         for r in entry["images_needed"].values():
             r["per_class"] = None if r["images"] is None else r["images"] / n_classes
         entry["share_of_full_accuracy"] = [v / entry["mean"][-1] for v in entry["mean"]]
@@ -235,7 +235,7 @@ def main():
             "subsample": "class-balanced, whole artist groups added in random order, the last one trimmed; see museum_guide.curves.subsample_train",
             "clip_probe": "logistic regression, C = 1 fixed: no validation label is used (the project's own probe chooses C on the validation set)",
             "resnet": "settings of scripts/train_resnet.py; the 249-image validation set is used for early stopping at every size",
-            "thresholds": [f"{t:.2f}" for t in TARGETS],
+            "thresholds_percent": [round(t * 100) for t in TARGETS],
         },
         "tasks": {},
     }

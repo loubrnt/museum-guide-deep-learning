@@ -4,10 +4,10 @@
     "subsample": "class-balanced, whole artist groups added in random order, the last one trimmed; see museum_guide.curves.subsample_train",
     "clip_probe": "logistic regression, C = 1 fixed: no validation label is used (the project's own probe chooses C on the validation set)",
     "resnet": "settings of scripts/train_resnet.py; the 249-image validation set is used for early stopping at every size",
-    "thresholds": [
-      "0.70",
-      "0.80",
-      "0.85"
+    "thresholds_percent": [
+      70,
+      80,
+      85
     ]
   },
   "tasks": {
@@ -146,19 +146,19 @@
             ]
           ],
           "images_needed": {
-            "0.70": {
+            "70": {
               "reached": true,
               "images": 25.0,
               "at_most": true,
               "per_class": 5.0
             },
-            "0.80": {
+            "80": {
               "reached": true,
               "images": 37.79511418427731,
               "at_most": false,
               "per_class": 7.559022836855462
             },
-            "0.85": {
+            "85": {
               "reached": true,
               "images": 81.26553806399583,
               "at_most": false,
@@ -236,19 +236,19 @@
             ]
           ],
           "images_needed": {
-            "0.70": {
+            "70": {
               "reached": true,
               "images": 395.53395119711774,
               "at_most": false,
               "per_class": 79.10679023942355
             },
-            "0.80": {
+            "80": {
               "reached": false,
               "images": null,
               "at_most": false,
               "per_class": null
             },
-            "0.85": {
+            "85": {
               "reached": false,
               "images": null,
               "at_most": false,
@@ -326,19 +326,19 @@
             ]
           ],
           "images_needed": {
-            "0.70": {
+            "70": {
               "reached": false,
               "images": null,
               "at_most": false,
               "per_class": null
             },
-            "0.80": {
+            "80": {
               "reached": false,
               "images": null,
               "at_most": false,
               "per_class": null
             },
-            "0.85": {
+            "85": {
               "reached": false,
               "images": null,
               "at_most": false,
@@ -563,19 +563,19 @@
             ]
           ],
           "images_needed": {
-            "0.70": {
+            "70": {
               "reached": false,
               "images": null,
               "at_most": false,
               "per_class": null
             },
-            "0.80": {
+            "80": {
               "reached": false,
               "images": null,
               "at_most": false,
               "per_class": null
             },
-            "0.85": {
+            "85": {
               "reached": false,
               "images": null,
               "at_most": false,
@@ -653,19 +653,19 @@
             ]
           ],
           "images_needed": {
-            "0.70": {
+            "70": {
               "reached": false,
               "images": null,
               "at_most": false,
               "per_class": null
             },
-            "0.80": {
+            "80": {
               "reached": false,
               "images": null,
               "at_most": false,
               "per_class": null
             },
-            "0.85": {
+            "85": {
               "reached": false,
               "images": null,
               "at_most": false,
@@ -743,19 +743,19 @@
             ]
           ],
           "images_needed": {
-            "0.70": {
+            "70": {
               "reached": false,
               "images": null,
               "at_most": false,
               "per_class": null
             },
-            "0.80": {
+            "80": {
               "reached": false,
               "images": null,
               "at_most": false,
               "per_class": null
             },
-            "0.85": {
+            "85": {
               "reached": false,
               "images": null,
               "at_most": false,

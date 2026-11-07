@@ -21,6 +21,7 @@
       "reports/figures/cm_resnet.png",
       "reports/figures/encoder_comparison.png",
       "reports/figures/kiosk_benchmark.png",
+      "reports/figures/learning_curves.png",
       "reports/figures/mlp_lr_0.0001.png",
       "reports/figures/mlp_lr_0.001.png",
       "reports/figures/mlp_lr_0.01.png",

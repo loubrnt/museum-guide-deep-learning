@@ -28,7 +28,7 @@ def fake_task(n_classes=5):
     for name, base in (("clip_probe", 0.8), ("resnet18_layer4", 0.4), ("random_forest", 0.3)):
         mean = [min(0.95, base + 0.02 * i + 0.1 * (name == "clip_probe") * (i > 2)) for i in range(6)]
         entry = {"mean": mean, "std": [0.02] * 6, "per_seed": [[m] for m in mean]}
-        entry["images_needed"] = {f"{t:.2f}": images_needed(sizes, mean, t) for t in (0.7, 0.8, 0.85)}
+        entry["images_needed"] = {str(round(t * 100)): images_needed(sizes, mean, t) for t in (0.7, 0.8, 0.85)}
         for r in entry["images_needed"].values():
             r["per_class"] = None if r["images"] is None else r["images"] / n_classes
         curves[name] = entry
