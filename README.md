@@ -146,6 +146,35 @@ python project/make_wikiart_subset.py --label genre \
 `data/` is not versioned; the command above rebuilds it. The scripts look for it in `data/wikiart_genre5` relative to the working
 directory; set `MUSEUM_GUIDE_DATA=/path/to/wikiart_genre5` to put it elsewhere.
 
+## Robustness to camera conditions
+
+The paintings are clean WikiArt scans, but the guide will see phone photos. There are no labelled photos yet, so `scripts/photo_robustness.py`
+measures a **proxy**: nine deterministic perturbations of the test images (`src/museum_guide/perturb.py`), one effect at a time, on the
+fine-tuned ResNet-18 (`layer4` + head, as in `train_resnet.py`). It also tests whether a photo-style training augmentation
+(`photo_train_transform`: crop 50-100%, flip, rotation ±20°, perspective, colour jitter, blur) helps, against the augmentation of
+`train_resnet.py` (crop 70-100% + flip). Same splits, seeds and hyper-parameters; **5 seeds** (a seed changes the split and the training),
+results in `reports/photo_robustness.json` and `reports/figures/photo_robustness.png`.
+
+| Condition | Standard augmentation | Photo augmentation | Difference (points) | Seeds where photo is better |
+|---|---|---|---|---|
+| None (clean test set) | 72.3% ± 4.0 | 70.4% ± 3.8 | -1.8 | 2/5 |
+| Tilt: rotation by 15° | 51.7% ± 5.7 | 62.7% ± 3.0 | +11.0 | 4/5 |
+| Oblique view (perspective) | 63.6% ± 5.3 | 66.6% ± 4.0 | +3.0 | 2/5 |
+| Out of focus (Gaussian blur) | 54.6% ± 4.7 | 61.0% ± 6.6 | +6.4 | 4/5 |
+| Close-up (central 60%) | 67.9% ± 4.7 | 63.5% ± 3.0 | -4.4 | 0/5 |
+| Dim room (brightness ×0.5) | 70.8% ± 2.8 | 69.4% ± 4.8 | -1.5 | 2/5 |
+| Spot light (brightness ×1.6) | 67.0% ± 6.0 | 66.6% ± 4.2 | -0.4 | 2/5 |
+| Glare or haze (contrast ×0.5) | 70.2% ± 2.1 | 68.6% ± 5.0 | -1.6 | 2/5 |
+| Heavy JPEG (quality 15) | 68.4% ± 3.8 | 65.8% ± 5.4 | -2.6 | 1/5 |
+| Black-and-white | 64.8% ± 5.4 | 62.7% ± 5.8 | -2.1 | 3/5 |
+| **Mean of the 9 perturbations** | 64.3% | 65.2% | +0.9 | 2/5 |
+
+- **The ResNet is fragile to tilt and blur**: with the standard augmentation it loses 21 points under a 15° rotation and 18 points when the image is blurred, far more than under any lighting change.
+- **Photo augmentation helps where it should, but is not a free win.** It recovers 11 points on the rotation (4/5 seeds) and 6 on the blur (4/5), but it costs 1.8 points on clean images, 4.4 on the close-up (0/5 seeds better) and a little on JPEG and grayscale.
+- **Averaged over the nine perturbations the difference is +0.9 points, photo better on 2/5 seeds**: within the seed-to-seed noise (std 2-7 points). Only the rotation gain clearly stands out. Photo augmentation is worth it only if tilted shots matter more than clean-image accuracy; the same 20 epochs may also be too few for the harder augmentation.
+
+Limits: these are synthetic proxies, not phone photos (which also have glare, frames, walls, hands and combined effects); each perturbation is applied alone; 5 seeds only; the augmentation strength was not tuned.
+
 ## Repository layout
 
 ```
