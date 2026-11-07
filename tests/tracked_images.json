@@ -9,6 +9,9 @@
     "files": [
       "reports/figures/bn_study.png",
       "reports/figures/calibration.png",
+      "reports/figures/clip_adapt_genre.png",
+      "reports/figures/clip_adapt_style.png",
+      "reports/figures/clip_adapt_style_lr3e-5.png",
       "reports/figures/clip_classifier.png",
       "reports/figures/clip_probe_calibration.png",
       "reports/figures/cm_logistic_regression.png",
