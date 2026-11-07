@@ -6,6 +6,7 @@ paintings by artists the model never saw, so the split is grouped by artist.
 """
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 import numpy as np
@@ -16,7 +17,8 @@ from sklearn.model_selection import GroupShuffleSplit
 from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms
 
-DATA_DIR = Path("data/wikiart_genre5")
+# Relative to the working directory (run the scripts from the repository root), unless MUSEUM_GUIDE_DATA is set.
+DATA_DIR = Path(os.environ.get("MUSEUM_GUIDE_DATA", "data/wikiart_genre5"))
 IMAGENET_MEAN = (0.485, 0.456, 0.406)
 IMAGENET_STD = (0.229, 0.224, 0.225)
 
@@ -56,7 +58,9 @@ class WikiArt(Dataset):
         return len(self.paths)
 
     def __getitem__(self, i):
-        return self.transform(Image.open(self.paths[i]).convert("RGB")), self.labels[i]
+        with Image.open(self.paths[i]) as img:  # close the file handle: a loader opens thousands of images
+            image = img.convert("RGB")
+        return self.transform(image), self.labels[i]
 
 
 def make_transforms(size: int, augment: bool) -> transforms.Compose:
