@@ -53,10 +53,8 @@ and the share of Unknown Artist images in a part ranges from 36% to 68% (`data_a
 
 - **Not committed**: `data/` (the subsets, the CLIP vector caches, the search index and the non-painting photos), model weights (`*.pt`), and any screenshot or notebook output showing paintings.
 - **Committed but derived from the data**: the reports (`reports/*.json`) and most figures are numbers and charts only.
-- **Open point for the team — images of paintings that are tracked in the repository.** The repository is public and the dataset card says `license: unknown`.
-  - `reports/figures/search_examples.png`: thumbnails of the paintings returned for five questions;
-  - `reports/figures/error_confident_mistakes.png` and `reports/figures/error_hesitant_correct.png`: thumbnails of test paintings with the model's answers;
-  - `presentation/museum-guide.pptx`: at least slide 1 (the title slide) and slide 9 (search examples) show paintings; slides 5 and 11 are tables and charts, and the other slides were not inspected one by one.
-    The deck stores each slide as a picture.
+- **Paintings in figures and slides.** The repository is public and the dataset card says `license: unknown`.
+  - Three figures that showed painting thumbnails (`search_examples.png`, `error_confident_mistakes.png`, `error_hesitant_correct.png`) are no longer tracked: the scripts write them to `data/figures_local/`, which is not committed, and a test (`tests/test_tracked_figures.py`) fails if an image outside an allow-list is added.
+  - They are still in the **Git history**: removing them from it would need a history rewrite (`git filter-repo` or BFG, a force-push, and a fresh clone for everyone). That is a decision for the three authors and has not been taken.
+  - **Open point:** `presentation/museum-guide.pptx` was not modified. At least slide 1 (the title slide, 5 thumbnails) and slide 9 (search examples, 10 thumbnails) show paintings; the deck stores each slide as a picture.
 
-  Removing them from the current files would not remove them from the Git history, which would need a history rewrite. This pull request does not touch them: it is a decision for the three authors.

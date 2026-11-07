@@ -57,7 +57,7 @@ gives the style subset). Most scripts read `data/wikiart_genre5` relative to the
 - **Model weights**: `*.pt`, `*.pth`, `*.ckpt` (already in `.gitignore`). The tiny `reports/clip_probe.npz` (a few KB) is the one exception, on purpose.
 - **Images of paintings, and third-party photos.** WikiArt images remain the property of their authors or rights holders and the dataset card says "license: unknown":
   the course script itself says not to commit or publish them. Do not add screenshots, notebook outputs or figures that show them, and do not add photos of people.
-  Some figures already tracked in `reports/figures/` and the slides show paintings; that is an open point (see [DATA_STATEMENT.md](DATA_STATEMENT.md)).
+  Figures that show paintings are written to `data/figures_local/` and are not committed (a test guards the allow-list of tracked images); the slides still show some, which is an open point (see [DATA_STATEMENT.md](DATA_STATEMENT.md)).
 - **Secrets**: `.env` files, tokens, keys.
 
 ## Regenerating results
