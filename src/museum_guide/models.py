@@ -5,7 +5,7 @@ import math
 
 import torch
 from torch import nn
-from torchvision.models import ResNet18_Weights, resnet18
+from torchvision.models import ResNet, ResNet18_Weights, resnet18
 
 
 class Dense(nn.Module):
@@ -39,8 +39,29 @@ class FeedForward(nn.Module):
         return self.out(x)
 
 
-def pretrained_resnet18(n_classes: int, train_layer4: bool) -> nn.Module:
-    """ImageNet ResNet-18 with a new head. Only the head (and optionally layer4) is trained."""
+class FrozenBatchNormResNet(ResNet):
+    """A ResNet whose frozen BatchNorm layers stay in eval mode, even after `.train()`.
+
+    Freezing a layer with `requires_grad = False` does not freeze its BatchNorm *statistics*: in train mode
+    they keep updating from the new data and each batch is normalised with its own statistics. A BatchNorm2d
+    is treated as frozen when none of its parameters require a gradient, so the BatchNorm layers of a trained
+    block (e.g. `layer4`) keep training normally.
+    """
+
+    def train(self, mode: bool = True):
+        super().train(mode)
+        for m in self.modules():
+            if isinstance(m, nn.BatchNorm2d) and not any(p.requires_grad for p in m.parameters()):
+                m.eval()
+        return self
+
+
+def pretrained_resnet18(n_classes: int, train_layer4: bool, bn_eval: bool = False) -> nn.Module:
+    """ImageNet ResNet-18 with a new head. Only the head (and optionally layer4) is trained.
+
+    With `bn_eval=True` the BatchNorm layers of the frozen part also keep their ImageNet statistics
+    (see `FrozenBatchNormResNet`). The default, False, is the behaviour of the reported results.
+    """
     model = resnet18(weights=ResNet18_Weights.IMAGENET1K_V1)
     for p in model.parameters():
         p.requires_grad = False
@@ -48,4 +69,7 @@ def pretrained_resnet18(n_classes: int, train_layer4: bool) -> nn.Module:
         for p in model.layer4.parameters():
             p.requires_grad = True
     model.fc = nn.Linear(model.fc.in_features, n_classes)
+    if bn_eval:
+        model.__class__ = FrozenBatchNormResNet
+        model.train(model.training)  # apply now: the model starts in train mode
     return model
