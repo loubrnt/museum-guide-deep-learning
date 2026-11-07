@@ -366,7 +366,7 @@ see the [sanity checks](#sanity-checks-on-the-data)). It would only make sense a
 
 **Still open before a real deployment**
 - **Real camera photos.** Nothing here uses them. A 15 degree rotation or a blur costs the ResNet about 20 points (72.3% to 51.7% and 54.6%, 5 seeds); photo-style augmentation recovers part
-  of it (rotation back to 62.7%) at a cost of about 2 points on clean images, see [robustness to camera conditions](#robustness-to-camera-conditions). Not measured for CLIP.
+  of it (rotation back to 62.7%) at a cost of about 2 points on clean images, see [robustness to camera conditions](#robustness-to-camera-conditions). The CLIP head loses much less: 89.0% on clean images, 82.5% averaged over the same nine perturbations, but still 78.5% when tilted and 72.7% when blurred ([details](#clip-under-camera-like-conditions)).
 - **New painters.** Style is tied to the painter, and the split only guarantees unseen *named* painters. On those, the style accuracy drops to 50.5% for CLIP and 36.1% for the ResNet.
 - **The real kiosk CPU.** The latencies are from a laptop. int8 quantisation made CLIP slower on Apple silicon (97.9 ms against 20.9 ms); whether it helps on an x86 kiosk was not measured.
   Decoding a 12-megapixel phone photo costs 29 ms (15 ms with draft decoding), more than the ResNet itself.
@@ -726,6 +726,41 @@ results in `reports/photo_robustness.json` and `reports/figures/photo_robustness
 - **Averaged over the nine perturbations the difference is +0.9 points, photo better on 2/5 seeds**: within the seed-to-seed noise (std 2-7 points). Only the rotation gain clearly stands out. Photo augmentation is worth it only if tilted shots matter more than clean-image accuracy; the same 20 epochs may also be too few for the harder augmentation.
 
 Limits: these are synthetic proxies, not phone photos (which also have glare, frames, walls, hands and combined effects); each perturbation is applied alone; 5 seeds only; the augmentation strength was not tuned.
+
+### CLIP under camera-like conditions
+
+The recommended model is CLIP's image encoder with a linear head (see the [recommendation](#recommendation-to-the-director)), so the same nine perturbations were applied to it
+(`scripts/clip_photo_robustness.py`, `reports/clip_photo_robustness.json`): same 5 seeds, same splits, same images as the ResNet study. Every image is perturbed at its 128 px size, then embedded
+by the frozen encoder; the head is trained on clean vectors, as deployed. The "photo-augmented" head is trained on clean vectors plus 2 photo-augmented copies of each training image
+(the encoder stays frozen). Seed 0 reproduces the saved head's test accuracy exactly (89.6%).
+
+| Condition | ResNet-18 | ResNet-18, photo augmentation | CLIP head | CLIP head, photo-augmented |
+|---|---|---|---|---|
+| Clean | 72.3% ± 4.0 | 70.4% ± 3.8 | 89.0% ± 2.5 | 88.3% ± 3.5 |
+| Tilt (rotation 15°) | 51.7% ± 5.7 | 62.7% ± 3.0 | 78.5% ± 1.4 | 80.8% ± 2.5 |
+| Oblique view | 63.6% ± 5.3 | 66.6% ± 4.0 | 86.2% ± 1.5 | 85.5% ± 3.0 |
+| Out of focus (blur) | 54.6% ± 4.7 | 61.0% ± 6.6 | 72.7% ± 2.0 | 78.5% ± 1.7 |
+| Close-up (central 60%) | 67.9% ± 4.7 | 63.5% ± 3.0 | 81.5% ± 2.9 | 83.2% ± 2.2 |
+| Dim room (brightness ×0.5) | 70.8% ± 2.8 | 69.4% ± 4.8 | 89.0% ± 2.1 | 88.7% ± 3.1 |
+| Spot light (brightness ×1.6) | 67.0% ± 6.0 | 66.6% ± 4.2 | 84.8% ± 1.1 | 86.2% ± 1.9 |
+| Glare or haze (contrast ×0.5) | 70.2% ± 2.1 | 68.6% ± 5.0 | 88.3% ± 2.5 | 87.7% ± 3.1 |
+| Heavy JPEG (quality 15) | 68.4% ± 3.8 | 65.8% ± 5.4 | 78.1% ± 2.2 | 80.4% ± 2.2 |
+| Black-and-white | 64.8% ± 5.4 | 62.7% ± 5.8 | 83.7% ± 2.8 | 83.9% ± 2.3 |
+| **Mean of the 9 perturbations** | 64.3% ± 2.9 | 65.2% ± 3.4 | 82.5% ± 1.1 | 83.9% ± 1.8 |
+
+- **CLIP is better on every condition, on every seed.** Over the nine perturbations the CLIP head averages 82.5% against 64.3% ± 2.9 for the ResNet
+  (+18.2 points, better on 5/5 seeds); the smallest gap is on heavy JPEG (+9.6 points).
+- **It has the same weak spots, much less pronounced.** From 89.0% on clean images it loses 16.3 points when blurred, 10.9 with heavy JPEG, 10.5 when tilted by 15° and 7.5 on the close-up,
+  but at most 5.3 points for any lighting or colour change (the ResNet loses 18 to 21 points on tilt and blur).
+- **Photo augmentation of the head helps a little, not much.** Averaged over the perturbations it gains +1.3 points (better on 4/5 seeds): +5.8 on blur (5/5 seeds),
+  +2.4 on heavy JPEG (5/5), +2.3 on tilt (4/5), at -0.7 points on clean images (2/5 seeds better). The encoder is frozen, so only the head sees the augmented vectors; the gain is small compared with the seed-to-seed spread.
+- **Shift test.** With the circular shift of the first sections (applied to CLIP's 224 px input), accuracy goes from 89.0% to 86.3% (6.25% of the width) and 86.5% (12.5%); 9.6% and 8.6% of the predictions change,
+  against 16.3% and 19.7% for the ResNet and 44.5% and 60.9% for the feed-forward network (those two over 10 seeds; the shifts are the same fractions of the width). Better, but not invariant to framing.
+- **The "unsure" answer reacts to bad photos, but does not fully protect.** With each seed's answer threshold (chosen on clean validation images for 95% accuracy), the head answers 85.7% of the clean test photos with 93.8% accuracy,
+  but only 75.7% of the tilted ones (86.7% accurate when it answers) and 63.2% of the blurred ones (85.1%): it becomes less confident, so it declines more, yet on these two conditions its answers are 7 to 9 points less reliable than on clean images, short of the 95% it was set for.
+
+Limits: synthetic proxies, not phone photos (glare, frames, walls, hands and combined effects are missing); each perturbation is applied alone; 5 seeds; one CLIP model; the augmentation strength and the number of augmented copies were not tuned;
+the answer threshold and temperature are fitted on clean validation images only.
 
 ### Testing on real photos
 

@@ -81,6 +81,7 @@ reproduce-robustness: reproduce-genre
 	$(PYTHON) scripts/robustness.py --seeds 10
 	$(PYTHON) scripts/bn_study.py --seeds 10
 	$(PYTHON) scripts/photo_robustness.py --seeds 5
+	$(PYTHON) scripts/clip_photo_robustness.py
 
 # 3. Natural-language search (the multilingual part needs `make install-reproduce`).
 reproduce-search: data
