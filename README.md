@@ -4,6 +4,8 @@ Final project for **Neural Networks & Deep Learning Foundations** (MSA-DATB09-91
 
 **Group 5:** Lou Brunet, Mathis Meimoun, Alexis Maeder
 
+**New here?** Start with [`notebooks/museum_guide_walkthrough.ipynb`](notebooks/museum_guide_walkthrough.ipynb): the whole story in charts, computed from the committed results (no data or model needed).
+
 ## Brief
 
 A mid-sized French fine-arts museum (fictional) wants an intelligent guide for visitors' phones and gallery kiosks:
@@ -692,7 +694,7 @@ scripts/       one script per experiment (baseline, MLP, ResNet, CLIP search, ro
 tests/         pytest suite on synthetic data
 reports/       figures and results (JSON)
 presentation/  the 10-minute slides
-notebooks/     placeholder, empty for now
+notebooks/     walkthrough notebook: reads reports/*.json, runs in seconds, no painting shown
 data/          the WikiArt subset (not versioned, rebuilt with the command above)
 ```
 
