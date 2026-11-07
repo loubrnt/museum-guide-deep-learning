@@ -1,0 +1,398 @@
+[
+  {
+    "id": "genre:cityscape",
+    "type": "genre",
+    "english": "I would like to see views of a city with streets and buildings",
+    "french": "Je voudrais voir des vues de ville avec des rues et des immeubles"
+  },
+  {
+    "id": "genre:landscape",
+    "type": "genre",
+    "english": "a painting of nature, fields, trees and mountains",
+    "french": "un tableau de nature, avec des champs, des arbres et des montagnes"
+  },
+  {
+    "id": "genre:portrait",
+    "type": "genre",
+    "english": "I would like to see portraits of people",
+    "french": "Je voudrais voir des portraits de personnes"
+  },
+  {
+    "id": "genre:religious_painting",
+    "type": "genre",
+    "english": "paintings showing saints, angels or scenes from the Bible",
+    "french": "des tableaux représentant des saints, des anges ou des scènes de la Bible"
+  },
+  {
+    "id": "genre:still_life",
+    "type": "genre",
+    "english": "a still life with fruit, flowers and objects on a table",
+    "french": "une nature morte avec des fruits, des fleurs et des objets sur une table"
+  },
+  {
+    "id": "style_genre:Impressionist:cityscape",
+    "type": "style_genre",
+    "english": "an Impressionist city view",
+    "french": "un paysage urbain impressionniste"
+  },
+  {
+    "id": "style_genre:Impressionist:landscape",
+    "type": "style_genre",
+    "english": "an Impressionist landscape",
+    "french": "un paysage impressionniste"
+  },
+  {
+    "id": "style_genre:Impressionist:portrait",
+    "type": "style_genre",
+    "english": "an Impressionist portrait",
+    "french": "un portrait impressionniste"
+  },
+  {
+    "id": "style_genre:Impressionist:still_life",
+    "type": "style_genre",
+    "english": "an Impressionist still life",
+    "french": "une nature morte impressionniste"
+  },
+  {
+    "id": "style_genre:Post-Impressionist:cityscape",
+    "type": "style_genre",
+    "english": "a Post-Impressionist city view",
+    "french": "un paysage urbain post-impressionniste"
+  },
+  {
+    "id": "style_genre:Post-Impressionist:landscape",
+    "type": "style_genre",
+    "english": "a Post-Impressionist landscape",
+    "french": "un paysage post-impressionniste"
+  },
+  {
+    "id": "style_genre:Post-Impressionist:portrait",
+    "type": "style_genre",
+    "english": "a Post-Impressionist portrait",
+    "french": "un portrait post-impressionniste"
+  },
+  {
+    "id": "style_genre:Post-Impressionist:still_life",
+    "type": "style_genre",
+    "english": "a Post-Impressionist still life",
+    "french": "une nature morte post-impressionniste"
+  },
+  {
+    "id": "style_genre:Realist:cityscape",
+    "type": "style_genre",
+    "english": "a Realist city view",
+    "french": "un paysage urbain réaliste"
+  },
+  {
+    "id": "style_genre:Realist:landscape",
+    "type": "style_genre",
+    "english": "a Realist landscape",
+    "french": "un paysage réaliste"
+  },
+  {
+    "id": "style_genre:Realist:portrait",
+    "type": "style_genre",
+    "english": "a Realist portrait",
+    "french": "un portrait réaliste"
+  },
+  {
+    "id": "style_genre:Realist:still_life",
+    "type": "style_genre",
+    "english": "a Realist still life",
+    "french": "une nature morte réaliste"
+  },
+  {
+    "id": "style_genre:Expressionist:cityscape",
+    "type": "style_genre",
+    "english": "an Expressionist city view",
+    "french": "un paysage urbain expressionniste"
+  },
+  {
+    "id": "style_genre:Expressionist:landscape",
+    "type": "style_genre",
+    "english": "an Expressionist landscape",
+    "french": "un paysage expressionniste"
+  },
+  {
+    "id": "style_genre:Expressionist:portrait",
+    "type": "style_genre",
+    "english": "an Expressionist portrait",
+    "french": "un portrait expressionniste"
+  },
+  {
+    "id": "style_genre:Expressionist:still_life",
+    "type": "style_genre",
+    "english": "an Expressionist still life",
+    "french": "une nature morte expressionniste"
+  },
+  {
+    "id": "style_genre:Romantic:cityscape",
+    "type": "style_genre",
+    "english": "a Romantic city view",
+    "french": "un paysage urbain romantique"
+  },
+  {
+    "id": "style_genre:Romantic:landscape",
+    "type": "style_genre",
+    "english": "a Romantic landscape",
+    "french": "un paysage romantique"
+  },
+  {
+    "id": "style_genre:Romantic:portrait",
+    "type": "style_genre",
+    "english": "a Romantic portrait",
+    "french": "un portrait romantique"
+  },
+  {
+    "id": "style_genre:Romantic:religious_painting",
+    "type": "style_genre",
+    "english": "a Romantic religious painting",
+    "french": "une peinture religieuse romantique"
+  },
+  {
+    "id": "style_genre:Baroque:portrait",
+    "type": "style_genre",
+    "english": "a Baroque portrait",
+    "french": "un portrait baroque"
+  },
+  {
+    "id": "style_genre:Baroque:religious_painting",
+    "type": "style_genre",
+    "english": "a Baroque religious painting",
+    "french": "une peinture religieuse baroque"
+  },
+  {
+    "id": "style_genre:Baroque:still_life",
+    "type": "style_genre",
+    "english": "a Baroque still life",
+    "french": "une nature morte baroque"
+  },
+  {
+    "id": "style_genre:Northern Renaissance:portrait",
+    "type": "style_genre",
+    "english": "a Northern Renaissance portrait",
+    "french": "un portrait de la Renaissance nordique"
+  },
+  {
+    "id": "style_genre:Northern Renaissance:religious_painting",
+    "type": "style_genre",
+    "english": "a Northern Renaissance religious painting",
+    "french": "une peinture religieuse de la Renaissance nordique"
+  },
+  {
+    "id": "style_genre:Cubist:cityscape",
+    "type": "style_genre",
+    "english": "a Cubist city view",
+    "french": "un paysage urbain cubiste"
+  },
+  {
+    "id": "style_genre:Cubist:landscape",
+    "type": "style_genre",
+    "english": "a Cubist landscape",
+    "french": "un paysage cubiste"
+  },
+  {
+    "id": "style_genre:Cubist:still_life",
+    "type": "style_genre",
+    "english": "a Cubist still life",
+    "french": "une nature morte cubiste"
+  },
+  {
+    "id": "style_genre:Early Renaissance:religious_painting",
+    "type": "style_genre",
+    "english": "an Early Renaissance religious painting",
+    "french": "une peinture religieuse de la première Renaissance"
+  },
+  {
+    "id": "style_genre:Rococo:portrait",
+    "type": "style_genre",
+    "english": "a Rococo portrait",
+    "french": "un portrait rococo"
+  },
+  {
+    "id": "style_genre:Symbolist:landscape",
+    "type": "style_genre",
+    "english": "a Symbolist landscape",
+    "french": "un paysage symboliste"
+  },
+  {
+    "id": "style_genre:Symbolist:religious_painting",
+    "type": "style_genre",
+    "english": "a Symbolist religious painting",
+    "french": "une peinture religieuse symboliste"
+  },
+  {
+    "id": "style_genre:High Renaissance:religious_painting",
+    "type": "style_genre",
+    "english": "a High Renaissance religious painting",
+    "french": "une peinture religieuse de la Haute Renaissance"
+  },
+  {
+    "id": "style_genre:Art Nouveau:cityscape",
+    "type": "style_genre",
+    "english": "an Art Nouveau city view",
+    "french": "un paysage urbain Art nouveau"
+  },
+  {
+    "id": "style_genre:Art Nouveau:portrait",
+    "type": "style_genre",
+    "english": "an Art Nouveau portrait",
+    "french": "un portrait Art nouveau"
+  },
+  {
+    "id": "style_genre:naive:still_life",
+    "type": "style_genre",
+    "english": "a naive still life",
+    "french": "une nature morte naïve"
+  },
+  {
+    "id": "style_genre:Mannerist:religious_painting",
+    "type": "style_genre",
+    "english": "a Mannerist religious painting",
+    "french": "une peinture religieuse maniériste"
+  },
+  {
+    "id": "style_genre:Fauvist:still_life",
+    "type": "style_genre",
+    "english": "a Fauvist still life",
+    "french": "une nature morte fauve"
+  },
+  {
+    "id": "style_genre:Pop Art:still_life",
+    "type": "style_genre",
+    "english": "a Pop Art still life",
+    "french": "une nature morte pop art"
+  },
+  {
+    "id": "artist:albrecht-durer",
+    "type": "artist",
+    "english": "paintings by Albrecht Durer",
+    "french": "des tableaux d'Albrecht Dürer"
+  },
+  {
+    "id": "artist:alfred-sisley",
+    "type": "artist",
+    "english": "paintings by Alfred Sisley",
+    "french": "des tableaux d'Alfred Sisley"
+  },
+  {
+    "id": "artist:amedeo-modigliani",
+    "type": "artist",
+    "english": "paintings by Amedeo Modigliani",
+    "french": "des tableaux d'Amedeo Modigliani"
+  },
+  {
+    "id": "artist:antoine-blanchard",
+    "type": "artist",
+    "english": "paintings by Antoine Blanchard",
+    "french": "des tableaux d'Antoine Blanchard"
+  },
+  {
+    "id": "artist:bartolome-esteban-murillo",
+    "type": "artist",
+    "english": "paintings by Bartolome Esteban Murillo",
+    "french": "des tableaux de Bartolomé Esteban Murillo"
+  },
+  {
+    "id": "artist:camille-corot",
+    "type": "artist",
+    "english": "paintings by Camille Corot",
+    "french": "des tableaux de Camille Corot"
+  },
+  {
+    "id": "artist:camille-pissarro",
+    "type": "artist",
+    "english": "paintings by Camille Pissarro",
+    "french": "des tableaux de Camille Pissarro"
+  },
+  {
+    "id": "artist:claude-monet",
+    "type": "artist",
+    "english": "paintings by Claude Monet",
+    "french": "des tableaux de Claude Monet"
+  },
+  {
+    "id": "artist:edouard-cortes",
+    "type": "artist",
+    "english": "paintings by Edouard Cortes",
+    "french": "des tableaux d'Édouard Cortès"
+  },
+  {
+    "id": "artist:georges-braque",
+    "type": "artist",
+    "english": "paintings by Georges Braque",
+    "french": "des tableaux de Georges Braque"
+  },
+  {
+    "id": "artist:gustave-loiseau",
+    "type": "artist",
+    "english": "paintings by Gustave Loiseau",
+    "french": "des tableaux de Gustave Loiseau"
+  },
+  {
+    "id": "artist:henri-fantin-latour",
+    "type": "artist",
+    "english": "paintings by Henri Fantin Latour",
+    "french": "des tableaux d'Henri Fantin-Latour"
+  },
+  {
+    "id": "artist:henri-matisse",
+    "type": "artist",
+    "english": "paintings by Henri Matisse",
+    "french": "des tableaux d'Henri Matisse"
+  },
+  {
+    "id": "artist:ilya-mashkov",
+    "type": "artist",
+    "english": "paintings by Ilya Mashkov",
+    "french": "des tableaux d'Ilia Machkov"
+  },
+  {
+    "id": "artist:isaac-levitan",
+    "type": "artist",
+    "english": "paintings by Isaac Levitan",
+    "french": "des tableaux d'Isaac Levitan"
+  },
+  {
+    "id": "artist:juan-gris",
+    "type": "artist",
+    "english": "paintings by Juan Gris",
+    "french": "des tableaux de Juan Gris"
+  },
+  {
+    "id": "artist:konstantin-korovin",
+    "type": "artist",
+    "english": "paintings by Konstantin Korovin",
+    "french": "des tableaux de Constantin Korovine"
+  },
+  {
+    "id": "artist:mstislav-dobuzhinsky",
+    "type": "artist",
+    "english": "paintings by Mstislav Dobuzhinsky",
+    "french": "des tableaux de Mstislav Doboujinski"
+  },
+  {
+    "id": "artist:nicholas-roerich",
+    "type": "artist",
+    "english": "paintings by Nicholas Roerich",
+    "french": "des tableaux de Nicolas Roerich"
+  },
+  {
+    "id": "artist:paul-gauguin",
+    "type": "artist",
+    "english": "paintings by Paul Gauguin",
+    "french": "des tableaux de Paul Gauguin"
+  },
+  {
+    "id": "artist:vasily-polenov",
+    "type": "artist",
+    "english": "paintings by Vasily Polenov",
+    "french": "des tableaux de Vassili Polenov"
+  },
+  {
+    "id": "artist:zinaida-serebriakova",
+    "type": "artist",
+    "english": "paintings by Zinaida Serebriakova",
+    "french": "des tableaux de Zinaïda Serebriakova"
+  }
+]

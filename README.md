@@ -195,6 +195,44 @@ Limits: relevance comes from WikiArt metadata, so this measures knowledge of gen
 which stays judged by eye (`reports/figures/search_examples.png`). Paintings by "Unknown Artist" can never be relevant to an artist question.
 The collection has 1,500 paintings and the scores depend on it; the two phrasings were fixed before looking at the results.
 
+### Questions in French
+
+The museum is French but CLIP's text encoder was trained mostly on English. `scripts/search_french.py` asks the same 66 questions in French
+(`museum_guide.french`: same ids, same relevant paintings, only the wording changes; `reports/search_queries_fr.json`) and compares two text encoders on
+the same image index: CLIP's own, and `sentence-transformers/clip-ViT-B-32-multilingual-v1`, a multilingual student encoder whose image side is the same CLIP.
+Each cell is P@10 / AP:
+
+| Text encoder and language | All (66) | Genre (5) | Style x genre (39) | Artist (22) |
+|---|---|---|---|---|
+| CLIP text encoder, questions in English | 0.37 / 0.33 | 1.00 / 0.87 | 0.27 / 0.23 | 0.40 / 0.38 |
+| CLIP text encoder, questions in French | 0.30 / 0.26 | 0.98 / 0.82 | 0.19 / 0.16 | 0.35 / 0.31 |
+| CLIP, French without accents | 0.32 / 0.27 | 0.98 / 0.81 | 0.19 / 0.16 | 0.39 / 0.36 |
+| CLIP, French, artists spelled as in the metadata | 0.33 / 0.29 | 0.98 / 0.82 | 0.19 / 0.16 | 0.42 / 0.39 |
+| Multilingual encoder, English | 0.24 / 0.20 | 1.00 / 0.86 | 0.23 / 0.19 | 0.09 / 0.07 |
+| Multilingual encoder, French | 0.22 / 0.18 | 1.00 / 0.84 | 0.18 / 0.15 | 0.10 / 0.08 |
+| Random ranking | 0.03 / 0.04 | 0.19 / 0.20 | 0.02 / 0.03 | 0.01 / 0.02 |
+
+- **French costs CLIP about 0.06 of average precision**, and it is a real loss, not noise (-0.064, 95% interval [-0.098, -0.036]; worse on 52 of 66 questions),
+  but it stays far above a random ranking. Genre questions barely move (P@10 0.98); style x genre questions lose -0.062 (95% interval [-0.090, -0.036]) and artist questions -0.070 ([-0.155, -0.001]).
+- **For artists, the cause is the spelling, not the language.** With the French spelling of the names ("Édouard Cortès", "Ilia Machkov", "Constantin Korovine") P@10 falls to
+  0.35; with the spelling of the metadata ("Edouard Cortes", "Ilya Mashkov", "Konstantin Korovin") it is 0.42, as good as in English (0.40).
+  For one painter the effect is huge: AP for Édouard Cortès is 0.80 in English, 0.01 with the French spelling and 0.75 once the accents are stripped. Stripping accents helps the artist questions
+  (+0.043, 95% interval [+0.001, +0.113]) but not clearly overall (+0.011, 95% interval [-0.005, +0.038]).
+  A French application should map the names people type to the spelling CLIP knows before encoding them.
+- **The multilingual encoder does not help here.** On the French questions it is worse than CLIP's own encoder (-0.086, 95% interval [-0.135, -0.042]). The whole loss is on artist names
+  (-0.234, 95% interval [-0.340, -0.134]; 12 of the 22 artist questions have no relevant painting in the top 10, against 2 for CLIP).
+  On genre (+0.027, 95% interval [-0.019, +0.068], 5 questions: too few to conclude) and style x genre (-0.016, 95% interval [-0.051, +0.013]) there is no clear difference.
+  It does keep the answers more stable between languages: for the four free questions that have an answer in the collection the top 10 shares 9/10, 7/10, 9/10, 10/10 of its paintings between English and French, against 7/10, 6/10, 6/10, 8/10 for CLIP.
+- **The free questions** ("Quel tableau montre une mer agitée ?", "des portraits d'enfants", "un village enneigé en hiver", "la crucifixion du Christ", "un vase de fleurs") are judged by eye, as in English: with CLIP's encoder
+  the share of the expected genre in the top 10 stays between 0.9 and 1.0 in French. The stormy-sea question, already the weak case in English, shares only 1 of 10 paintings between the two languages with either encoder.
+
+So for French, **keep CLIP's own text encoder** and normalise artist names; the multilingual encoder stays an optional extra
+(`pip install -e ".[multilingual]"`, then `python scripts/search.py "un village enneigé en hiver" --encoder multilingual`).
+A translation step from French to English was not tested; the English row is what a perfect one could reach at best.
+
+Limits: **the French texts were written by an AI assistant and must be read by a French speaker** (`reports/search_queries_fr.json`; the French spellings of Russian names are the least certain).
+Relevance still comes from the metadata, so this measures genre, style and artist, not fine content. Only one multilingual encoder was tested. With 5 genre questions the by-type intervals for genre say little.
+
 ## Recommendation to the director
 
 Use the **fine-tuned ResNet-18** for recognition and **CLIP** for search, both run locally. It is 21 points more accurate than the best classical model, at the same order of CPU cost
