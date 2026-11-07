@@ -13,6 +13,7 @@ import pandas as pd
 from PIL import Image
 
 from museum_guide.notices import story_entry
+from museum_guide.ood import NonPaintingRule, painting_scores
 from museum_guide.predict import ClipProbe, classify_vectors
 from museum_guide.search import Index, search
 
@@ -64,6 +65,7 @@ def build_answer(
     temperature: float | None = None,
     photo_path: Path | str | None = None,
     data_dir: Path | str | None = None,
+    reject_rule: NonPaintingRule | None = None,
 ) -> dict:
     """Everything the guide says about one photo, as a JSON-ready dict.
 
@@ -72,8 +74,19 @@ def build_answer(
     - `story`: the notice of the predicted genre (None when unsure: no story for a guess the guide doubts);
     - `similar`: the `k` closest paintings of the collection;
     - `answers`: with `ask`, the `k` paintings that best match the question.
+
+    With `reject_rule` (see `museum_guide.ood`), a photo that does not look like a painting gets `not_a_painting: true` and
+    its score instead of a genre, a story and similar paintings; a question is still answered.
     """
     vector = encoder.images([photo.convert("RGB")])
+    if reject_rule is not None:
+        score = float(painting_scores(reject_rule, encoder, vector, index.vectors)[0])
+        if not reject_rule.accepts(score):
+            answer = {"not_a_painting": True, "painting_score": round(score, 4), "threshold": round(reject_rule.threshold, 4)}
+            if ask:
+                answer["question"] = ask
+                answer["answers"] = _records(search(index, encoder.texts([ask])[0], k))
+            return answer
     top = classify_vectors(probe, vector, top_k=3, temperature=temperature)[0]
     unsure = min_confidence is not None and top[0][1] < min_confidence
     answer = {
@@ -94,6 +107,13 @@ def build_answer(
 def format_text(answer: dict, photo_name: str = "photo") -> str:
     """A readable version of `build_answer`'s result."""
     lines = [photo_name]
+    if answer.get("not_a_painting"):
+        lines.append(f"This does not look like a painting (score {answer['painting_score']:.2f}, threshold {answer['threshold']:.2f}).")
+        if "answers" in answer:
+            lines.append(f"Paintings for \"{answer['question']}\":")
+            for r in answer["answers"]:
+                lines.append(f"  {r['rank']:2d}  {r['score']:.3f}  {r['path']}  [{r['label']}, {r['style']}, {r['artist']}]")
+        return "\n".join(lines)
     preds = answer["genre"]["predictions"]
     best = preds[0]
     if answer["genre"]["unsure"]:
