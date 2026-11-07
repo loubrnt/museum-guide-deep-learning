@@ -109,7 +109,7 @@ make data                         # builds the genre subset in data/ (about 2.3 
 python scripts/guide.py photo.jpg # genre, story, similar paintings (downloads CLIP's weights, about 600 MB, on first use)
 ```
 
-To see the results without any data or model, open the [walkthrough notebook](notebooks/museum_guide_walkthrough.ipynb). To rebuild every number, see [Reproduce](#reproduce) and [Where each number comes from](#where-each-number-comes-from).
+To see the results without any data or model, open the [walkthrough notebook](notebooks/museum_guide_walkthrough.ipynb). To rebuild every number, see [Reproduce](#reproduce) and [Where each number comes from](#where-each-number-comes-from). En français : un résumé d'une page dans [README.fr.md](README.fr.md).
 
 ## Using the guide
 
