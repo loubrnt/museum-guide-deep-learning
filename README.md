@@ -6,6 +6,46 @@ Final project for **Neural Networks & Deep Learning Foundations** (MSA-DATB09-91
 
 **New here?** Start with [`notebooks/museum_guide_walkthrough.ipynb`](notebooks/museum_guide_walkthrough.ipynb): the whole story in charts, computed from the committed results (no data or model needed).
 
+## Contents
+
+- [Brief](#brief)
+- [Recommendation to the director](#recommendation-to-the-director)
+- [Quick start](#quick-start)
+- [Using the guide](#using-the-guide)
+  - [Classify a photo](#classify-a-photo)
+  - [The story of the tradition](#the-story-of-the-tradition)
+  - [One model for recognition and search](#one-model-for-recognition-and-search)
+  - [What if it is not a painting?](#what-if-it-is-not-a-painting)
+  - [Try it in a browser](#try-it-in-a-browser)
+- [Deliverables](#deliverables)
+- [Results](#results)
+  - [Feed-forward network: monitoring and diagnosis](#feed-forward-network-monitoring-and-diagnosis)
+  - [Per-class results and errors](#per-class-results-and-errors)
+  - [Pretrained CNN](#pretrained-cnn)
+  - [Frozen BatchNorm layers](#frozen-batchnorm-layers)
+  - [How solid are these numbers?](#how-solid-are-these-numbers)
+  - [CLIP as a recognition model](#clip-as-a-recognition-model)
+  - [Recognising the style, not only the genre](#recognising-the-style-not-only-the-genre)
+  - [Other image encoders](#other-image-encoders)
+  - [Adapting CLIP: richer features and partial fine-tuning](#adapting-clip-richer-features-and-partial-fine-tuning)
+  - [How many labelled paintings are needed?](#how-many-labelled-paintings-are-needed)
+- [Natural-language search](#natural-language-search)
+  - [Searching, and a measurable query set](#searching-and-a-measurable-query-set)
+  - [Questions in French](#questions-in-french)
+  - [Using the catalogue metadata](#using-the-catalogue-metadata)
+- [Robustness to camera conditions](#robustness-to-camera-conditions)
+  - [CLIP under camera-like conditions](#clip-under-camera-like-conditions)
+  - [Testing on real photos](#testing-on-real-photos)
+- [Kiosk budget (measured)](#kiosk-budget-measured)
+- [Data](#data)
+  - [Sanity checks on the data](#sanity-checks-on-the-data)
+  - [Figures that show paintings](#figures-that-show-paintings)
+- [Reproduce](#reproduce)
+  - [Where each number comes from](#where-each-number-comes-from)
+  - [Reproducible environment](#reproducible-environment)
+- [Repository layout](#repository-layout)
+- [Tests](#tests)
+
 ## Brief
 
 A mid-sized French fine-arts museum (fictional) wants an intelligent guide for visitors' phones and gallery kiosks:
@@ -16,14 +56,310 @@ A mid-sized French fine-arts museum (fictional) wants an intelligent guide for v
 The director also wants a recommendation: kiosks run on modest CPUs, the team is small and the budget limited.
 Is a neural network worth it in production, or would a simpler classical model do the job?
 
+## Recommendation to the director
+
+**Is a neural network worth it? Yes, provided it is a pretrained one.** A network trained from scratch on a few hundred images is not
+(the feed-forward network is worse than the classical baseline), but a pretrained model gives the guide a clear lead, with no GPU and no API fee.
+All figures below are test accuracy on the artist-disjoint split, mean over 10 seeds, unless stated otherwise (sections above give the details).
+
+| Approach | Genre (5 classes) | Style (6 classes) | Cost on the kiosk |
+|---|---|---|---|
+| Logistic regression, colour/edge features | 49.0% ± 3.7 | 32.1% ± 2.2 | about 1.5 ms (first table) |
+| Random forest, colour/edge features | 53.9% ± 5.2 | 32.4% ± 2.2 | about 12 ms (first table) |
+| Feed-forward network from scratch | 40.9% ± 6.0 | not run | 0.5 ms (first table) |
+| ResNet-18 pretrained, fine-tuned | 74.0% ± 3.8 | 40.6% ± 5.4 | 45 MB, 7.2 ms, +120 MB memory |
+| **CLIP image encoder + linear head** | **90.2% ± 2.5** | **55.4% ± 5.2** | 351 MB, 20.9 ms, +729 MB memory |
+
+Chance is 20% for the genre task and 16.7% for the style task. Kiosk costs are from the [kiosk budget](#kiosk-budget-measured) (Apple M4, one thread, image
+read and resize included); the classical and feed-forward latencies come from the first results table, measured earlier on another machine, so compare orders of magnitude only.
+
+**What I would deploy**
+
+1. **Recognition: CLIP's image encoder with a linear head**, if the kiosk has about 2 GB of memory and a CPU not far below a recent laptop. It beats the fine-tuned
+   ResNet on all 10 seeds for genre (paired gap on seed 0: +15.1 points, interval [+9.5, +21.0]) and for style, at about 3 times the time and 6 times the added memory,
+   which is still a fraction of a second. It also serves the search below, so the kiosk loads one model, not two. If the CPU or memory is very constrained,
+   the **fine-tuned ResNet-18** is the fallback (74.0%, 45 MB).
+2. **Search: CLIP, run locally.** Genre questions are solved (precision@10 = 1.00); style and artist questions are far above chance but often imprecise (precision@10 of 0.27
+   for style x genre and 0.40 for artists, against 0.02 and 0.01 by chance). It was trained mostly on English: French questions lose some accuracy (average precision 0.327 to 0.263 on
+   66 queries), mostly through artists' spellings; a multilingual encoder did not help.
+3. **Do not hide the uncertainty.** The ResNet is over-confident (mean confidence 88.8% for 74.6% accuracy). A temperature fitted on validation data halves the calibration error
+   (0.151 to 0.077), and answering only when the top probability is at least 0.71 gives 86.0% accuracy on 64% of the photos (threshold chosen on validation data, measured on test);
+   below it the kiosk can say "not sure". These figures are for the ResNet and one split; the same should be done for the CLIP head before deployment.
+4. **Show the story, with human review.** The short notices on each genre and style are drafts written by an AI: they must be read and corrected by the team before visitors see them.
+
+**What the classical model can and cannot do.** It is cheap, but at about 50% genre accuracy it is little better than guessing from the painting's *style label* alone (45%,
+see the [sanity checks](#sanity-checks-on-the-data)). It would only make sense as a fallback when no pretrained model can run.
+
+**Not deployed.** The feed-forward network: less accurate than the classical baseline and fragile to framing (a circular shift changes 61% of its predictions).
+
+**Still open before a real deployment**
+- **Real camera photos.** Nothing here uses them. A 15 degree rotation or a blur costs the ResNet about 20 points (72.3% to 51.7% and 54.6%, 5 seeds); photo-style augmentation recovers part
+  of it (rotation back to 62.7%) at a cost of about 2 points on clean images, see [robustness to camera conditions](#robustness-to-camera-conditions). The CLIP head loses much less: 89.0% on clean images, 82.5% averaged over the same nine perturbations, but still 78.5% when tilted and 72.7% when blurred ([details](#clip-under-camera-like-conditions)).
+- **New painters.** Style is tied to the painter, and the split only guarantees unseen *named* painters. On those, the style accuracy drops to 50.5% for CLIP and 36.1% for the ResNet.
+- **The real kiosk CPU.** The latencies are from a laptop. int8 quantisation made CLIP slower on Apple silicon (97.9 ms against 20.9 ms); whether it helps on an x86 kiosk was not measured.
+  Decoding a 12-megapixel phone photo costs 29 ms (15 ms with draft decoding), more than the ResNet itself.
+- **Label quality.** WikiArt genres overlap (a religious scene in a landscape) and its style labels are debatable; 5 genres and 6 styles are far fewer than a museum collection.
+
+## Quick start
+
+```bash
+pip install -e ".[dev]"          # the package and the test tools
+make test                         # synthetic data: no download, a few minutes (make check also lints, type-checks, measures coverage)
+make data                         # builds the genre subset in data/ (about 2.3 GB streamed from Hugging Face)
+python scripts/guide.py photo.jpg # genre, story, similar paintings (downloads CLIP's weights, about 600 MB, on first use)
+```
+
+To see the results without any data or model, open the [walkthrough notebook](notebooks/museum_guide_walkthrough.ipynb). To rebuild every number, see [Reproduce](#reproduce) and [Where each number comes from](#where-each-number-comes-from).
+
+## Using the guide
+
+Everything below runs on the CPU. Photos are classified by CLIP's image encoder with a saved linear head (`--model clip`) or by the fine-tuned ResNet-18.
+
+### Classify a photo
+
+Once `train_resnet.py` has written `reports/resnet18.pt` (not versioned), any photo can be classified on CPU:
+
+```bash
+python scripts/predict.py photo.jpg                 # genre and confidence, top 3
+python scripts/predict.py a.jpg b.jpg --top-k 2 --json
+```
+
+Photos are resized and centre-cropped to 128 px exactly as at evaluation time, and phone EXIF rotation is applied.
+The code is in `src/museum_guide/predict.py` (`load_classifier`, `classify`) for use in a kiosk or app.
+
+**Calibrated confidence and "I am not sure".** The raw network is over-confident: on the test set it claims 88.8% confidence on average for 74.6% accuracy
+(expected calibration error 0.151). `python scripts/calibrate_resnet.py` fits one temperature T on the **validation** set (T = 2.05, 249 images) and divides the logits by it.
+The predicted class does not change; on the test set the calibration error falls to 0.077, the log-loss from 0.925 to 0.697, and the mean confidence to 76.2%
+(`reports/calibration.json`, `reports/figures/calibration.png`). `predict.py` reads `reports/calibration.json` automatically, and `--min-confidence` turns low confidence into an answer of "unsure":
+
+```bash
+python scripts/predict.py photo.jpg --min-confidence 0.7
+# photo.jpg: unsure (best guess: cityscape 55%)
+```
+
+Answering only the photos the network is surest about raises the accuracy of the answers (test set, calibrated confidence):
+
+| Share of photos answered | 100% | 90% | 80% | 70% | 50% |
+|---|---|---|---|---|---|
+| Accuracy of the answers | 74.6% | 79.0% | 83.0% | 85.7% | 92.1% |
+
+A threshold chosen on the validation set carries over to the test set: 0.71 (aimed at 85%) answers 64% of the test photos with 86.0% accuracy, and 0.77 (aimed at 90%) answers 54% with 90.7%.
+These figures come from one split (seed 0) and 279 test photos, so they are rough: the shape (fewer answers, more accurate ones) is the finding, not the second decimal.
+With `--json`, `--min-confidence` changes each entry to `{"unsure": bool, "predictions": [...]}`; without it the output is unchanged.
+
+### The story of the tradition
+
+The brief asks the guide to recognise a painting "and tell the story of that tradition". `src/museum_guide/notices.py` holds a short notice
+(2 to 4 sentences, 40 to 57 words) for each of the 5 genres and for the 19 styles that appear at least 15 times in the subset, in French (the museum's language) and in English.
+`--story` adds the notice of the predicted genre after the usual answer (French by default, `--lang en` for English); without `--story` nothing changes:
+
+```bash
+python scripts/predict.py data/wikiart_genre5/portrait/s33_r0513.jpg --story
+# data/wikiart_genre5/portrait/s33_r0513.jpg: portrait 86%, religious_painting 7%, ...   (the usual line, a test-set image)
+#   Le portrait représente une personne précise, pour garder son souvenir ou affirmer son rang. À la Renaissance, en Italie comme en Flandre, [...]
+python scripts/predict.py photo.jpg --story --lang en                      # "A portrait shows a particular person, to preserve their memory or to assert their rank. [...]"
+python scripts/search.py "a Cubist still life" --story    # the notice of the style of the top result
+```
+
+With `--json`, `--story` changes each entry to `{"predictions": [...], "story": {"label", "lang", "title", "text"}}`
+(plus `"unsure"` when `--min-confidence` is given); a guess the guide is "unsure" about gets `"story": null` and no text, since it should not tell the story of a tradition it is not sure about.
+From Python: `notice_for("Post-Impressionism", "en")`, `title_for(...)`, `story_entry(...)`, `normalise_label(...)` (WikiArt spellings such as `Post_Impressionism` and human ones such as `Religious painting` both work).
+
+**These texts are drafts written by an AI assistant.** They stick to widely known general facts (where and when, what the artists were after, what to look for, a few famous names),
+but nobody has checked them against the literature. They must be read by the team, and ideally by someone trained in art history, before visitors see them.
+
+Covered labels: the genres `cityscape`, `landscape`, `portrait`, `religious_painting`, `still_life`; the styles Impressionism, Post-Impressionism, Realism, Expressionism, Romanticism, Baroque,
+Northern Renaissance, Cubism, Synthetic Cubism, Early Renaissance, High Renaissance, Mannerism (Late Renaissance), Rococo, Symbolism, Art Nouveau, Naive Art (Primitivism), Fauvism, Pop Art and Ukiyo-e.
+Four rarer styles of the subset have no notice yet (Pointillism, Contemporary Realism, New Realism, Analytical Cubism: 26 images out of 1,500); `search.py --story` says so on the error output instead of guessing.
+The notices tell the story of a tradition, not of the painting in the photo: the guide does not identify the individual work or its painter.
+
+
+### One model for recognition and search
+
+CLIP's image encoder already serves the [search](#natural-language-search), and a linear head on its image vectors recognises the genre better than the
+ResNet (90.2% against 74.0% over 10 seeds, see [CLIP as a recognition model](#clip-as-a-recognition-model)). So the guide can load **one** model for both.
+`scripts/train_clip_probe.py` fits the head on the README split (seed 0) and saves it with its calibration in `reports/clip_probe.npz` (12.8 KB, versioned, so nothing needs refitting);
+`scripts/predict.py --model clip` and `scripts/guide.py` use it.
+
+```bash
+python scripts/predict.py photo.jpg --model clip --min-confidence 0.83 --story   # same flags as the ResNet
+python scripts/guide.py photo.jpg --ask "a snowy winter village" --k 3 --lang en
+```
+
+`guide.py` is the whole guide for one photo: the genre (top 3, "unsure" below the saved confidence threshold), the story of that tradition (French by default, `--lang en`), the paintings of the
+collection closest to the photo (never the photo itself) and, with `--ask`, the paintings that best answer a question. CLIP is loaded once; the 1,500 collection vectors are computed once and saved
+(`data/search_index.npz`), so a photo costs one image encoding and a few dot products. A real run on a test-set painting (a Pissarro cityscape), and on one the guide is not sure about:
+
+```
+$ python scripts/guide.py data/wikiart_genre5/cityscape/s11_r0265.jpg --ask "a snowy winter village" --k 3 --lang en
+Genre: cityscape 86% (then landscape 14%, still_life 0%)
+  The cityscape shows streets, squares and monuments. In the 18th century Canaletto made views of Venice famous; [...]
+Similar paintings:
+   1  0.844  cityscape/s11_r0638.jpg  [cityscape, Post_Impressionism, pyotr-konchalovsky]
+   2  0.840  cityscape/s07_r0053.jpg  [cityscape, Post_Impressionism, vincent-van-gogh]
+   3  0.830  cityscape/s11_r0678.jpg  [cityscape, Art_Nouveau, boris-kustodiev]
+Paintings for "a snowy winter village":
+   1  0.318  cityscape/s38_r0237.jpg  [cityscape, Expressionism, mstislav-dobuzhinsky]
+   [...]
+
+$ python scripts/guide.py data/wikiart_genre5/cityscape/s11_r0669.jpg --k 3 --lang en
+Genre: unsure (best guess: cityscape 56%)          # no story for a guess the guide doubts
+Similar paintings:
+   1  0.844  religious_painting/s33_r0912.jpg  [religious_painting, Early_Renaissance, Unknown Artist]
+   [...]
+```
+
+**Calibration of the CLIP head** (fitted on 972 training images, C = 1 chosen on 249 validation images; 89.6% on the 279 test images, the seed-0 value in `reports/clip_classifier.json`).
+The temperature is fitted on the validation set only, with the method of the ResNet calibration above, and the test set is used once. The result is the **opposite** of the ResNet:
+the head is *under*-confident (mean confidence 71.8% for 89.6% accuracy), so the temperature is below 1 (T = 0.44; the ResNet needed 2.05).
+
+| Test set (279 images) | Raw probabilities | After temperature scaling |
+|---|---|---|
+| Mean confidence | 71.8% | 90.3% |
+| Calibration error (ECE) | 0.178 | 0.033 |
+| Negative log-likelihood | 0.443 | 0.301 |
+
+Answering only the most confident photos keeps accuracy high: 94.0% on the 90% most confident, 96.0% on 80%, 96.4% on 70%, 98.6% on 50% (89.6% on all).
+The threshold saved in the file, 0.83, was chosen on the validation set as the smallest confidence that reaches 95% accuracy there (95.1% on 73.5% of the validation photos). On the test set it
+answers 219 of the 279 photos (78.5%) with 96.3% accuracy (8 errors). The 60 photos it declines are 39 correct and 21 wrong guesses: the rule removes 21 of the 29 errors, at the price of
+dropping 39 correct answers. It is not a guarantee: 5 test photos are wrong with 95% confidence or more (for instance a religious scene by Murillo read as a portrait at 99.7%).
+
+Limits: the head is trained on 972 images and calibrated on 249, both from one split, with no confidence intervals on these figures; the calibration was measured on the same painting collection
+as the training data, not on camera photos; the first call downloads CLIP's weights (about 600 MB); "similar paintings" are neighbours in CLIP's space (they look or read alike), not curatorial links; and
+the cost of the CLIP encoder on a kiosk is in the [kiosk budget](#kiosk-budget-measured).
+
+### What if it is not a painting?
+
+A visitor may point the phone at a wall, a face or an object. The classifiers only know five genres, so they answer anyway. `scripts/non_painting.py`
+measures this and compares ways to refuse such photos (about 400 MB of ordinary photos are downloaded by `scripts/fetch_non_paintings.py`, kept in `data/ood/`, never committed):
+Caltech-101 objects and faces, Imagenette (objects, animals, a church), DTD (textures of surfaces), and synthetic frames (a plain wall, plaster, a black frame, noise). Each source has 300
+photos for the test and 150 others for validation; they are resized and cropped to 128 x 128 JPEG like the paintings, so that only the content differs. The paintings are the seed-0
+test (279) and validation (249) paintings. Everything is in `reports/non_painting.json`.
+
+**What the guide does today.** Share of each group that is still *answered* (not "unsure") at the documented thresholds (ResNet 0.71, CLIP head 0.83):
+
+| Photo | ResNet (0.71) | CLIP head (0.83) |
+|---|---|---|
+| Paintings (test) | 64.2% | 78.5% |
+| Caltech objects / faces | 37.0% / 35.3% | 12.0% / **90.0%** |
+| Imagenette / textures (DTD) | 34.0% / 16.3% | 15.3% / 20.7% |
+| Plain wall / plaster / black frame / noise | 0% / 0% / 0% / 0% | 10.0% / 0% / 0% / 0% |
+
+The confidence thresholds were chosen to keep accuracy high among paintings, not to detect non-paintings: about a third of real non-painting photos still get an answer (30.7% for the ResNet, 34.5% for the CLIP head),
+and the CLIP head answers for 9 faces out of 10 and calls every one of those 270 a portrait (the objects it answers are mostly called still lifes: 27 of 36). The top probability separates paintings from other photos poorly (AUROC 0.725 for the ResNet, 0.825 for the CLIP head, against 0.5 for chance).
+
+**Ways to tell a painting from a non-painting.** AUROC (chance of ranking a test painting above a non-painting; 1 is perfect) over the 1,200 real test photos, and the share of those photos accepted
+when the threshold lets 95% of the test paintings through:
+
+| Score | AUROC | Real photos accepted at 95% of paintings |
+|---|---|---|
+| ResNet top probability | 0.725 | 88.8% |
+| CLIP head top probability | 0.825 | 71.8% |
+| CLIP zero-shot "a painting" vs "a photograph" | 0.984 | 8.3% |
+| CLIP zero-shot "a painting in a museum" vs "a photo of an object, a person or a wall" | 0.986 | 2.0% |
+| CLIP zero-shot "an oil painting"... vs "a photograph"... | 0.981 | 9.1% |
+| CLIP zero-shot "a work of art on canvas" vs "a photo taken with a phone camera" | 0.917 | 37.9% |
+| Similarity to the 5 closest paintings of the collection | 0.991 | 4.7% |
+| **Zero-shot "museum" pair + similarity to the collection (fitted on validation)** | **0.996** | **0.8%** |
+
+The four sentence pairs were written before looking at any result on the photos, and all four are shown. The zero-shot sentence pair is the best choice on the validation draw, and the combination of the
+two signals (two weights and a bias, fitted by logistic regression on the validation photos only) is the best method there too, so it is the one in the guide. Everything above uses the
+test photos only for reporting.
+
+**The rule in the guide** (`reports/non_painting_rule.json`): score = 76.8 x (cos(photo, "a painting in a museum") - cos(photo, "a photo of an object, a person or a wall")) + 39.7 x (mean cosine to the
+5 closest paintings of the collection) - 30.1; a photo is accepted when the score is at least 0.07. The threshold is the one that accepts 95% of the *validation* paintings: the 249 cropped ones and 100 more
+framed on a wall (see the limits). On the test photos, with that threshold:
+
+| Test photos | Accepted as paintings |
+|---|---|
+| Paintings, cropped to the canvas | 97.8% |
+| Paintings framed on a wall (a proxy for a visitor's photo) | 82.0% |
+| Caltech objects / faces | 2.7% / 0.0% |
+| Imagenette / textures (DTD) | 1.0% / 9.3% |
+| Plain wall / plaster / black frame / noise | 1.7% / 0% / 0% / 0% |
+| All 1,200 real photos / all 240 synthetic frames | 3.3% (39 photos) / 0.4% (1 frame) |
+| Heavily blurred paintings (a bad photo of a painting) | 0.0% |
+
+The cut can be moved. Thresholds fitted on validation for other shares of paintings accepted (`python scripts/non_painting.py --tpr 0.98` saves one):
+
+| Share of validation paintings accepted | 90% | 95% (default) | 98% | 99% |
+|---|---|---|---|---|
+| Test paintings accepted (cropped) | 97.1% | 97.8% | 98.2% | 99.6% |
+| Test paintings framed on a wall accepted | 75% | 82% | 96% | 100% |
+| Real non-painting photos accepted | 1.3% | 3.3% | 7.8% | 15.8% |
+| Synthetic frames accepted | 0% | 0.4% | 13.3% | 58.8% |
+
+**Using it.** The check is off by default and changes nothing unless asked:
+
+```bash
+python scripts/predict.py photo.jpg --model clip --reject-non-paintings
+# photo.jpg: this does not look like a painting (score -9.07, threshold 0.07)
+python scripts/guide.py photo.jpg --reject-non-paintings --ask "a stormy sea"   # no genre, but the question is still answered
+```
+
+It needs CLIP even with `--model resnet` (about 600 MB on first use) and the saved collection index (`data/search_index.npz`, built by the first `scripts/search.py`). With `--json`, each photo gets
+`"not_a_painting"` (true or false) and `"painting_score"`; a rejected photo has no story.
+
+**What I saw in the failures.** The non-paintings that get accepted are mostly textures that really look like paint (brush strokes, polka dots, an illuminated initial), an illustrated animal, a framed
+lamp and a church under a painterly sky: arguably not errors. The paintings that get rejected are mostly drawings, etchings and black-and-white sketches (WikiArt files them under the same genres), plus one dark painted portrait: the rule treats
+drawings and prints as non-paintings, which a museum would not want. I looked at the 12 highest-scoring non-paintings and the 12 lowest-scoring paintings; the grid is written to `data/ood/` and not committed.
+
+Limits:
+- The photos are ordinary datasets (objects, faces, textures, plain frames), resized to 128 px like the paintings. A real camera photo is larger and shows its surroundings; a gallery wall with several frames, a
+  glare, a visitor's hand, a label or a poster of a painting are **not** covered. The "framed on a wall" images are crude compositions (a thin frame, a small rotation, a plaster background), not photos.
+- A photo of a painting on a screen or a postcard is accepted by design: it is still a painting. Drawings and prints are often rejected (see above).
+- One draw of 300 photos per source and one painting split; no confidence intervals. The validation and test photos come from the same four datasets, so another kind of non-painting (signs, objects in
+  a showcase, a sculpture) may behave differently. Caltech-101 also holds a few drawn or sculpted items (cartoon characters, a statue of a Buddha) that are in the pool.
+- The rule has three numbers fitted on 249 paintings, 100 framed compositions and 720 other photos. CLIP was trained on web images that may include some of these paintings.
+
+### Try it in a browser
+
+A small web page over the guide, for the presentation and for trying the kiosk idea (`scripts/demo.py`, built with Gradio):
+
+```bash
+pip install -e ".[demo]"
+python scripts/demo.py                 # then open http://127.0.0.1:7860
+python scripts/demo.py --lang en --port 8000
+python scripts/demo.py --offline       # once CLIP's weights are cached: no network connection at all
+```
+
+Upload a photo (the widget also offers the webcam) and, if you like, type a question. The page shows a **verdict banner** (green: a painting; amber: not sure,
+with the best guess; red: this does not look like a painting; grey: no photo), the **top 3 genres**, the **story** of the tradition (an AI-written draft, flagged as such on the page),
+the **paintings of the collection closest to the photo** and, for a question, the **paintings that answer it**. A question is answered even when the photo is not a painting,
+or when there is no photo. French is the default (`--lang en` or the switch on the page for English); switching language re-renders the last answer without computing it again.
+The logic is in `src/museum_guide/demo_logic.py` and is tested without Gradio; one CLIP model is loaded at start-up and shared by all requests (one request at a time).
+
+I checked it in a browser with the real model: a test-set portrait gives "C'est un tableau : Le portrait (94%)"; a test-set cityscape that the head is only 82% sure of (threshold 0.83) gives the amber banner and no story; a face from Caltech and a plain grey wall give the red banner;
+removing the photo gives the grey one; the French question "un village enneigé en hiver" returns snowy townscapes; the language switch and `--lang en` work. The webcam input was **not** tested.
+
+Limits:
+
+- **A local demonstration, not a kiosk application.** The server listens on `127.0.0.1` only, Gradio's analytics are off and the page only talks to the local server, but loading CLIP contacts the Hugging Face hub
+  (to download the weights, then to check the cached files) unless you pass `--offline`. `--share` (a public Gradio link) exists but is off by default and should stay off: see the next point.
+- **The galleries show WikiArt paintings read from your local `data/` folder, which must not be published**: do not share the page or screenshots of it.
+- The first start loads CLIP (about 600 MB downloaded the first time) and builds the collection index if `data/search_index.npz` does not exist (about 30 s).
+- The story texts are drafts written by an AI assistant, pending review by the team.
+- The rule that refuses non-paintings is not perfect (see the previous section): a genuine test-set landscape was refused in my checks.
+- **The page cannot say "this is the same painting".** A lightly recompressed copy of a painting of the collection comes back as its own nearest neighbour (similarity close to 1), but a real photo of it generally would not: in a quick check
+  (not saved in the repository), stronger compression, rescaling or lighting changes lowered the similarity to its own painting below that of the closest *different* painting, so no threshold separates the two.
+
 ## Deliverables
+
+**The course brief**
 
 - [x] A feed-forward network in PyTorch for artwork classification (`scripts/train_mlp.py`)
 - [x] Training monitoring and failure diagnosis (`reports/figures/mlp_*.png`)
 - [x] A pretrained CNN (ResNet) for image classification (`scripts/train_resnet.py`)
-- [x] A classical baseline and a measured recommendation (`scripts/baseline_classical.py`)
-- [x] Natural-language search over the collection (`scripts/search_clip.py`)
-- [x] 10-minute presentation (`presentation/museum-guide.pptx`)
+- [x] A classical baseline and a measured recommendation (`scripts/baseline_classical.py`, [recommendation](#recommendation-to-the-director))
+- [x] Natural-language search over the collection (`scripts/search_clip.py`, `scripts/search.py`)
+- [x] 10-minute presentation (`presentation/museum-guide.pptx`; it still carries the first recommendation, not the CLIP-based one below)
+
+**Beyond the brief**
+
+- A CLIP recognition model, the style task, the encoder comparison and the learning curves ([Results](#results)).
+- A guide that combines recognition, the story of the tradition and search ([Using the guide](#using-the-guide)), with calibrated confidence, an "unsure" answer and refusal of non-paintings.
+- Measured robustness, kiosk budget and data audit ([robustness](#robustness-to-camera-conditions), [kiosk](#kiosk-budget-measured), [data checks](#sanity-checks-on-the-data)).
+- Tests, type checks, a provenance map, a model card and a reproducible environment ([Tests](#tests), [Reproduce](#reproduce)).
 
 ## Results
 
@@ -469,401 +805,6 @@ styles, and 48% of the paintings have no artist, so a filter on an artist can ne
 13 questions, 128-pixel thumbnails and an AI reviewer make the manual check an indication; the visual part is still CLIP's, English-trained.
 Reproduce: `python scripts/search_hybrid_eval.py --grids` saves the image grids (in `data/`, not versioned: they show paintings), then `python scripts/search_hybrid_eval.py`.
 
-## Recommendation to the director
-
-**Is a neural network worth it? Yes, provided it is a pretrained one.** A network trained from scratch on a few hundred images is not
-(the feed-forward network is worse than the classical baseline), but a pretrained model gives the guide a clear lead, with no GPU and no API fee.
-All figures below are test accuracy on the artist-disjoint split, mean over 10 seeds, unless stated otherwise (sections above give the details).
-
-| Approach | Genre (5 classes) | Style (6 classes) | Cost on the kiosk |
-|---|---|---|---|
-| Logistic regression, colour/edge features | 49.0% ± 3.7 | 32.1% ± 2.2 | about 1.5 ms (first table) |
-| Random forest, colour/edge features | 53.9% ± 5.2 | 32.4% ± 2.2 | about 12 ms (first table) |
-| Feed-forward network from scratch | 40.9% ± 6.0 | not run | 0.5 ms (first table) |
-| ResNet-18 pretrained, fine-tuned | 74.0% ± 3.8 | 40.6% ± 5.4 | 45 MB, 7.2 ms, +120 MB memory |
-| **CLIP image encoder + linear head** | **90.2% ± 2.5** | **55.4% ± 5.2** | 351 MB, 20.9 ms, +729 MB memory |
-
-Chance is 20% for the genre task and 16.7% for the style task. Kiosk costs are from the [kiosk budget](#kiosk-budget-measured) (Apple M4, one thread, image
-read and resize included); the classical and feed-forward latencies come from the first results table, measured earlier on another machine, so compare orders of magnitude only.
-
-**What I would deploy**
-
-1. **Recognition: CLIP's image encoder with a linear head**, if the kiosk has about 2 GB of memory and a CPU not far below a recent laptop. It beats the fine-tuned
-   ResNet on all 10 seeds for genre (paired gap on seed 0: +15.1 points, interval [+9.5, +21.0]) and for style, at about 3 times the time and 6 times the added memory,
-   which is still a fraction of a second. It also serves the search below, so the kiosk loads one model, not two. If the CPU or memory is very constrained,
-   the **fine-tuned ResNet-18** is the fallback (74.0%, 45 MB).
-2. **Search: CLIP, run locally.** Genre questions are solved (precision@10 = 1.00); style and artist questions are far above chance but often imprecise (precision@10 of 0.27
-   for style x genre and 0.40 for artists, against 0.02 and 0.01 by chance). It was trained mostly on English: French questions lose some accuracy (average precision 0.327 to 0.263 on
-   66 queries), mostly through artists' spellings; a multilingual encoder did not help.
-3. **Do not hide the uncertainty.** The ResNet is over-confident (mean confidence 88.8% for 74.6% accuracy). A temperature fitted on validation data halves the calibration error
-   (0.151 to 0.077), and answering only when the top probability is at least 0.71 gives 86.0% accuracy on 64% of the photos (threshold chosen on validation data, measured on test);
-   below it the kiosk can say "not sure". These figures are for the ResNet and one split; the same should be done for the CLIP head before deployment.
-4. **Show the story, with human review.** The short notices on each genre and style are drafts written by an AI: they must be read and corrected by the team before visitors see them.
-
-**What the classical model can and cannot do.** It is cheap, but at about 50% genre accuracy it is little better than guessing from the painting's *style label* alone (45%,
-see the [sanity checks](#sanity-checks-on-the-data)). It would only make sense as a fallback when no pretrained model can run.
-
-**Not deployed.** The feed-forward network: less accurate than the classical baseline and fragile to framing (a circular shift changes 61% of its predictions).
-
-**Still open before a real deployment**
-- **Real camera photos.** Nothing here uses them. A 15 degree rotation or a blur costs the ResNet about 20 points (72.3% to 51.7% and 54.6%, 5 seeds); photo-style augmentation recovers part
-  of it (rotation back to 62.7%) at a cost of about 2 points on clean images, see [robustness to camera conditions](#robustness-to-camera-conditions). The CLIP head loses much less: 89.0% on clean images, 82.5% averaged over the same nine perturbations, but still 78.5% when tilted and 72.7% when blurred ([details](#clip-under-camera-like-conditions)).
-- **New painters.** Style is tied to the painter, and the split only guarantees unseen *named* painters. On those, the style accuracy drops to 50.5% for CLIP and 36.1% for the ResNet.
-- **The real kiosk CPU.** The latencies are from a laptop. int8 quantisation made CLIP slower on Apple silicon (97.9 ms against 20.9 ms); whether it helps on an x86 kiosk was not measured.
-  Decoding a 12-megapixel phone photo costs 29 ms (15 ms with draft decoding), more than the ResNet itself.
-- **Label quality.** WikiArt genres overlap (a religious scene in a landscape) and its style labels are debatable; 5 genres and 6 styles are far fewer than a museum collection.
-
-## Reproduce
-
-From the repository root, with the [data](#data) built:
-
-```bash
-pip install -e .
-python scripts/baseline_classical.py
-python scripts/train_mlp.py
-python scripts/train_resnet.py
-python scripts/search_clip.py
-python scripts/robustness.py --seeds 10    # about 10 minutes: seeds, confidence intervals, shift test
-python scripts/benchmark_kiosk.py                # about 15 minutes: leave the machine idle, it measures time and memory
-python scripts/clip_classifier.py --seeds 10    # CLIP zero-shot and linear probe vs the ResNet (needs reports/robustness.json)
-python scripts/train_clip_probe.py              # refit and calibrate the CLIP head saved in reports/clip_probe.npz (seconds)
-```
-
-Each script writes its numbers to `reports/<name>.json` and its figures to `reports/figures/`.
-
-### Where each number comes from
-
-[docs/PROVENANCE.md](docs/PROVENANCE.md) lists, for each of the 23 scripts, its exact command, the data it needs, the reports and figures it writes,
-the README claim it supports (as a `file.json#key` you can look up), its run time when known, and which scripts must run before it.
-`make reproduce-all` rebuilds every report in dependency order (`make install-reproduce` first; more than 10 GB of downloads; total time not measured),
-and `make reproduce-genre`, `reproduce-robustness`, `reproduce-search`, `reproduce-clip`, `reproduce-ood`, `reproduce-style`, `reproduce-encoders` and
-`reproduce-kiosk` run one group at a time. The older `make reproduce` is unchanged. `make check-provenance` (also part of the tests) fails when the map and the repository disagree.
-
-### Classify a photo
-
-Once `train_resnet.py` has written `reports/resnet18.pt` (not versioned), any photo can be classified on CPU:
-
-```bash
-python scripts/predict.py photo.jpg                 # genre and confidence, top 3
-python scripts/predict.py a.jpg b.jpg --top-k 2 --json
-```
-
-Photos are resized and centre-cropped to 128 px exactly as at evaluation time, and phone EXIF rotation is applied.
-The code is in `src/museum_guide/predict.py` (`load_classifier`, `classify`) for use in a kiosk or app.
-
-**Calibrated confidence and "I am not sure".** The raw network is over-confident: on the test set it claims 88.8% confidence on average for 74.6% accuracy
-(expected calibration error 0.151). `python scripts/calibrate_resnet.py` fits one temperature T on the **validation** set (T = 2.05, 249 images) and divides the logits by it.
-The predicted class does not change; on the test set the calibration error falls to 0.077, the log-loss from 0.925 to 0.697, and the mean confidence to 76.2%
-(`reports/calibration.json`, `reports/figures/calibration.png`). `predict.py` reads `reports/calibration.json` automatically, and `--min-confidence` turns low confidence into an answer of "unsure":
-
-```bash
-python scripts/predict.py photo.jpg --min-confidence 0.7
-# photo.jpg: unsure (best guess: cityscape 55%)
-```
-
-Answering only the photos the network is surest about raises the accuracy of the answers (test set, calibrated confidence):
-
-| Share of photos answered | 100% | 90% | 80% | 70% | 50% |
-|---|---|---|---|---|---|
-| Accuracy of the answers | 74.6% | 79.0% | 83.0% | 85.7% | 92.1% |
-
-A threshold chosen on the validation set carries over to the test set: 0.71 (aimed at 85%) answers 64% of the test photos with 86.0% accuracy, and 0.77 (aimed at 90%) answers 54% with 90.7%.
-These figures come from one split (seed 0) and 279 test photos, so they are rough: the shape (fewer answers, more accurate ones) is the finding, not the second decimal.
-With `--json`, `--min-confidence` changes each entry to `{"unsure": bool, "predictions": [...]}`; without it the output is unchanged.
-
-### The story of the tradition
-
-The brief asks the guide to recognise a painting "and tell the story of that tradition". `src/museum_guide/notices.py` holds a short notice
-(2 to 4 sentences, 40 to 57 words) for each of the 5 genres and for the 19 styles that appear at least 15 times in the subset, in French (the museum's language) and in English.
-`--story` adds the notice of the predicted genre after the usual answer (French by default, `--lang en` for English); without `--story` nothing changes:
-
-```bash
-python scripts/predict.py data/wikiart_genre5/portrait/s33_r0513.jpg --story
-# data/wikiart_genre5/portrait/s33_r0513.jpg: portrait 86%, religious_painting 7%, ...   (the usual line, a test-set image)
-#   Le portrait représente une personne précise, pour garder son souvenir ou affirmer son rang. À la Renaissance, en Italie comme en Flandre, [...]
-python scripts/predict.py photo.jpg --story --lang en                      # "A portrait shows a particular person, to preserve their memory or to assert their rank. [...]"
-python scripts/search.py "a Cubist still life" --story    # the notice of the style of the top result
-```
-
-With `--json`, `--story` changes each entry to `{"predictions": [...], "story": {"label", "lang", "title", "text"}}`
-(plus `"unsure"` when `--min-confidence` is given); a guess the guide is "unsure" about gets `"story": null` and no text, since it should not tell the story of a tradition it is not sure about.
-From Python: `notice_for("Post-Impressionism", "en")`, `title_for(...)`, `story_entry(...)`, `normalise_label(...)` (WikiArt spellings such as `Post_Impressionism` and human ones such as `Religious painting` both work).
-
-**These texts are drafts written by an AI assistant.** They stick to widely known general facts (where and when, what the artists were after, what to look for, a few famous names),
-but nobody has checked them against the literature. They must be read by the team, and ideally by someone trained in art history, before visitors see them.
-
-Covered labels: the genres `cityscape`, `landscape`, `portrait`, `religious_painting`, `still_life`; the styles Impressionism, Post-Impressionism, Realism, Expressionism, Romanticism, Baroque,
-Northern Renaissance, Cubism, Synthetic Cubism, Early Renaissance, High Renaissance, Mannerism (Late Renaissance), Rococo, Symbolism, Art Nouveau, Naive Art (Primitivism), Fauvism, Pop Art and Ukiyo-e.
-Four rarer styles of the subset have no notice yet (Pointillism, Contemporary Realism, New Realism, Analytical Cubism: 26 images out of 1,500); `search.py --story` says so on the error output instead of guessing.
-The notices tell the story of a tradition, not of the painting in the photo: the guide does not identify the individual work or its painter.
-
-
-### One model for recognition and search
-
-CLIP's image encoder already serves the [search](#natural-language-search), and a linear head on its image vectors recognises the genre better than the
-ResNet (90.2% against 74.0% over 10 seeds, see [CLIP as a recognition model](#clip-as-a-recognition-model)). So the guide can load **one** model for both.
-`scripts/train_clip_probe.py` fits the head on the README split (seed 0) and saves it with its calibration in `reports/clip_probe.npz` (12.8 KB, versioned, so nothing needs refitting);
-`scripts/predict.py --model clip` and `scripts/guide.py` use it.
-
-```bash
-python scripts/predict.py photo.jpg --model clip --min-confidence 0.83 --story   # same flags as the ResNet
-python scripts/guide.py photo.jpg --ask "a snowy winter village" --k 3 --lang en
-```
-
-`guide.py` is the whole guide for one photo: the genre (top 3, "unsure" below the saved confidence threshold), the story of that tradition (French by default, `--lang en`), the paintings of the
-collection closest to the photo (never the photo itself) and, with `--ask`, the paintings that best answer a question. CLIP is loaded once; the 1,500 collection vectors are computed once and saved
-(`data/search_index.npz`), so a photo costs one image encoding and a few dot products. A real run on a test-set painting (a Pissarro cityscape), and on one the guide is not sure about:
-
-```
-$ python scripts/guide.py data/wikiart_genre5/cityscape/s11_r0265.jpg --ask "a snowy winter village" --k 3 --lang en
-Genre: cityscape 86% (then landscape 14%, still_life 0%)
-  The cityscape shows streets, squares and monuments. In the 18th century Canaletto made views of Venice famous; [...]
-Similar paintings:
-   1  0.844  cityscape/s11_r0638.jpg  [cityscape, Post_Impressionism, pyotr-konchalovsky]
-   2  0.840  cityscape/s07_r0053.jpg  [cityscape, Post_Impressionism, vincent-van-gogh]
-   3  0.830  cityscape/s11_r0678.jpg  [cityscape, Art_Nouveau, boris-kustodiev]
-Paintings for "a snowy winter village":
-   1  0.318  cityscape/s38_r0237.jpg  [cityscape, Expressionism, mstislav-dobuzhinsky]
-   [...]
-
-$ python scripts/guide.py data/wikiart_genre5/cityscape/s11_r0669.jpg --k 3 --lang en
-Genre: unsure (best guess: cityscape 56%)          # no story for a guess the guide doubts
-Similar paintings:
-   1  0.844  religious_painting/s33_r0912.jpg  [religious_painting, Early_Renaissance, Unknown Artist]
-   [...]
-```
-
-**Calibration of the CLIP head** (fitted on 972 training images, C = 1 chosen on 249 validation images; 89.6% on the 279 test images, the seed-0 value in `reports/clip_classifier.json`).
-The temperature is fitted on the validation set only, with the method of the ResNet calibration above, and the test set is used once. The result is the **opposite** of the ResNet:
-the head is *under*-confident (mean confidence 71.8% for 89.6% accuracy), so the temperature is below 1 (T = 0.44; the ResNet needed 2.05).
-
-| Test set (279 images) | Raw probabilities | After temperature scaling |
-|---|---|---|
-| Mean confidence | 71.8% | 90.3% |
-| Calibration error (ECE) | 0.178 | 0.033 |
-| Negative log-likelihood | 0.443 | 0.301 |
-
-Answering only the most confident photos keeps accuracy high: 94.0% on the 90% most confident, 96.0% on 80%, 96.4% on 70%, 98.6% on 50% (89.6% on all).
-The threshold saved in the file, 0.83, was chosen on the validation set as the smallest confidence that reaches 95% accuracy there (95.1% on 73.5% of the validation photos). On the test set it
-answers 219 of the 279 photos (78.5%) with 96.3% accuracy (8 errors). The 60 photos it declines are 39 correct and 21 wrong guesses: the rule removes 21 of the 29 errors, at the price of
-dropping 39 correct answers. It is not a guarantee: 5 test photos are wrong with 95% confidence or more (for instance a religious scene by Murillo read as a portrait at 99.7%).
-
-Limits: the head is trained on 972 images and calibrated on 249, both from one split, with no confidence intervals on these figures; the calibration was measured on the same painting collection
-as the training data, not on camera photos; the first call downloads CLIP's weights (about 600 MB); "similar paintings" are neighbours in CLIP's space (they look or read alike), not curatorial links; and
-the cost of the CLIP encoder on a kiosk is in the [kiosk budget](#kiosk-budget-measured).
-
-### What if it is not a painting?
-
-A visitor may point the phone at a wall, a face or an object. The classifiers only know five genres, so they answer anyway. `scripts/non_painting.py`
-measures this and compares ways to refuse such photos (about 400 MB of ordinary photos are downloaded by `scripts/fetch_non_paintings.py`, kept in `data/ood/`, never committed):
-Caltech-101 objects and faces, Imagenette (objects, animals, a church), DTD (textures of surfaces), and synthetic frames (a plain wall, plaster, a black frame, noise). Each source has 300
-photos for the test and 150 others for validation; they are resized and cropped to 128 x 128 JPEG like the paintings, so that only the content differs. The paintings are the seed-0
-test (279) and validation (249) paintings. Everything is in `reports/non_painting.json`.
-
-**What the guide does today.** Share of each group that is still *answered* (not "unsure") at the documented thresholds (ResNet 0.71, CLIP head 0.83):
-
-| Photo | ResNet (0.71) | CLIP head (0.83) |
-|---|---|---|
-| Paintings (test) | 64.2% | 78.5% |
-| Caltech objects / faces | 37.0% / 35.3% | 12.0% / **90.0%** |
-| Imagenette / textures (DTD) | 34.0% / 16.3% | 15.3% / 20.7% |
-| Plain wall / plaster / black frame / noise | 0% / 0% / 0% / 0% | 10.0% / 0% / 0% / 0% |
-
-The confidence thresholds were chosen to keep accuracy high among paintings, not to detect non-paintings: about a third of real non-painting photos still get an answer (30.7% for the ResNet, 34.5% for the CLIP head),
-and the CLIP head answers for 9 faces out of 10 and calls every one of those 270 a portrait (the objects it answers are mostly called still lifes: 27 of 36). The top probability separates paintings from other photos poorly (AUROC 0.725 for the ResNet, 0.825 for the CLIP head, against 0.5 for chance).
-
-**Ways to tell a painting from a non-painting.** AUROC (chance of ranking a test painting above a non-painting; 1 is perfect) over the 1,200 real test photos, and the share of those photos accepted
-when the threshold lets 95% of the test paintings through:
-
-| Score | AUROC | Real photos accepted at 95% of paintings |
-|---|---|---|
-| ResNet top probability | 0.725 | 88.8% |
-| CLIP head top probability | 0.825 | 71.8% |
-| CLIP zero-shot "a painting" vs "a photograph" | 0.984 | 8.3% |
-| CLIP zero-shot "a painting in a museum" vs "a photo of an object, a person or a wall" | 0.986 | 2.0% |
-| CLIP zero-shot "an oil painting"... vs "a photograph"... | 0.981 | 9.1% |
-| CLIP zero-shot "a work of art on canvas" vs "a photo taken with a phone camera" | 0.917 | 37.9% |
-| Similarity to the 5 closest paintings of the collection | 0.991 | 4.7% |
-| **Zero-shot "museum" pair + similarity to the collection (fitted on validation)** | **0.996** | **0.8%** |
-
-The four sentence pairs were written before looking at any result on the photos, and all four are shown. The zero-shot sentence pair is the best choice on the validation draw, and the combination of the
-two signals (two weights and a bias, fitted by logistic regression on the validation photos only) is the best method there too, so it is the one in the guide. Everything above uses the
-test photos only for reporting.
-
-**The rule in the guide** (`reports/non_painting_rule.json`): score = 76.8 x (cos(photo, "a painting in a museum") - cos(photo, "a photo of an object, a person or a wall")) + 39.7 x (mean cosine to the
-5 closest paintings of the collection) - 30.1; a photo is accepted when the score is at least 0.07. The threshold is the one that accepts 95% of the *validation* paintings: the 249 cropped ones and 100 more
-framed on a wall (see the limits). On the test photos, with that threshold:
-
-| Test photos | Accepted as paintings |
-|---|---|
-| Paintings, cropped to the canvas | 97.8% |
-| Paintings framed on a wall (a proxy for a visitor's photo) | 82.0% |
-| Caltech objects / faces | 2.7% / 0.0% |
-| Imagenette / textures (DTD) | 1.0% / 9.3% |
-| Plain wall / plaster / black frame / noise | 1.7% / 0% / 0% / 0% |
-| All 1,200 real photos / all 240 synthetic frames | 3.3% (39 photos) / 0.4% (1 frame) |
-| Heavily blurred paintings (a bad photo of a painting) | 0.0% |
-
-The cut can be moved. Thresholds fitted on validation for other shares of paintings accepted (`python scripts/non_painting.py --tpr 0.98` saves one):
-
-| Share of validation paintings accepted | 90% | 95% (default) | 98% | 99% |
-|---|---|---|---|---|
-| Test paintings accepted (cropped) | 97.1% | 97.8% | 98.2% | 99.6% |
-| Test paintings framed on a wall accepted | 75% | 82% | 96% | 100% |
-| Real non-painting photos accepted | 1.3% | 3.3% | 7.8% | 15.8% |
-| Synthetic frames accepted | 0% | 0.4% | 13.3% | 58.8% |
-
-**Using it.** The check is off by default and changes nothing unless asked:
-
-```bash
-python scripts/predict.py photo.jpg --model clip --reject-non-paintings
-# photo.jpg: this does not look like a painting (score -9.07, threshold 0.07)
-python scripts/guide.py photo.jpg --reject-non-paintings --ask "a stormy sea"   # no genre, but the question is still answered
-```
-
-It needs CLIP even with `--model resnet` (about 600 MB on first use) and the saved collection index (`data/search_index.npz`, built by the first `scripts/search.py`). With `--json`, each photo gets
-`"not_a_painting"` (true or false) and `"painting_score"`; a rejected photo has no story.
-
-**What I saw in the failures.** The non-paintings that get accepted are mostly textures that really look like paint (brush strokes, polka dots, an illuminated initial), an illustrated animal, a framed
-lamp and a church under a painterly sky: arguably not errors. The paintings that get rejected are mostly drawings, etchings and black-and-white sketches (WikiArt files them under the same genres), plus one dark painted portrait: the rule treats
-drawings and prints as non-paintings, which a museum would not want. I looked at the 12 highest-scoring non-paintings and the 12 lowest-scoring paintings; the grid is written to `data/ood/` and not committed.
-
-Limits:
-- The photos are ordinary datasets (objects, faces, textures, plain frames), resized to 128 px like the paintings. A real camera photo is larger and shows its surroundings; a gallery wall with several frames, a
-  glare, a visitor's hand, a label or a poster of a painting are **not** covered. The "framed on a wall" images are crude compositions (a thin frame, a small rotation, a plaster background), not photos.
-- A photo of a painting on a screen or a postcard is accepted by design: it is still a painting. Drawings and prints are often rejected (see above).
-- One draw of 300 photos per source and one painting split; no confidence intervals. The validation and test photos come from the same four datasets, so another kind of non-painting (signs, objects in
-  a showcase, a sculpture) may behave differently. Caltech-101 also holds a few drawn or sculpted items (cartoon characters, a statue of a Buddha) that are in the pool.
-- The rule has three numbers fitted on 249 paintings, 100 framed compositions and 720 other photos. CLIP was trained on web images that may include some of these paintings.
-
-### Try it in a browser
-
-A small web page over the guide, for the presentation and for trying the kiosk idea (`scripts/demo.py`, built with Gradio):
-
-```bash
-pip install -e ".[demo]"
-python scripts/demo.py                 # then open http://127.0.0.1:7860
-python scripts/demo.py --lang en --port 8000
-python scripts/demo.py --offline       # once CLIP's weights are cached: no network connection at all
-```
-
-Upload a photo (the widget also offers the webcam) and, if you like, type a question. The page shows a **verdict banner** (green: a painting; amber: not sure,
-with the best guess; red: this does not look like a painting; grey: no photo), the **top 3 genres**, the **story** of the tradition (an AI-written draft, flagged as such on the page),
-the **paintings of the collection closest to the photo** and, for a question, the **paintings that answer it**. A question is answered even when the photo is not a painting,
-or when there is no photo. French is the default (`--lang en` or the switch on the page for English); switching language re-renders the last answer without computing it again.
-The logic is in `src/museum_guide/demo_logic.py` and is tested without Gradio; one CLIP model is loaded at start-up and shared by all requests (one request at a time).
-
-I checked it in a browser with the real model: a test-set portrait gives "C'est un tableau : Le portrait (94%)"; a test-set cityscape that the head is only 82% sure of (threshold 0.83) gives the amber banner and no story; a face from Caltech and a plain grey wall give the red banner;
-removing the photo gives the grey one; the French question "un village enneigé en hiver" returns snowy townscapes; the language switch and `--lang en` work. The webcam input was **not** tested.
-
-Limits:
-
-- **A local demonstration, not a kiosk application.** The server listens on `127.0.0.1` only, Gradio's analytics are off and the page only talks to the local server, but loading CLIP contacts the Hugging Face hub
-  (to download the weights, then to check the cached files) unless you pass `--offline`. `--share` (a public Gradio link) exists but is off by default and should stay off: see the next point.
-- **The galleries show WikiArt paintings read from your local `data/` folder, which must not be published**: do not share the page or screenshots of it.
-- The first start loads CLIP (about 600 MB downloaded the first time) and builds the collection index if `data/search_index.npz` does not exist (about 30 s).
-- The story texts are drafts written by an AI assistant, pending review by the team.
-- The rule that refuses non-paintings is not perfect (see the previous section): a genuine test-set landscape was refused in my checks.
-- **The page cannot say "this is the same painting".** A lightly recompressed copy of a painting of the collection comes back as its own nearest neighbour (similarity close to 1), but a real photo of it generally would not: in a quick check
-  (not saved in the repository), stronger compression, rescaling or lighting changes lowered the similarity to its own painting below that of the closest *different* painting, so no threshold separates the two.
-
-### Reproducible environment
-
-`pyproject.toml` only gives minimum versions, so a fresh install gets the latest of everything. `constraints/py311.txt` lists the versions the test suite is known to pass with
-(Python 3.11, Linux, CPU-only PyTorch; `torch` and `torchvision` are minor-version ranges because their wheels differ between platforms):
-
-```bash
-pip install -c constraints/py311.txt torch torchvision --index-url https://download.pytorch.org/whl/cpu   # Linux; on macOS: pip install -c constraints/py311.txt torch torchvision
-pip install -c constraints/py311.txt -e ".[dev]"
-```
-
-Or in a container (the data and the model downloads are not baked in; mount them):
-
-```bash
-make docker-build                  # docker build -t museum-guide .
-make docker-test                   # runs the test suite in the image
-docker run --rm -v "$PWD/data:/app/data" -v "$PWD/reports:/app/reports" \
-    -v "$HOME/.cache/huggingface:/home/app/.cache/huggingface" museum-guide python scripts/baseline_classical.py
-```
-
-`make constraints` (or `bash constraints/regenerate.sh`) regenerates the file: it installs the project in a clean `python:3.11-slim` container, runs the tests there, and writes the versions only if they pass.
-
-What was checked, on an Apple silicon Mac with Docker Desktop: the file was generated that way and the suite passed in that container (363 passed, 2 skipped: the Gradio tests, since the `demo` extra is not installed);
-the image builds in about 2 minutes and is 2.5 GB (PyTorch and the dependencies are most of it); the tests pass inside it as a non-root user in about 2 minutes; with `data/` and `reports/` mounted, the 1500 images
-load and the split is the usual 972/249/279. CI also runs both on Linux x86_64, and both passed on the pull request that added them: the pinned install followed by the tests (`pinned versions` workflow, when the constraints, `pyproject.toml`, `src/` or `tests/` change), and the image build followed by the tests in the container (`docker` workflow, when the recipe changes). Not checked: macOS with the pinned file, and the `multilingual` and `demo` extras (not pinned). The image is not published anywhere.
-
-## Data
-
-A subset of [WikiArt](https://huggingface.co/datasets/huggan/wikiart), built with the course script:
-
-```bash
-pip install -e .
-python project/make_wikiart_subset.py --label genre \
-    --classes portrait landscape cityscape still_life religious_painting \
-    --per-class 300 --size 128 --out data/wikiart_genre5
-```
-
-`data/` is not versioned; the command above rebuilds it. The scripts look for it in `data/wikiart_genre5` relative to the working
-directory; set `MUSEUM_GUIDE_DATA=/path/to/wikiart_genre5` to put it elsewhere.
-
-### Sanity checks on the data
-
-`python scripts/data_audit.py` (about 10 seconds, writes `reports/data_audit.json`) runs the checks below.
-
-- **No near-duplicate images.** Perceptual hashes over the 1,500 images find no pair within 3 bits (of 64) and one pair within 6 bits
-  (two different genres, never across a split for seed 0). At the loosest setting (9 bits, plain or mirrored) there are 7 and 10 pairs;
-  I looked at all of them: different paintings with a similar layout or tone. A 16x16 hash finds none up to 38 bits of 256.
-- **No named painter in two parts**, for each of the 10 seeds (checked by an assertion). The split sizes move with the seed:
-  test 195 to 301 images, 36% to 56% "Unknown Artist" images in the test part (seed 0: 279 images, 37%; train 52%, val 44%).
-  Class balance also varies: the gap between the most and least frequent class is 7 to 29 points of the test part.
-- **Neighbouring unknown paintings look alike a little more than chance, not clearly more than their shard does.** The dataset is ordered in
-  blocks of artists, so consecutive "Unknown Artist" rows might share a hand. They share a genre in 36% to 39% of the cases (any
-  two unknown images of one shard: 30%; chance: 20%), and the share does not grow as the rows get closer. This is a small effect on a few
-  hundred pairs: it cannot show that unknown paintings leak between train and test, nor that they do not.
-
-How far can a model get without looking at a single pixel? A random forest on metadata only (test accuracy, mean ± std over 10 seeds):
-
-| Information used | Genre accuracy |
-|---|---|
-| Chance (5 classes) | 20% |
-| Most frequent training class | 15.4% ± 4.7 |
-| Original shape of the painting (aspect ratio, size) | 30.1% ± 3.6 |
-| Style label (23 styles) | 45.1% ± 6.5 |
-| Style + shape | 46.5% ± 4.7 |
-| Source block in WikiArt (shard) | 48.7% ± 5.4 |
-
-The style and the shard are not available to a camera, so these are floors, not deployable baselines. They show that the style alone
-predicts the genre of nearly half of the paintings: the feed-forward network (40.9%) and the logistic regression (49.0%) of the results above are at that
-level, the random forest (53.9%) is a few points above it, and the ResNet (74.0%) is far above.
-
-Limits: a perceptual hash only catches near-identical copies (not a crop, a different photograph of the same canvas, or a colour-only
-change); the audit cannot tell whether two "Unknown Artist" paintings share a hand, and they are 48% of the data; the shard
-is a trace of how the subset was built, not something a model sees.
-
-### Figures that show paintings
-
-Two scripts draw galleries of WikiArt paintings: `scripts/search_clip.py` (`search_examples.png`, the answers to five free questions) and
-`scripts/error_analysis.py` (`error_confident_mistakes.png` and `error_hesitant_correct.png`, 12 test paintings each). The WikiArt dataset card says
-`license: unknown` and the course script asks not to publish the images, so these figures are **not committed**: the scripts write them to
-`data/figures_local/` (ignored by Git), and `reports/figures/` holds charts only. The findings read from them are kept as text above and in `reports/*.json`.
-To look at them, run the two scripts (see Reproduce) and open `data/figures_local/`. Set `MUSEUM_GUIDE_FIGURES_LOCAL=/some/dir` to write them elsewhere.
-`tests/test_tracked_figures.py` fails when an image that is not on its allow-list (`tests/tracked_images.json`) is committed.
-
-Earlier versions of these three figures are still in the Git history; removing them from it is a decision for the repository owner (see the pull request that introduced this rule).
-
-## Repository layout
-
-```
-project/       course data script (make_wikiart_subset.py)
-src/           reusable code (data and split, models, training loop, inference, robustness helpers)
-scripts/       one script per experiment (baseline, MLP, ResNet, CLIP search, robustness) and predict.py
-tests/         pytest suite on synthetic data
-reports/       figures and results (JSON)
-presentation/  the 10-minute slides
-notebooks/     walkthrough notebook: reads reports/*.json, runs in seconds, no painting shown
-data/          the WikiArt subset (not versioned, rebuilt with the command above)
-```
-
 ## Robustness to camera conditions
 
 The paintings are clean WikiArt scans, but the guide will see phone photos. There are no labelled photos yet, so `scripts/photo_robustness.py`
@@ -970,6 +911,132 @@ transformers and the image libraries loaded, peaks at about 590 MB for the ResNe
 Limits: random weights (shapes, size, memory and speed do not depend on the values); one machine; the three repeats agree within about 8% (max minus min),
 except CLIP fp16 on 4 threads (112 to 135 ms); the machine was not completely idle, a load average of about 6 at the start; the 12-megapixel image is a
 proxy (smooth content plus noise), real photos may decode slower; the int8 parameter count in the JSON (2.4 M) excludes packed int8 weights.
+
+## Data
+
+A subset of [WikiArt](https://huggingface.co/datasets/huggan/wikiart), built with the course script:
+
+```bash
+pip install -e .
+python project/make_wikiart_subset.py --label genre \
+    --classes portrait landscape cityscape still_life religious_painting \
+    --per-class 300 --size 128 --out data/wikiart_genre5
+```
+
+`data/` is not versioned; the command above rebuilds it. The scripts look for it in `data/wikiart_genre5` relative to the working
+directory; set `MUSEUM_GUIDE_DATA=/path/to/wikiart_genre5` to put it elsewhere.
+
+### Sanity checks on the data
+
+`python scripts/data_audit.py` (about 10 seconds, writes `reports/data_audit.json`) runs the checks below.
+
+- **No near-duplicate images.** Perceptual hashes over the 1,500 images find no pair within 3 bits (of 64) and one pair within 6 bits
+  (two different genres, never across a split for seed 0). At the loosest setting (9 bits, plain or mirrored) there are 7 and 10 pairs;
+  I looked at all of them: different paintings with a similar layout or tone. A 16x16 hash finds none up to 38 bits of 256.
+- **No named painter in two parts**, for each of the 10 seeds (checked by an assertion). The split sizes move with the seed:
+  test 195 to 301 images, 36% to 56% "Unknown Artist" images in the test part (seed 0: 279 images, 37%; train 52%, val 44%).
+  Class balance also varies: the gap between the most and least frequent class is 7 to 29 points of the test part.
+- **Neighbouring unknown paintings look alike a little more than chance, not clearly more than their shard does.** The dataset is ordered in
+  blocks of artists, so consecutive "Unknown Artist" rows might share a hand. They share a genre in 36% to 39% of the cases (any
+  two unknown images of one shard: 30%; chance: 20%), and the share does not grow as the rows get closer. This is a small effect on a few
+  hundred pairs: it cannot show that unknown paintings leak between train and test, nor that they do not.
+
+How far can a model get without looking at a single pixel? A random forest on metadata only (test accuracy, mean ± std over 10 seeds):
+
+| Information used | Genre accuracy |
+|---|---|
+| Chance (5 classes) | 20% |
+| Most frequent training class | 15.4% ± 4.7 |
+| Original shape of the painting (aspect ratio, size) | 30.1% ± 3.6 |
+| Style label (23 styles) | 45.1% ± 6.5 |
+| Style + shape | 46.5% ± 4.7 |
+| Source block in WikiArt (shard) | 48.7% ± 5.4 |
+
+The style and the shard are not available to a camera, so these are floors, not deployable baselines. They show that the style alone
+predicts the genre of nearly half of the paintings: the feed-forward network (40.9%) and the logistic regression (49.0%) of the results above are at that
+level, the random forest (53.9%) is a few points above it, and the ResNet (74.0%) is far above.
+
+Limits: a perceptual hash only catches near-identical copies (not a crop, a different photograph of the same canvas, or a colour-only
+change); the audit cannot tell whether two "Unknown Artist" paintings share a hand, and they are 48% of the data; the shard
+is a trace of how the subset was built, not something a model sees.
+
+### Figures that show paintings
+
+Two scripts draw galleries of WikiArt paintings: `scripts/search_clip.py` (`search_examples.png`, the answers to five free questions) and
+`scripts/error_analysis.py` (`error_confident_mistakes.png` and `error_hesitant_correct.png`, 12 test paintings each). The WikiArt dataset card says
+`license: unknown` and the course script asks not to publish the images, so these figures are **not committed**: the scripts write them to
+`data/figures_local/` (ignored by Git), and `reports/figures/` holds charts only. The findings read from them are kept as text above and in `reports/*.json`.
+To look at them, run the two scripts (see Reproduce) and open `data/figures_local/`. Set `MUSEUM_GUIDE_FIGURES_LOCAL=/some/dir` to write them elsewhere.
+`tests/test_tracked_figures.py` fails when an image that is not on its allow-list (`tests/tracked_images.json`) is committed.
+
+Earlier versions of these three figures are still in the Git history; removing them from it is a decision for the repository owner (see the pull request that introduced this rule).
+
+## Reproduce
+
+From the repository root, with the [data](#data) built:
+
+```bash
+pip install -e .
+python scripts/baseline_classical.py
+python scripts/train_mlp.py
+python scripts/train_resnet.py
+python scripts/search_clip.py
+python scripts/robustness.py --seeds 10    # about 10 minutes: seeds, confidence intervals, shift test
+python scripts/benchmark_kiosk.py                # about 15 minutes: leave the machine idle, it measures time and memory
+python scripts/clip_classifier.py --seeds 10    # CLIP zero-shot and linear probe vs the ResNet (needs reports/robustness.json)
+python scripts/train_clip_probe.py              # refit and calibrate the CLIP head saved in reports/clip_probe.npz (seconds)
+```
+
+Each script writes its numbers to `reports/<name>.json` and its figures to `reports/figures/`.
+
+### Where each number comes from
+
+[docs/PROVENANCE.md](docs/PROVENANCE.md) lists, for each of the 23 scripts, its exact command, the data it needs, the reports and figures it writes,
+the README claim it supports (as a `file.json#key` you can look up), its run time when known, and which scripts must run before it.
+`make reproduce-all` rebuilds every report in dependency order (`make install-reproduce` first; more than 10 GB of downloads; total time not measured),
+and `make reproduce-genre`, `reproduce-robustness`, `reproduce-search`, `reproduce-clip`, `reproduce-ood`, `reproduce-style`, `reproduce-encoders` and
+`reproduce-kiosk` run one group at a time. The older `make reproduce` is unchanged. `make check-provenance` (also part of the tests) fails when the map and the repository disagree.
+
+### Reproducible environment
+
+`pyproject.toml` only gives minimum versions, so a fresh install gets the latest of everything. `constraints/py311.txt` lists the versions the test suite is known to pass with
+(Python 3.11, Linux, CPU-only PyTorch; `torch` and `torchvision` are minor-version ranges because their wheels differ between platforms):
+
+```bash
+pip install -c constraints/py311.txt torch torchvision --index-url https://download.pytorch.org/whl/cpu   # Linux; on macOS: pip install -c constraints/py311.txt torch torchvision
+pip install -c constraints/py311.txt -e ".[dev]"
+```
+
+Or in a container (the data and the model downloads are not baked in; mount them):
+
+```bash
+make docker-build                  # docker build -t museum-guide .
+make docker-test                   # runs the test suite in the image
+docker run --rm -v "$PWD/data:/app/data" -v "$PWD/reports:/app/reports" \
+    -v "$HOME/.cache/huggingface:/home/app/.cache/huggingface" museum-guide python scripts/baseline_classical.py
+```
+
+`make constraints` (or `bash constraints/regenerate.sh`) regenerates the file: it installs the project in a clean `python:3.11-slim` container, runs the tests there, and writes the versions only if they pass.
+
+What was checked, on an Apple silicon Mac with Docker Desktop: the file was generated that way and the suite passed in that container (363 passed, 2 skipped: the Gradio tests, since the `demo` extra is not installed);
+the image builds in about 2 minutes and is 2.5 GB (PyTorch and the dependencies are most of it); the tests pass inside it as a non-root user in about 2 minutes; with `data/` and `reports/` mounted, the 1500 images
+load and the split is the usual 972/249/279. CI also runs both on Linux x86_64, and both passed on the pull request that added them: the pinned install followed by the tests (`pinned versions` workflow, when the constraints, `pyproject.toml`, `src/` or `tests/` change), and the image build followed by the tests in the container (`docker` workflow, when the recipe changes). Not checked: macOS with the pinned file, and the `multilingual` and `demo` extras (not pinned). The image is not published anywhere.
+
+## Repository layout
+
+```
+project/       course data script (make_wikiart_subset.py)
+src/           reusable code (data and split, models, training loop, inference, robustness helpers)
+scripts/       one script per experiment, plus the tools: predict.py, guide.py, search.py, demo.py, evaluate_photos.py
+tests/         pytest suite on synthetic data (also checks the provenance map and the tracked images)
+docs/          PROVENANCE.md (where each number comes from), REAL_PHOTO_PROTOCOL.md
+constraints/   known-good package versions; Dockerfile and Makefile build and run everything
+.github/       CI workflows, Dependabot, pull request template
+reports/       figures and results (JSON)
+presentation/  the 10-minute slides
+notebooks/     walkthrough notebook: reads reports/*.json, runs in seconds, no painting shown
+data/          the WikiArt subset (not versioned, rebuilt with the command above)
+```
 
 ## Tests
 
