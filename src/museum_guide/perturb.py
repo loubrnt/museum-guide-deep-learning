@@ -84,19 +84,30 @@ PERTURBATIONS: dict[str, Callable[[Image.Image], Image.Image]] = {
 }
 
 
+def photo_augment_steps(size: int) -> list:
+    """The random, PIL-level part of the photo augmentation: crop, flip, tilt, oblique view, light, blur."""
+    return [
+        transforms.RandomResizedCrop(size, scale=(0.5, 1.0)),
+        transforms.RandomHorizontalFlip(),
+        transforms.RandomRotation(20),
+        transforms.RandomPerspective(distortion_scale=0.3, p=0.5),
+        transforms.ColorJitter(brightness=0.4, contrast=0.4, saturation=0.3),
+        transforms.RandomApply([transforms.GaussianBlur(kernel_size=5, sigma=(0.1, 2.0))], p=0.3),
+    ]
+
+
+def photo_augment_pil(size: int) -> transforms.Compose:
+    """`photo_train_transform` without the tensor conversion: a random augmentation PIL image -> PIL image.
+
+    Used to embed augmented images with a model that has its own preprocessing (CLIP).
+    """
+    return transforms.Compose(photo_augment_steps(size))
+
+
 def photo_train_transform(size: int) -> transforms.Compose:
     """Random training augmentation imitating `PERTURBATIONS`: crop, tilt, oblique view, light, blur, flip."""
     return transforms.Compose(
-        [
-            transforms.RandomResizedCrop(size, scale=(0.5, 1.0)),
-            transforms.RandomHorizontalFlip(),
-            transforms.RandomRotation(20),
-            transforms.RandomPerspective(distortion_scale=0.3, p=0.5),
-            transforms.ColorJitter(brightness=0.4, contrast=0.4, saturation=0.3),
-            transforms.RandomApply([transforms.GaussianBlur(kernel_size=5, sigma=(0.1, 2.0))], p=0.3),
-            transforms.ToTensor(),
-            transforms.Normalize(IMAGENET_MEAN, IMAGENET_STD),
-        ]
+        [*photo_augment_steps(size), transforms.ToTensor(), transforms.Normalize(IMAGENET_MEAN, IMAGENET_STD)]
     )
 
 
