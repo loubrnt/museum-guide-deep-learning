@@ -84,6 +84,18 @@ pip install transformers && python scripts/search_clip.py
 
 Each script writes its numbers to `reports/<name>.json` and its figures to `reports/figures/`.
 
+### Classify a photo
+
+Once `train_resnet.py` has written `reports/resnet18.pt` (not versioned), any photo can be classified on CPU:
+
+```bash
+python scripts/predict.py photo.jpg                 # genre and confidence, top 3
+python scripts/predict.py a.jpg b.jpg --top-k 2 --json
+```
+
+Photos are resized and centre-cropped to 128 px exactly as at evaluation time, and phone EXIF rotation is applied.
+The code is in `src/museum_guide/predict.py` (`load_classifier`, `classify`) for use in a kiosk or app.
+
 ## Data
 
 A subset of [WikiArt](https://huggingface.co/datasets/huggan/wikiart), built with the course script:
