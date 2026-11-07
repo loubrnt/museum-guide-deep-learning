@@ -1,0 +1,264 @@
+{
+  "model": "openai/clip-vit-base-patch32",
+  "classes": [
+    "cityscape",
+    "landscape",
+    "portrait",
+    "religious_painting",
+    "still_life"
+  ],
+  "split_seed": 0,
+  "n_train": 972,
+  "n_val": 249,
+  "n_test": 279,
+  "C": 1.0,
+  "val_accuracy": 0.8795180722891566,
+  "test_accuracy": 0.8960573476702509,
+  "temperature": 0.441414719087933,
+  "temperature_fitted_on": "validation set",
+  "target_accuracy": 0.95,
+  "min_confidence": 0.8300305624689159,
+  "test_before": {
+    "accuracy": 0.8960573476702509,
+    "mean_confidence": 0.718480440257802,
+    "nll": 0.442564549551101,
+    "ece": 0.177576907412449,
+    "mean_confidence_when_right": 0.7420159482741756,
+    "mean_confidence_when_wrong": 0.5155881297718233
+  },
+  "test_after": {
+    "accuracy": 0.8960573476702509,
+    "mean_confidence": 0.903187256452838,
+    "nll": 0.3006312022101777,
+    "ece": 0.03251771625671097,
+    "mean_confidence_when_right": 0.9268897749366266,
+    "mean_confidence_when_wrong": 0.6988552005581086
+  },
+  "validation_before": {
+    "accuracy": 0.8795180722891566,
+    "mean_confidence": 0.6612179380357628,
+    "nll": 0.5402467910592141,
+    "ece": 0.21830013425339387,
+    "mean_confidence_when_right": 0.6806367957879307,
+    "mean_confidence_when_wrong": 0.5194602764449364
+  },
+  "validation_after": {
+    "accuracy": 0.8795180722891566,
+    "mean_confidence": 0.8840066178465039,
+    "nll": 0.3550928809261128,
+    "ece": 0.02326790754046264,
+    "mean_confidence_when_right": 0.9044738255721151,
+    "mean_confidence_when_wrong": 0.7345960014495421
+  },
+  "test_risk_coverage": [
+    {
+      "coverage": 1.0,
+      "realised_coverage": 1.0,
+      "accuracy": 0.8960573476702509,
+      "threshold": null
+    },
+    {
+      "coverage": 0.9,
+      "realised_coverage": 0.9032258064516129,
+      "accuracy": 0.9404761904761905,
+      "threshold": 0.6448028742531087
+    },
+    {
+      "coverage": 0.8,
+      "realised_coverage": 0.8028673835125448,
+      "accuracy": 0.9598214285714286,
+      "threshold": 0.8205521866092544
+    },
+    {
+      "coverage": 0.7,
+      "realised_coverage": 0.7025089605734767,
+      "accuracy": 0.9642857142857143,
+      "threshold": 0.9287183015380939
+    },
+    {
+      "coverage": 0.5,
+      "realised_coverage": 0.5017921146953405,
+      "accuracy": 0.9857142857142858,
+      "threshold": 0.9788553832012177
+    }
+  ],
+  "threshold_chosen_on_validation": {
+    "0.8": {
+      "threshold": 0.4158026798490439,
+      "val_coverage": 1.0,
+      "val_accuracy": 0.8795180722891566,
+      "test_coverage": 0.992831541218638,
+      "test_accuracy": 0.8953068592057761
+    },
+    "0.85": {
+      "threshold": 0.4158026798490439,
+      "val_coverage": 1.0,
+      "val_accuracy": 0.8795180722891566,
+      "test_coverage": 0.992831541218638,
+      "test_accuracy": 0.8953068592057761
+    },
+    "0.9": {
+      "threshold": 0.545075535683443,
+      "val_coverage": 0.9678714859437751,
+      "val_accuracy": 0.9004149377593361,
+      "test_coverage": 0.9498207885304659,
+      "test_accuracy": 0.9132075471698113
+    },
+    "0.95": {
+      "threshold": 0.8300305624689159,
+      "val_coverage": 0.7349397590361446,
+      "val_accuracy": 0.9508196721311475,
+      "test_coverage": 0.7849462365591398,
+      "test_accuracy": 0.9634703196347032
+    }
+  },
+  "reliability_test_before": [
+    {
+      "low": 0.0,
+      "high": 0.1,
+      "n": 0,
+      "confidence": null,
+      "accuracy": null
+    },
+    {
+      "low": 0.1,
+      "high": 0.2,
+      "n": 0,
+      "confidence": null,
+      "accuracy": null
+    },
+    {
+      "low": 0.2,
+      "high": 0.30000000000000004,
+      "n": 1,
+      "confidence": 0.2955472999147423,
+      "accuracy": 1.0
+    },
+    {
+      "low": 0.30000000000000004,
+      "high": 0.4,
+      "n": 14,
+      "confidence": 0.3609058343970492,
+      "accuracy": 0.5
+    },
+    {
+      "low": 0.4,
+      "high": 0.5,
+      "n": 24,
+      "confidence": 0.4557098425916641,
+      "accuracy": 0.625
+    },
+    {
+      "low": 0.5,
+      "high": 0.6000000000000001,
+      "n": 30,
+      "confidence": 0.5472658462119171,
+      "accuracy": 0.8
+    },
+    {
+      "low": 0.6000000000000001,
+      "high": 0.7000000000000001,
+      "n": 37,
+      "confidence": 0.6553195875363642,
+      "accuracy": 0.9459459459459459
+    },
+    {
+      "low": 0.7000000000000001,
+      "high": 0.8,
+      "n": 64,
+      "confidence": 0.7555551523075703,
+      "accuracy": 0.953125
+    },
+    {
+      "low": 0.8,
+      "high": 0.9,
+      "n": 76,
+      "confidence": 0.8506416847288903,
+      "accuracy": 0.9736842105263158
+    },
+    {
+      "low": 0.9,
+      "high": 1.0,
+      "n": 33,
+      "confidence": 0.9242933247263702,
+      "accuracy": 1.0
+    }
+  ],
+  "reliability_test_after": [
+    {
+      "low": 0.0,
+      "high": 0.1,
+      "n": 0,
+      "confidence": null,
+      "accuracy": null
+    },
+    {
+      "low": 0.1,
+      "high": 0.2,
+      "n": 0,
+      "confidence": null,
+      "accuracy": null
+    },
+    {
+      "low": 0.2,
+      "high": 0.30000000000000004,
+      "n": 0,
+      "confidence": null,
+      "accuracy": null
+    },
+    {
+      "low": 0.30000000000000004,
+      "high": 0.4,
+      "n": 2,
+      "confidence": 0.3807305314764923,
+      "accuracy": 1.0
+    },
+    {
+      "low": 0.4,
+      "high": 0.5,
+      "n": 6,
+      "confidence": 0.45325317711892166,
+      "accuracy": 0.16666666666666666
+    },
+    {
+      "low": 0.5,
+      "high": 0.6000000000000001,
+      "n": 12,
+      "confidence": 0.5490355995275241,
+      "accuracy": 0.5833333333333334
+    },
+    {
+      "low": 0.6000000000000001,
+      "high": 0.7000000000000001,
+      "n": 19,
+      "confidence": 0.6514668863318693,
+      "accuracy": 0.631578947368421
+    },
+    {
+      "low": 0.7000000000000001,
+      "high": 0.8,
+      "n": 11,
+      "confidence": 0.7567307108057494,
+      "accuracy": 0.7272727272727273
+    },
+    {
+      "low": 0.8,
+      "high": 0.9,
+      "n": 25,
+      "confidence": 0.8443405040030578,
+      "accuracy": 0.92
+    },
+    {
+      "low": 0.9,
+      "high": 1.0,
+      "n": 204,
+      "confidence": 0.9809285096622539,
+      "accuracy": 0.9656862745098039
+    }
+  ],
+  "clip_classifier_seed0_reference": {
+    "probe_C": 1,
+    "test_acc": 0.8960573476702509,
+    "reproduced": true
+  }
+}
