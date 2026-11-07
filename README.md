@@ -168,3 +168,6 @@ pytest
 
 The tests use synthetic data (no download, no GPU, a few seconds). They check the artist-disjoint split,
 the models, and the training loop (best-epoch restoration, early stopping). GitHub Actions runs them on every pull request.
+
+`make test` runs the tests and `make lint` runs [ruff](https://docs.astral.sh/ruff/) (errors, unused names, import order, likely bugs; configured in `pyproject.toml`).
+GitHub Actions runs both. The `Makefile` also has `install`, `data` (rebuilds the dataset), `reproduce` (every experiment of this README, in order) and `clean` (caches only).

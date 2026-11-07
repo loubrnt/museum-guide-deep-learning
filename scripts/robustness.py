@@ -135,7 +135,7 @@ def plot(per_seed, summary, path):
 
     frac = str(max(SHIFT_FRACTIONS))
     width = 0.35
-    for j, (net, label) in enumerate((("mlp", "MLP"), ("resnet18_layer4", "ResNet-18"))):
+    for j, net in enumerate(("mlp", "resnet18_layer4")):
         s = summary["shift"][net][frac]
         ax2.bar(j - width / 2, s["acc"]["mean"], width, yerr=s["acc"]["std"], color="tab:blue", label="original" if j == 0 else None)
         ax2.bar(j + width / 2, s["acc_shifted"]["mean"], width, yerr=s["acc_shifted"]["std"], color="tab:orange", label="shifted" if j == 0 else None)

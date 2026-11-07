@@ -17,10 +17,31 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest"]
+dev = ["pytest", "ruff>=0.17,<0.18"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+# The course data script is kept verbatim.
+extend-exclude = ["project"]
+
+[tool.ruff.lint]
+# E/F: pycodestyle errors and pyflakes (unused names, undefined names); I: import order;
+# B: likely bugs (flake8-bugbear); UP: outdated syntax. Conservative on purpose: no style-only rules.
+select = ["E", "F", "I", "B", "UP"]
+ignore = [
+    "E501",  # long lines are a formatter's job; several scripts have long print/plot lines
+    "B905",  # zip() without strict=: the code zips equal-length sequences on purpose
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Scripts import their siblings (scripts/ is on sys.path when run) and select the matplotlib
+# backend before importing pyplot, so imports legitimately come after code and are not "sorted".
+"scripts/*.py" = ["E402", "I001"]
+"tests/*.py" = ["E402", "I001"]
 
 [build-system]
 requires = ["setuptools>=68"]
