@@ -1,0 +1,4861 @@
+{
+  "k": 10,
+  "n_queries": 66,
+  "collection_size": 1500,
+  "clip_model": "openai/clip-vit-base-patch32",
+  "multilingual_model": "sentence-transformers/clip-ViT-B-32-multilingual-v1",
+  "conditions": {
+    "clip_en": {
+      "encoder": "clip",
+      "queries": "en"
+    },
+    "clip_fr": {
+      "encoder": "clip",
+      "queries": "fr"
+    },
+    "clip_fr_original_names": {
+      "encoder": "clip",
+      "queries": "fr_original_names"
+    },
+    "clip_fr_no_accents": {
+      "encoder": "clip",
+      "queries": "fr_no_accents"
+    },
+    "multilingual_en": {
+      "encoder": "multilingual",
+      "queries": "en"
+    },
+    "multilingual_fr": {
+      "encoder": "multilingual",
+      "queries": "fr"
+    },
+    "multilingual_fr_original_names": {
+      "encoder": "multilingual",
+      "queries": "fr_original_names"
+    }
+  },
+  "summary": {
+    "clip_en": {
+      "all": {
+        "n_queries": 66,
+        "precision@10": 0.3681818181818182,
+        "average_precision": 0.3271357698870833,
+        "ndcg@10": 0.3900064793811877,
+        "chance": {
+          "precision@10": 0.032146464646464645,
+          "average_precision": 0.03689772799119148,
+          "ndcg@10": 0.033094728056073046
+        },
+        "queries_with_precision_0": 8
+      },
+      "genre": {
+        "n_queries": 5,
+        "precision@10": 1.0,
+        "average_precision": 0.8685744844265025,
+        "ndcg@10": 1.0,
+        "chance": {
+          "precision@10": 0.186,
+          "average_precision": 0.2029764007710658,
+          "ndcg@10": 0.18666064764326434
+        },
+        "queries_with_precision_0": 0
+      },
+      "style_genre": {
+        "n_queries": 39,
+        "precision@10": 0.26923076923076916,
+        "average_precision": 0.22540655006532803,
+        "ndcg@10": 0.2785004747348055,
+        "chance": {
+          "precision@10": 0.02390598290598291,
+          "average_precision": 0.027537079316777378,
+          "ndcg@10": 0.024712519470418904
+        },
+        "queries_with_precision_0": 7
+      },
+      "artist": {
+        "n_queries": 22,
+        "precision@10": 0.4,
+        "average_precision": 0.3844196789939632,
+        "ndcg@10": 0.44904132384095363,
+        "chance": {
+          "precision@10": 0.01178787878787879,
+          "average_precision": 0.01574645228222688,
+          "ndcg@10": 0.013052752460825533
+        },
+        "queries_with_precision_0": 1
+      }
+    },
+    "clip_fr": {
+      "all": {
+        "n_queries": 66,
+        "precision@10": 0.30303030303030304,
+        "average_precision": 0.2634852157498066,
+        "ndcg@10": 0.30952097789234806,
+        "chance": {
+          "precision@10": 0.032146464646464645,
+          "average_precision": 0.03689772799119148,
+          "ndcg@10": 0.033094728056073046
+        },
+        "queries_with_precision_0": 12
+      },
+      "genre": {
+        "n_queries": 5,
+        "precision@10": 0.9800000000000001,
+        "average_precision": 0.8163251735032221,
+        "ndcg@10": 0.977990823370192,
+        "chance": {
+          "precision@10": 0.186,
+          "average_precision": 0.2029764007710658,
+          "ndcg@10": 0.18666064764326434
+        },
+        "queries_with_precision_0": 0
+      },
+      "style_genre": {
+        "n_queries": 39,
+        "precision@10": 0.19230769230769226,
+        "average_precision": 0.16381492405235437,
+        "ndcg@10": 0.18888621442378992,
+        "chance": {
+          "precision@10": 0.02390598290598291,
+          "average_precision": 0.027537079316777378,
+          "ndcg@10": 0.024712519470418904
+        },
+        "queries_with_precision_0": 10
+      },
+      "artist": {
+        "n_queries": 22,
+        "precision@10": 0.3454545454545454,
+        "average_precision": 0.3145280151786048,
+        "ndcg@10": 0.37144854825073675,
+        "chance": {
+          "precision@10": 0.01178787878787879,
+          "average_precision": 0.01574645228222688,
+          "ndcg@10": 0.013052752460825533
+        },
+        "queries_with_precision_0": 2
+      }
+    },
+    "clip_fr_original_names": {
+      "all": {
+        "n_queries": 66,
+        "precision@10": 0.3287878787878788,
+        "average_precision": 0.28729849645017524,
+        "ndcg@10": 0.3372833373860101,
+        "chance": {
+          "precision@10": 0.032146464646464645,
+          "average_precision": 0.03689772799119148,
+          "ndcg@10": 0.033094728056073046
+        },
+        "queries_with_precision_0": 11
+      },
+      "genre": {
+        "n_queries": 5,
+        "precision@10": 0.9800000000000001,
+        "average_precision": 0.8163251735032221,
+        "ndcg@10": 0.977990823370192,
+        "chance": {
+          "precision@10": 0.186,
+          "average_precision": 0.2029764007710658,
+          "ndcg@10": 0.18666064764326434
+        },
+        "queries_with_precision_0": 0
+      },
+      "style_genre": {
+        "n_queries": 39,
+        "precision@10": 0.19230769230769226,
+        "average_precision": 0.16381492405235437,
+        "ndcg@10": 0.18888621442378992,
+        "chance": {
+          "precision@10": 0.02390598290598291,
+          "average_precision": 0.027537079316777378,
+          "ndcg@10": 0.024712519470418904
+        },
+        "queries_with_precision_0": 10
+      },
+      "artist": {
+        "n_queries": 22,
+        "precision@10": 0.4227272727272727,
+        "average_precision": 0.3859678572797106,
+        "ndcg@10": 0.4547356267317228,
+        "chance": {
+          "precision@10": 0.01178787878787879,
+          "average_precision": 0.01574645228222688,
+          "ndcg@10": 0.013052752460825533
+        },
+        "queries_with_precision_0": 1
+      }
+    },
+    "clip_fr_no_accents": {
+      "all": {
+        "n_queries": 66,
+        "precision@10": 0.31515151515151524,
+        "average_precision": 0.27427688059089245,
+        "ndcg@10": 0.3235401346673511,
+        "chance": {
+          "precision@10": 0.032146464646464645,
+          "average_precision": 0.03689772799119148,
+          "ndcg@10": 0.033094728056073046
+        },
+        "queries_with_precision_0": 11
+      },
+      "genre": {
+        "n_queries": 5,
+        "precision@10": 0.9800000000000001,
+        "average_precision": 0.8149255474097737,
+        "ndcg@10": 0.977990823370192,
+        "chance": {
+          "precision@10": 0.186,
+          "average_precision": 0.2029764007710658,
+          "ndcg@10": 0.18666064764326434
+        },
+        "queries_with_precision_0": 0
+      },
+      "style_genre": {
+        "n_queries": 39,
+        "precision@10": 0.18717948717948715,
+        "average_precision": 0.15812254390660999,
+        "ndcg@10": 0.1849295677413718,
+        "chance": {
+          "precision@10": 0.02390598290598291,
+          "average_precision": 0.027537079316777378,
+          "ndcg@10": 0.024712519470418904
+        },
+        "queries_with_precision_0": 10
+      },
+      "artist": {
+        "n_queries": 22,
+        "precision@10": 0.3909090909090908,
+        "average_precision": 0.3573121440723748,
+        "ndcg@10": 0.4205200740582144,
+        "chance": {
+          "precision@10": 0.01178787878787879,
+          "average_precision": 0.01574645228222688,
+          "ndcg@10": 0.013052752460825533
+        },
+        "queries_with_precision_0": 1
+      }
+    },
+    "multilingual_en": {
+      "all": {
+        "n_queries": 66,
+        "precision@10": 0.2393939393939394,
+        "average_precision": 0.19962044360361092,
+        "ndcg@10": 0.25097411245008344,
+        "chance": {
+          "precision@10": 0.032146464646464645,
+          "average_precision": 0.03689772799119148,
+          "ndcg@10": 0.033094728056073046
+        },
+        "queries_with_precision_0": 18
+      },
+      "genre": {
+        "n_queries": 5,
+        "precision@10": 1.0,
+        "average_precision": 0.8642281198788447,
+        "ndcg@10": 1.0,
+        "chance": {
+          "precision@10": 0.186,
+          "average_precision": 0.2029764007710658,
+          "ndcg@10": 0.18666064764326434
+        },
+        "queries_with_precision_0": 0
+      },
+      "style_genre": {
+        "n_queries": 39,
+        "precision@10": 0.22564102564102556,
+        "average_precision": 0.18513469332823473,
+        "ndcg@10": 0.23982478724229045,
+        "chance": {
+          "precision@10": 0.02390598290598291,
+          "average_precision": 0.027537079316777378,
+          "ndcg@10": 0.024712519470418904
+        },
+        "queries_with_precision_0": 6
+      },
+      "artist": {
+        "n_queries": 22,
+        "precision@10": 0.09090909090909091,
+        "average_precision": 0.0742525290292247,
+        "ndcg@10": 0.1005056690570992,
+        "chance": {
+          "precision@10": 0.01178787878787879,
+          "average_precision": 0.01574645228222688,
+          "ndcg@10": 0.013052752460825533
+        },
+        "queries_with_precision_0": 12
+      }
+    },
+    "multilingual_fr": {
+      "all": {
+        "n_queries": 66,
+        "precision@10": 0.21666666666666667,
+        "average_precision": 0.1779544943612322,
+        "ndcg@10": 0.22731211164125006,
+        "chance": {
+          "precision@10": 0.032146464646464645,
+          "average_precision": 0.03689772799119148,
+          "ndcg@10": 0.033094728056073046
+        },
+        "queries_with_precision_0": 21
+      },
+      "genre": {
+        "n_queries": 5,
+        "precision@10": 1.0,
+        "average_precision": 0.8433507398766681,
+        "ndcg@10": 1.0,
+        "chance": {
+          "precision@10": 0.186,
+          "average_precision": 0.2029764007710658,
+          "ndcg@10": 0.18666064764326434
+        },
+        "queries_with_precision_0": 0
+      },
+      "style_genre": {
+        "n_queries": 39,
+        "precision@10": 0.18461538461538463,
+        "average_precision": 0.14736187080147575,
+        "ndcg@10": 0.19631505348759068,
+        "chance": {
+          "precision@10": 0.02390598290598291,
+          "average_precision": 0.027537079316777378,
+          "ndcg@10": 0.024712519470418904
+        },
+        "queries_with_precision_0": 9
+      },
+      "artist": {
+        "n_queries": 22,
+        "precision@10": 0.09545454545454547,
+        "average_precision": 0.08096045305456502,
+        "ndcg@10": 0.10665055828665765,
+        "chance": {
+          "precision@10": 0.01178787878787879,
+          "average_precision": 0.01574645228222688,
+          "ndcg@10": 0.013052752460825533
+        },
+        "queries_with_precision_0": 12
+      }
+    },
+    "multilingual_fr_original_names": {
+      "all": {
+        "n_queries": 66,
+        "precision@10": 0.2106060606060606,
+        "average_precision": 0.1732447484497032,
+        "ndcg@10": 0.22051258999260204,
+        "chance": {
+          "precision@10": 0.032146464646464645,
+          "average_precision": 0.03689772799119148,
+          "ndcg@10": 0.033094728056073046
+        },
+        "queries_with_precision_0": 23
+      },
+      "genre": {
+        "n_queries": 5,
+        "precision@10": 1.0,
+        "average_precision": 0.8433507398766681,
+        "ndcg@10": 1.0,
+        "chance": {
+          "precision@10": 0.186,
+          "average_precision": 0.2029764007710658,
+          "ndcg@10": 0.18666064764326434
+        },
+        "queries_with_precision_0": 0
+      },
+      "style_genre": {
+        "n_queries": 39,
+        "precision@10": 0.18461538461538463,
+        "average_precision": 0.14736187080147575,
+        "ndcg@10": 0.19631505348759068,
+        "chance": {
+          "precision@10": 0.02390598290598291,
+          "average_precision": 0.027537079316777378,
+          "ndcg@10": 0.024712519470418904
+        },
+        "queries_with_precision_0": 9
+      },
+      "artist": {
+        "n_queries": 22,
+        "precision@10": 0.07727272727272728,
+        "average_precision": 0.0668312153199781,
+        "ndcg@10": 0.08625199334071348,
+        "chance": {
+          "precision@10": 0.01178787878787879,
+          "average_precision": 0.01574645228222688,
+          "ndcg@10": 0.013052752460825533
+        },
+        "queries_with_precision_0": 14
+      }
+    }
+  },
+  "paired_average_precision": {
+    "clip_fr_minus_clip_en": {
+      "mean_average_precision_difference": -0.06365055413727672,
+      "low": -0.09757156304715058,
+      "high": -0.03561604593622228,
+      "queries_where_first_is_better": 14,
+      "queries_where_first_is_worse": 52,
+      "n_queries": 66,
+      "by_type": {
+        "genre": {
+          "mean_average_precision_difference": -0.052249310923280445,
+          "low": -0.10008051901780268,
+          "high": -0.004418102828758386,
+          "n_queries": 5
+        },
+        "style_genre": {
+          "mean_average_precision_difference": -0.06159162601297366,
+          "low": -0.09031840773784308,
+          "high": -0.036175565327524556,
+          "n_queries": 39
+        },
+        "artist": {
+          "mean_average_precision_difference": -0.06989166381535838,
+          "low": -0.1553091228961634,
+          "high": -0.0011176727180474664,
+          "n_queries": 22
+        }
+      }
+    },
+    "clip_fr_no_accents_minus_clip_fr": {
+      "mean_average_precision_difference": 0.010791664841085846,
+      "low": -0.005091009843381414,
+      "high": 0.03799146514750602,
+      "queries_where_first_is_better": 6,
+      "queries_where_first_is_worse": 6,
+      "n_queries": 66,
+      "by_type": {
+        "genre": {
+          "mean_average_precision_difference": -0.0013996260934483473,
+          "low": -0.004198878280345398,
+          "high": 0.0,
+          "n_queries": 5
+        },
+        "style_genre": {
+          "mean_average_precision_difference": -0.005692380145744386,
+          "low": -0.013467162210742453,
+          "high": 0.0004545595637433287,
+          "n_queries": 39
+        },
+        "artist": {
+          "mean_average_precision_difference": 0.042784128893770035,
+          "low": 0.0008379788413307342,
+          "high": 0.11340777883641188,
+          "n_queries": 22
+        }
+      }
+    },
+    "clip_fr_no_accents_minus_clip_en": {
+      "mean_average_precision_difference": -0.05285888929619087,
+      "low": -0.07354467983831502,
+      "high": -0.03171512748666556,
+      "queries_where_first_is_better": 13,
+      "queries_where_first_is_worse": 53,
+      "n_queries": 66,
+      "by_type": {
+        "genre": {
+          "mean_average_precision_difference": -0.05364893701672879,
+          "low": -0.10008051901780268,
+          "high": -0.007217355015655258,
+          "n_queries": 5
+        },
+        "style_genre": {
+          "mean_average_precision_difference": -0.06728400615871805,
+          "low": -0.09515251232017356,
+          "high": -0.042597654677714765,
+          "n_queries": 39
+        },
+        "artist": {
+          "mean_average_precision_difference": -0.02710753492158835,
+          "low": -0.06397214366151896,
+          "high": 0.019490696550798364,
+          "n_queries": 22
+        }
+      }
+    },
+    "multilingual_en_minus_clip_en": {
+      "mean_average_precision_difference": -0.1275153262834724,
+      "low": -0.17986993620371022,
+      "high": -0.08116795397317898,
+      "queries_where_first_is_better": 16,
+      "queries_where_first_is_worse": 50,
+      "n_queries": 66,
+      "by_type": {
+        "genre": {
+          "mean_average_precision_difference": -0.0043463645476577994,
+          "low": -0.02111680715834279,
+          "high": 0.009977765122508054,
+          "n_queries": 5
+        },
+        "style_genre": {
+          "mean_average_precision_difference": -0.0402718567370933,
+          "low": -0.06562673424497054,
+          "high": -0.01544693096255693,
+          "n_queries": 39
+        },
+        "artist": {
+          "mean_average_precision_difference": -0.3101671499647385,
+          "low": -0.41909640013353505,
+          "high": -0.2085744476893138,
+          "n_queries": 22
+        }
+      }
+    },
+    "multilingual_fr_minus_clip_en": {
+      "mean_average_precision_difference": -0.14918127552585111,
+      "low": -0.20285414417000375,
+      "high": -0.10139995954702986,
+      "queries_where_first_is_better": 13,
+      "queries_where_first_is_worse": 53,
+      "n_queries": 66,
+      "by_type": {
+        "genre": {
+          "mean_average_precision_difference": -0.025223744549834448,
+          "low": -0.06826467051595878,
+          "high": 0.017817181416289785,
+          "n_queries": 5
+        },
+        "style_genre": {
+          "mean_average_precision_difference": -0.07804467926385228,
+          "low": -0.11873851760575338,
+          "high": -0.04160500957914968,
+          "n_queries": 39
+        },
+        "artist": {
+          "mean_average_precision_difference": -0.30345922593939817,
+          "low": -0.41493713335067584,
+          "high": -0.19071289335621988,
+          "n_queries": 22
+        }
+      }
+    },
+    "multilingual_fr_minus_clip_fr": {
+      "mean_average_precision_difference": -0.0855307213885744,
+      "low": -0.13516496863705896,
+      "high": -0.04232752001406162,
+      "queries_where_first_is_better": 28,
+      "queries_where_first_is_worse": 38,
+      "n_queries": 66,
+      "by_type": {
+        "genre": {
+          "mean_average_precision_difference": 0.027025566373445997,
+          "low": -0.018510426823198124,
+          "high": 0.06802454042905008,
+          "n_queries": 5
+        },
+        "style_genre": {
+          "mean_average_precision_difference": -0.01645305325087862,
+          "low": -0.051080905061321395,
+          "high": 0.01340761011977578,
+          "n_queries": 39
+        },
+        "artist": {
+          "mean_average_precision_difference": -0.23356756212403978,
+          "low": -0.3404905326361305,
+          "high": -0.13380012759500734,
+          "n_queries": 22
+        }
+      }
+    },
+    "multilingual_fr_minus_multilingual_en": {
+      "mean_average_precision_difference": -0.021665949242378718,
+      "low": -0.043801385671222826,
+      "high": -0.0007272586891276612,
+      "queries_where_first_is_better": 24,
+      "queries_where_first_is_worse": 42,
+      "n_queries": 66,
+      "by_type": {
+        "genre": {
+          "mean_average_precision_difference": -0.02087738000217665,
+          "low": -0.04959417629813547,
+          "high": 0.007839416293781732,
+          "n_queries": 5
+        },
+        "style_genre": {
+          "mean_average_precision_difference": -0.03777282252675898,
+          "low": -0.07097958562151549,
+          "high": -0.00999696123207843,
+          "n_queries": 39
+        },
+        "artist": {
+          "mean_average_precision_difference": 0.006707924025340317,
+          "low": -0.020693648451453925,
+          "high": 0.04438729347391611,
+          "n_queries": 22
+        }
+      }
+    }
+  },
+  "paired_method": "percentile bootstrap over the 66 questions (2000 resamples), 95% interval",
+  "free_questions": {
+    "clip": [
+      {
+        "english": "Which painting shows a stormy sea?",
+        "french": "Quel tableau montre une mer agitée ?",
+        "top10_overlap": 1
+      },
+      {
+        "english": "portraits of children",
+        "french": "des portraits d'enfants",
+        "top10_overlap": 7,
+        "expected_genres": [
+          "portrait"
+        ],
+        "share_expected_genre_en": 1.0,
+        "share_expected_genre_fr": 1.0
+      },
+      {
+        "english": "a snowy winter village",
+        "french": "un village enneigé en hiver",
+        "top10_overlap": 6,
+        "expected_genres": [
+          "cityscape",
+          "landscape"
+        ],
+        "share_expected_genre_en": 1.0,
+        "share_expected_genre_fr": 1.0
+      },
+      {
+        "english": "the crucifixion of Christ",
+        "french": "la crucifixion du Christ",
+        "top10_overlap": 6,
+        "expected_genres": [
+          "religious_painting"
+        ],
+        "share_expected_genre_en": 1.0,
+        "share_expected_genre_fr": 0.9
+      },
+      {
+        "english": "a vase of flowers",
+        "french": "un vase de fleurs",
+        "top10_overlap": 8,
+        "expected_genres": [
+          "still_life"
+        ],
+        "share_expected_genre_en": 1.0,
+        "share_expected_genre_fr": 1.0
+      }
+    ],
+    "multilingual": [
+      {
+        "english": "Which painting shows a stormy sea?",
+        "french": "Quel tableau montre une mer agitée ?",
+        "top10_overlap": 1
+      },
+      {
+        "english": "portraits of children",
+        "french": "des portraits d'enfants",
+        "top10_overlap": 9,
+        "expected_genres": [
+          "portrait"
+        ],
+        "share_expected_genre_en": 1.0,
+        "share_expected_genre_fr": 1.0
+      },
+      {
+        "english": "a snowy winter village",
+        "french": "un village enneigé en hiver",
+        "top10_overlap": 7,
+        "expected_genres": [
+          "cityscape",
+          "landscape"
+        ],
+        "share_expected_genre_en": 1.0,
+        "share_expected_genre_fr": 1.0
+      },
+      {
+        "english": "the crucifixion of Christ",
+        "french": "la crucifixion du Christ",
+        "top10_overlap": 9,
+        "expected_genres": [
+          "religious_painting"
+        ],
+        "share_expected_genre_en": 1.0,
+        "share_expected_genre_fr": 1.0
+      },
+      {
+        "english": "a vase of flowers",
+        "french": "un vase de fleurs",
+        "top10_overlap": 10,
+        "expected_genres": [
+          "still_life"
+        ],
+        "share_expected_genre_en": 0.9,
+        "share_expected_genre_fr": 0.9
+      }
+    ]
+  },
+  "per_query": {
+    "clip_en": [
+      {
+        "id": "genre:cityscape",
+        "type": "genre",
+        "text": "I would like to see views of a city with streets and buildings",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.827475344532714,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "genre:landscape",
+        "type": "genre",
+        "text": "a painting of nature, fields, trees and mountains",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.8453195063024178,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "genre:portrait",
+        "type": "genre",
+        "text": "I would like to see portraits of people",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.8905568387484383,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "genre:religious_painting",
+        "type": "genre",
+        "text": "paintings showing saints, angels or scenes from the Bible",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.8660006919671416,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "genre:still_life",
+        "type": "genre",
+        "text": "a still life with fruit, flowers and objects on a table",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.9135200405818014,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "style_genre:Impressionist:cityscape",
+        "type": "style_genre",
+        "text": "an Impressionist city view",
+        "n_relevant": 125,
+        "precision@10": 0.8,
+        "average_precision": 0.5145348366768638,
+        "ndcg@10": 0.8512360941594275
+      },
+      {
+        "id": "style_genre:Impressionist:landscape",
+        "type": "style_genre",
+        "text": "an Impressionist landscape",
+        "n_relevant": 91,
+        "precision@10": 0.6,
+        "average_precision": 0.32869091250316035,
+        "ndcg@10": 0.6528642754944295
+      },
+      {
+        "id": "style_genre:Impressionist:portrait",
+        "type": "style_genre",
+        "text": "an Impressionist portrait",
+        "n_relevant": 26,
+        "precision@10": 0.3,
+        "average_precision": 0.2030778543101221,
+        "ndcg@10": 0.29343678345195284
+      },
+      {
+        "id": "style_genre:Impressionist:still_life",
+        "type": "style_genre",
+        "text": "an Impressionist still life",
+        "n_relevant": 44,
+        "precision@10": 0.2,
+        "average_precision": 0.2572681944900024,
+        "ndcg@10": 0.29345568839744024
+      },
+      {
+        "id": "style_genre:Post-Impressionist:cityscape",
+        "type": "style_genre",
+        "text": "a Post-Impressionist city view",
+        "n_relevant": 54,
+        "precision@10": 0.1,
+        "average_precision": 0.18134624353032253,
+        "ndcg@10": 0.08514311764162101
+      },
+      {
+        "id": "style_genre:Post-Impressionist:landscape",
+        "type": "style_genre",
+        "text": "a Post-Impressionist landscape",
+        "n_relevant": 40,
+        "precision@10": 0.3,
+        "average_precision": 0.2019614204451327,
+        "ndcg@10": 0.24936270394794907
+      },
+      {
+        "id": "style_genre:Post-Impressionist:portrait",
+        "type": "style_genre",
+        "text": "a Post-Impressionist portrait",
+        "n_relevant": 15,
+        "precision@10": 0.1,
+        "average_precision": 0.1015489579252044,
+        "ndcg@10": 0.2200917662980802
+      },
+      {
+        "id": "style_genre:Post-Impressionist:still_life",
+        "type": "style_genre",
+        "text": "a Post-Impressionist still life",
+        "n_relevant": 50,
+        "precision@10": 0.2,
+        "average_precision": 0.2956582057740388,
+        "ndcg@10": 0.2837125544970319
+      },
+      {
+        "id": "style_genre:Realist:cityscape",
+        "type": "style_genre",
+        "text": "a Realist city view",
+        "n_relevant": 17,
+        "precision@10": 0.1,
+        "average_precision": 0.06411658209661772,
+        "ndcg@10": 0.1100458831490401
+      },
+      {
+        "id": "style_genre:Realist:landscape",
+        "type": "style_genre",
+        "text": "a Realist landscape",
+        "n_relevant": 56,
+        "precision@10": 0.2,
+        "average_precision": 0.25331361601180596,
+        "ndcg@10": 0.18340980524840014
+      },
+      {
+        "id": "style_genre:Realist:portrait",
+        "type": "style_genre",
+        "text": "a Realist portrait",
+        "n_relevant": 41,
+        "precision@10": 0.2,
+        "average_precision": 0.21751573216053074,
+        "ndcg@10": 0.1396181455537491
+      },
+      {
+        "id": "style_genre:Realist:still_life",
+        "type": "style_genre",
+        "text": "a Realist still life",
+        "n_relevant": 35,
+        "precision@10": 0.3,
+        "average_precision": 0.24751572648713863,
+        "ndcg@10": 0.24261785528500343
+      },
+      {
+        "id": "style_genre:Expressionist:cityscape",
+        "type": "style_genre",
+        "text": "an Expressionist city view",
+        "n_relevant": 24,
+        "precision@10": 0.2,
+        "average_precision": 0.17470616428366662,
+        "ndcg@10": 0.17366667134799182
+      },
+      {
+        "id": "style_genre:Expressionist:landscape",
+        "type": "style_genre",
+        "text": "an Expressionist landscape",
+        "n_relevant": 17,
+        "precision@10": 0.2,
+        "average_precision": 0.07452100342823446,
+        "ndcg@10": 0.18340980524840014
+      },
+      {
+        "id": "style_genre:Expressionist:portrait",
+        "type": "style_genre",
+        "text": "an Expressionist portrait",
+        "n_relevant": 61,
+        "precision@10": 0.7,
+        "average_precision": 0.383860821726534,
+        "ndcg@10": 0.6371130896657825
+      },
+      {
+        "id": "style_genre:Expressionist:still_life",
+        "type": "style_genre",
+        "text": "an Expressionist still life",
+        "n_relevant": 27,
+        "precision@10": 0.3,
+        "average_precision": 0.18422926821320182,
+        "ndcg@10": 0.4249260138166711
+      },
+      {
+        "id": "style_genre:Romantic:cityscape",
+        "type": "style_genre",
+        "text": "a Romantic city view",
+        "n_relevant": 20,
+        "precision@10": 0.2,
+        "average_precision": 0.1787269346577205,
+        "ndcg@10": 0.3301376494471203
+      },
+      {
+        "id": "style_genre:Romantic:landscape",
+        "type": "style_genre",
+        "text": "a Romantic landscape",
+        "n_relevant": 31,
+        "precision@10": 0.3,
+        "average_precision": 0.2096771515220086,
+        "ndcg@10": 0.27819816961795096
+      },
+      {
+        "id": "style_genre:Romantic:portrait",
+        "type": "style_genre",
+        "text": "a Romantic portrait",
+        "n_relevant": 44,
+        "precision@10": 0.0,
+        "average_precision": 0.1512557300254131,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Romantic:religious_painting",
+        "type": "style_genre",
+        "text": "a Romantic religious painting",
+        "n_relevant": 14,
+        "precision@10": 0.0,
+        "average_precision": 0.024632122206924737,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Baroque:portrait",
+        "type": "style_genre",
+        "text": "a Baroque portrait",
+        "n_relevant": 20,
+        "precision@10": 0.3,
+        "average_precision": 0.2504340059401823,
+        "ndcg@10": 0.428385432108412
+      },
+      {
+        "id": "style_genre:Baroque:religious_painting",
+        "type": "style_genre",
+        "text": "a Baroque religious painting",
+        "n_relevant": 53,
+        "precision@10": 0.6,
+        "average_precision": 0.44555807643369477,
+        "ndcg@10": 0.5806020001118019
+      },
+      {
+        "id": "style_genre:Baroque:still_life",
+        "type": "style_genre",
+        "text": "a Baroque still life",
+        "n_relevant": 24,
+        "precision@10": 0.9,
+        "average_precision": 0.6108817027658943,
+        "ndcg@10": 0.8611375561264456
+      },
+      {
+        "id": "style_genre:Northern Renaissance:portrait",
+        "type": "style_genre",
+        "text": "a Northern Renaissance portrait",
+        "n_relevant": 10,
+        "precision@10": 0.3,
+        "average_precision": 0.2929139229595199,
+        "ndcg@10": 0.3120490772217807
+      },
+      {
+        "id": "style_genre:Northern Renaissance:religious_painting",
+        "type": "style_genre",
+        "text": "a Northern Renaissance religious painting",
+        "n_relevant": 60,
+        "precision@10": 0.2,
+        "average_precision": 0.23788546432275604,
+        "ndcg@10": 0.18844415212771543
+      },
+      {
+        "id": "style_genre:Cubist:cityscape",
+        "type": "style_genre",
+        "text": "a Cubist city view",
+        "n_relevant": 10,
+        "precision@10": 0.5,
+        "average_precision": 0.470245063104318,
+        "ndcg@10": 0.5606114592078374
+      },
+      {
+        "id": "style_genre:Cubist:landscape",
+        "type": "style_genre",
+        "text": "a Cubist landscape",
+        "n_relevant": 12,
+        "precision@10": 0.2,
+        "average_precision": 0.16667329963967567,
+        "ndcg@10": 0.133052010135729
+      },
+      {
+        "id": "style_genre:Cubist:still_life",
+        "type": "style_genre",
+        "text": "a Cubist still life",
+        "n_relevant": 68,
+        "precision@10": 0.7,
+        "average_precision": 0.6028471877811213,
+        "ndcg@10": 0.713308065210993
+      },
+      {
+        "id": "style_genre:Early Renaissance:religious_painting",
+        "type": "style_genre",
+        "text": "an Early Renaissance religious painting",
+        "n_relevant": 62,
+        "precision@10": 0.3,
+        "average_precision": 0.26247452934281074,
+        "ndcg@10": 0.24618570546556087
+      },
+      {
+        "id": "style_genre:Rococo:portrait",
+        "type": "style_genre",
+        "text": "a Rococo portrait",
+        "n_relevant": 34,
+        "precision@10": 0.7,
+        "average_precision": 0.5562644986447433,
+        "ndcg@10": 0.8006937664098821
+      },
+      {
+        "id": "style_genre:Symbolist:landscape",
+        "type": "style_genre",
+        "text": "a Symbolist landscape",
+        "n_relevant": 10,
+        "precision@10": 0.0,
+        "average_precision": 0.023883963972125694,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Symbolist:religious_painting",
+        "type": "style_genre",
+        "text": "a Symbolist religious painting",
+        "n_relevant": 22,
+        "precision@10": 0.0,
+        "average_precision": 0.03802363111879222,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:High Renaissance:religious_painting",
+        "type": "style_genre",
+        "text": "a High Renaissance religious painting",
+        "n_relevant": 36,
+        "precision@10": 0.0,
+        "average_precision": 0.13450373776022384,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Art Nouveau:cityscape",
+        "type": "style_genre",
+        "text": "an Art Nouveau city view",
+        "n_relevant": 13,
+        "precision@10": 0.2,
+        "average_precision": 0.09979726944832887,
+        "ndcg@10": 0.18340980524840014
+      },
+      {
+        "id": "style_genre:Art Nouveau:portrait",
+        "type": "style_genre",
+        "text": "an Art Nouveau portrait",
+        "n_relevant": 10,
+        "precision@10": 0.1,
+        "average_precision": 0.06329684050719613,
+        "ndcg@10": 0.06943122193677728
+      },
+      {
+        "id": "style_genre:naive:still_life",
+        "type": "style_genre",
+        "text": "a naive still life",
+        "n_relevant": 11,
+        "precision@10": 0.0,
+        "average_precision": 0.040613400428579374,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Mannerist:religious_painting",
+        "type": "style_genre",
+        "text": "a Mannerist religious painting",
+        "n_relevant": 24,
+        "precision@10": 0.1,
+        "average_precision": 0.11259823106206403,
+        "ndcg@10": 0.07839826897867534
+      },
+      {
+        "id": "style_genre:Fauvist:still_life",
+        "type": "style_genre",
+        "text": "a Fauvist still life",
+        "n_relevant": 10,
+        "precision@10": 0.1,
+        "average_precision": 0.07545687514529534,
+        "ndcg@10": 0.07336392209936006
+      },
+      {
+        "id": "style_genre:Pop Art:still_life",
+        "type": "style_genre",
+        "text": "a Pop Art still life",
+        "n_relevant": 10,
+        "precision@10": 0.0,
+        "average_precision": 0.05834627369582897,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:albrecht-durer",
+        "type": "artist",
+        "text": "paintings by Albrecht Durer",
+        "n_relevant": 12,
+        "precision@10": 0.1,
+        "average_precision": 0.08437211239360348,
+        "ndcg@10": 0.09478836436955079
+      },
+      {
+        "id": "artist:alfred-sisley",
+        "type": "artist",
+        "text": "paintings by Alfred Sisley",
+        "n_relevant": 17,
+        "precision@10": 0.6,
+        "average_precision": 0.5276197854317034,
+        "ndcg@10": 0.7084409501232901
+      },
+      {
+        "id": "artist:amedeo-modigliani",
+        "type": "artist",
+        "text": "paintings by Amedeo Modigliani",
+        "n_relevant": 10,
+        "precision@10": 0.8,
+        "average_precision": 0.9464285714285715,
+        "ndcg@10": 0.8701249883466594
+      },
+      {
+        "id": "artist:antoine-blanchard",
+        "type": "artist",
+        "text": "paintings by Antoine Blanchard",
+        "n_relevant": 12,
+        "precision@10": 0.6,
+        "average_precision": 0.7377788834832177,
+        "ndcg@10": 0.715550648768261
+      },
+      {
+        "id": "artist:bartolome-esteban-murillo",
+        "type": "artist",
+        "text": "paintings by Bartolome Esteban Murillo",
+        "n_relevant": 10,
+        "precision@10": 0.4,
+        "average_precision": 0.5330586188830869,
+        "ndcg@10": 0.5637884576902257
+      },
+      {
+        "id": "artist:camille-corot",
+        "type": "artist",
+        "text": "paintings by Camille Corot",
+        "n_relevant": 17,
+        "precision@10": 0.7,
+        "average_precision": 0.5983380146461061,
+        "ndcg@10": 0.7778721720600673
+      },
+      {
+        "id": "artist:camille-pissarro",
+        "type": "artist",
+        "text": "paintings by Camille Pissarro",
+        "n_relevant": 12,
+        "precision@10": 0.2,
+        "average_precision": 0.13114395290396194,
+        "ndcg@10": 0.2122263659729146
+      },
+      {
+        "id": "artist:claude-monet",
+        "type": "artist",
+        "text": "paintings by Claude Monet",
+        "n_relevant": 50,
+        "precision@10": 0.5,
+        "average_precision": 0.3841886555597938,
+        "ndcg@10": 0.5509662124799076
+      },
+      {
+        "id": "artist:edouard-cortes",
+        "type": "artist",
+        "text": "paintings by Edouard Cortes",
+        "n_relevant": 14,
+        "precision@10": 0.7,
+        "average_precision": 0.8047408078463979,
+        "ndcg@10": 0.7791714369672128
+      },
+      {
+        "id": "artist:georges-braque",
+        "type": "artist",
+        "text": "paintings by Georges Braque",
+        "n_relevant": 26,
+        "precision@10": 0.4,
+        "average_precision": 0.3263167798837493,
+        "ndcg@10": 0.4959389204699465
+      },
+      {
+        "id": "artist:gustave-loiseau",
+        "type": "artist",
+        "text": "paintings by Gustave Loiseau",
+        "n_relevant": 12,
+        "precision@10": 0.4,
+        "average_precision": 0.33043354685796544,
+        "ndcg@10": 0.46627747176364104
+      },
+      {
+        "id": "artist:henri-fantin-latour",
+        "type": "artist",
+        "text": "paintings by Henri Fantin Latour",
+        "n_relevant": 10,
+        "precision@10": 0.3,
+        "average_precision": 0.31572324414715724,
+        "ndcg@10": 0.3024038304938509
+      },
+      {
+        "id": "artist:henri-matisse",
+        "type": "artist",
+        "text": "paintings by Henri Matisse",
+        "n_relevant": 15,
+        "precision@10": 0.5,
+        "average_precision": 0.43927005029831256,
+        "ndcg@10": 0.5730379245414765
+      },
+      {
+        "id": "artist:ilya-mashkov",
+        "type": "artist",
+        "text": "paintings by Ilya Mashkov",
+        "n_relevant": 15,
+        "precision@10": 0.2,
+        "average_precision": 0.24790919162762468,
+        "ndcg@10": 0.20829366581033185
+      },
+      {
+        "id": "artist:isaac-levitan",
+        "type": "artist",
+        "text": "paintings by Isaac Levitan",
+        "n_relevant": 15,
+        "precision@10": 0.2,
+        "average_precision": 0.2411084474314085,
+        "ndcg@10": 0.314880130667631
+      },
+      {
+        "id": "artist:juan-gris",
+        "type": "artist",
+        "text": "paintings by Juan Gris",
+        "n_relevant": 22,
+        "precision@10": 0.9,
+        "average_precision": 0.7888635924238862,
+        "ndcg@10": 0.9363792118010483
+      },
+      {
+        "id": "artist:konstantin-korovin",
+        "type": "artist",
+        "text": "paintings by Konstantin Korovin",
+        "n_relevant": 11,
+        "precision@10": 0.1,
+        "average_precision": 0.15368747514492864,
+        "ndcg@10": 0.08514311764162101
+      },
+      {
+        "id": "artist:mstislav-dobuzhinsky",
+        "type": "artist",
+        "text": "paintings by Mstislav Dobuzhinsky",
+        "n_relevant": 15,
+        "precision@10": 0.0,
+        "average_precision": 0.04734788946180121,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:nicholas-roerich",
+        "type": "artist",
+        "text": "paintings by Nicholas Roerich",
+        "n_relevant": 13,
+        "precision@10": 0.3,
+        "average_precision": 0.28881146183129264,
+        "ndcg@10": 0.400023248309252
+      },
+      {
+        "id": "artist:paul-gauguin",
+        "type": "artist",
+        "text": "paintings by Paul Gauguin",
+        "n_relevant": 14,
+        "precision@10": 0.3,
+        "average_precision": 0.18850320526502848,
+        "ndcg@10": 0.24309789328476908
+      },
+      {
+        "id": "artist:vasily-polenov",
+        "type": "artist",
+        "text": "paintings by Vasily Polenov",
+        "n_relevant": 10,
+        "precision@10": 0.3,
+        "average_precision": 0.16369080080367396,
+        "ndcg@10": 0.26845503571754264
+      },
+      {
+        "id": "artist:zinaida-serebriakova",
+        "type": "artist",
+        "text": "paintings by Zinaida Serebriakova",
+        "n_relevant": 15,
+        "precision@10": 0.3,
+        "average_precision": 0.17789785011391837,
+        "ndcg@10": 0.3120490772217807
+      }
+    ],
+    "clip_fr": [
+      {
+        "id": "genre:cityscape",
+        "type": "genre",
+        "text": "Je voudrais voir des vues de ville avec des rues et des immeubles",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.7709812799642332,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "genre:landscape",
+        "type": "genre",
+        "text": "un tableau de nature, avec des champs, des arbres et des montagnes",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.739677312925164,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "genre:portrait",
+        "type": "genre",
+        "text": "Je voudrais voir des portraits de personnes",
+        "n_relevant": 300,
+        "precision@10": 0.9,
+        "average_precision": 0.7742447668654259,
+        "ndcg@10": 0.88995411685096
+      },
+      {
+        "id": "genre:religious_painting",
+        "type": "genre",
+        "text": "des tableaux représentant des saints, des anges ou des scènes de la Bible",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.8948583747224871,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "genre:still_life",
+        "type": "genre",
+        "text": "une nature morte avec des fruits, des fleurs et des objets sur une table",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.9018641330388004,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "style_genre:Impressionist:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain impressionniste",
+        "n_relevant": 125,
+        "precision@10": 0.8,
+        "average_precision": 0.38486442715972724,
+        "ndcg@10": 0.7948833326720566
+      },
+      {
+        "id": "style_genre:Impressionist:landscape",
+        "type": "style_genre",
+        "text": "un paysage impressionniste",
+        "n_relevant": 91,
+        "precision@10": 0.1,
+        "average_precision": 0.22486315787551325,
+        "ndcg@10": 0.08514311764162101
+      },
+      {
+        "id": "style_genre:Impressionist:portrait",
+        "type": "style_genre",
+        "text": "un portrait impressionniste",
+        "n_relevant": 26,
+        "precision@10": 0.0,
+        "average_precision": 0.06675701467322849,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Impressionist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte impressionniste",
+        "n_relevant": 44,
+        "precision@10": 0.2,
+        "average_precision": 0.14291517412195906,
+        "ndcg@10": 0.1517621910780354
+      },
+      {
+        "id": "style_genre:Post-Impressionist:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain post-impressionniste",
+        "n_relevant": 54,
+        "precision@10": 0.3,
+        "average_precision": 0.2430898171001078,
+        "ndcg@10": 0.2588097889896128
+      },
+      {
+        "id": "style_genre:Post-Impressionist:landscape",
+        "type": "style_genre",
+        "text": "un paysage post-impressionniste",
+        "n_relevant": 40,
+        "precision@10": 0.2,
+        "average_precision": 0.12081319614617558,
+        "ndcg@10": 0.15457433957839828
+      },
+      {
+        "id": "style_genre:Post-Impressionist:portrait",
+        "type": "style_genre",
+        "text": "un portrait post-impressionniste",
+        "n_relevant": 15,
+        "precision@10": 0.1,
+        "average_precision": 0.10531716299225106,
+        "ndcg@10": 0.2200917662980802
+      },
+      {
+        "id": "style_genre:Post-Impressionist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte post-impressionniste",
+        "n_relevant": 50,
+        "precision@10": 0.1,
+        "average_precision": 0.20608080277252472,
+        "ndcg@10": 0.06943122193677728
+      },
+      {
+        "id": "style_genre:Realist:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain réaliste",
+        "n_relevant": 17,
+        "precision@10": 0.0,
+        "average_precision": 0.034371682046303545,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Realist:landscape",
+        "type": "style_genre",
+        "text": "un paysage réaliste",
+        "n_relevant": 56,
+        "precision@10": 0.2,
+        "average_precision": 0.2124126966470587,
+        "ndcg@10": 0.2122263659729146
+      },
+      {
+        "id": "style_genre:Realist:portrait",
+        "type": "style_genre",
+        "text": "un portrait réaliste",
+        "n_relevant": 41,
+        "precision@10": 0.2,
+        "average_precision": 0.23693122978346126,
+        "ndcg@10": 0.15139734109601005
+      },
+      {
+        "id": "style_genre:Realist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte réaliste",
+        "n_relevant": 35,
+        "precision@10": 0.3,
+        "average_precision": 0.2381849460315884,
+        "ndcg@10": 0.23177307466786257
+      },
+      {
+        "id": "style_genre:Expressionist:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain expressionniste",
+        "n_relevant": 24,
+        "precision@10": 0.2,
+        "average_precision": 0.0811472995443623,
+        "ndcg@10": 0.133052010135729
+      },
+      {
+        "id": "style_genre:Expressionist:landscape",
+        "type": "style_genre",
+        "text": "un paysage expressionniste",
+        "n_relevant": 17,
+        "precision@10": 0.0,
+        "average_precision": 0.033419051652233356,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Expressionist:portrait",
+        "type": "style_genre",
+        "text": "un portrait expressionniste",
+        "n_relevant": 61,
+        "precision@10": 0.4,
+        "average_precision": 0.28172551237470056,
+        "ndcg@10": 0.38589303732090646
+      },
+      {
+        "id": "style_genre:Expressionist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte expressionniste",
+        "n_relevant": 27,
+        "precision@10": 0.1,
+        "average_precision": 0.09817565862120438,
+        "ndcg@10": 0.06943122193677728
+      },
+      {
+        "id": "style_genre:Romantic:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain romantique",
+        "n_relevant": 20,
+        "precision@10": 0.0,
+        "average_precision": 0.039319014437320395,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Romantic:landscape",
+        "type": "style_genre",
+        "text": "un paysage romantique",
+        "n_relevant": 31,
+        "precision@10": 0.2,
+        "average_precision": 0.09231299646568396,
+        "ndcg@10": 0.1517621910780354
+      },
+      {
+        "id": "style_genre:Romantic:portrait",
+        "type": "style_genre",
+        "text": "un portrait romantique",
+        "n_relevant": 44,
+        "precision@10": 0.0,
+        "average_precision": 0.08061667542898927,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Romantic:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse romantique",
+        "n_relevant": 14,
+        "precision@10": 0.1,
+        "average_precision": 0.022413261171518702,
+        "ndcg@10": 0.07839826897867534
+      },
+      {
+        "id": "style_genre:Baroque:portrait",
+        "type": "style_genre",
+        "text": "un portrait baroque",
+        "n_relevant": 20,
+        "precision@10": 0.1,
+        "average_precision": 0.09557029048257955,
+        "ndcg@10": 0.1100458831490401
+      },
+      {
+        "id": "style_genre:Baroque:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse baroque",
+        "n_relevant": 53,
+        "precision@10": 0.5,
+        "average_precision": 0.27308674069701,
+        "ndcg@10": 0.5907272848394974
+      },
+      {
+        "id": "style_genre:Baroque:still_life",
+        "type": "style_genre",
+        "text": "une nature morte baroque",
+        "n_relevant": 24,
+        "precision@10": 0.8,
+        "average_precision": 0.5508742438863962,
+        "ndcg@10": 0.826813366651774
+      },
+      {
+        "id": "style_genre:Northern Renaissance:portrait",
+        "type": "style_genre",
+        "text": "un portrait de la Renaissance nordique",
+        "n_relevant": 10,
+        "precision@10": 0.3,
+        "average_precision": 0.2779754105729231,
+        "ndcg@10": 0.3187939258847264
+      },
+      {
+        "id": "style_genre:Northern Renaissance:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse de la Renaissance nordique",
+        "n_relevant": 60,
+        "precision@10": 0.2,
+        "average_precision": 0.24989236843765078,
+        "ndcg@10": 0.14279514403613736
+      },
+      {
+        "id": "style_genre:Cubist:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain cubiste",
+        "n_relevant": 10,
+        "precision@10": 0.2,
+        "average_precision": 0.23054590284027818,
+        "ndcg@10": 0.3052348839397012
+      },
+      {
+        "id": "style_genre:Cubist:landscape",
+        "type": "style_genre",
+        "text": "un paysage cubiste",
+        "n_relevant": 12,
+        "precision@10": 0.0,
+        "average_precision": 0.09642860073554266,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Cubist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte cubiste",
+        "n_relevant": 68,
+        "precision@10": 0.1,
+        "average_precision": 0.21900805139292204,
+        "ndcg@10": 0.07336392209936006
+      },
+      {
+        "id": "style_genre:Early Renaissance:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse de la première Renaissance",
+        "n_relevant": 62,
+        "precision@10": 0.6,
+        "average_precision": 0.3985507959156581,
+        "ndcg@10": 0.59932948189937
+      },
+      {
+        "id": "style_genre:Rococo:portrait",
+        "type": "style_genre",
+        "text": "un portrait rococo",
+        "n_relevant": 34,
+        "precision@10": 0.7,
+        "average_precision": 0.5377981786417533,
+        "ndcg@10": 0.7967610662472993
+      },
+      {
+        "id": "style_genre:Symbolist:landscape",
+        "type": "style_genre",
+        "text": "un paysage symboliste",
+        "n_relevant": 10,
+        "precision@10": 0.0,
+        "average_precision": 0.013116235185379568,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Symbolist:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse symboliste",
+        "n_relevant": 22,
+        "precision@10": 0.1,
+        "average_precision": 0.05322539401556676,
+        "ndcg@10": 0.13886244387355456
+      },
+      {
+        "id": "style_genre:High Renaissance:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse de la Haute Renaissance",
+        "n_relevant": 36,
+        "precision@10": 0.1,
+        "average_precision": 0.12875025292546968,
+        "ndcg@10": 0.09478836436955079
+      },
+      {
+        "id": "style_genre:Art Nouveau:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain Art nouveau",
+        "n_relevant": 13,
+        "precision@10": 0.1,
+        "average_precision": 0.05031202244919213,
+        "ndcg@10": 0.06362078819895173
+      },
+      {
+        "id": "style_genre:Art Nouveau:portrait",
+        "type": "style_genre",
+        "text": "un portrait Art nouveau",
+        "n_relevant": 10,
+        "precision@10": 0.1,
+        "average_precision": 0.08929777923333718,
+        "ndcg@10": 0.07839826897867534
+      },
+      {
+        "id": "style_genre:naive:still_life",
+        "type": "style_genre",
+        "text": "une nature morte naïve",
+        "n_relevant": 11,
+        "precision@10": 0.0,
+        "average_precision": 0.04415517805721258,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Mannerist:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse maniériste",
+        "n_relevant": 24,
+        "precision@10": 0.0,
+        "average_precision": 0.04109582428786042,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Fauvist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte fauve",
+        "n_relevant": 10,
+        "precision@10": 0.0,
+        "average_precision": 0.04705663702100164,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Pop Art:still_life",
+        "type": "style_genre",
+        "text": "une nature morte pop art",
+        "n_relevant": 10,
+        "precision@10": 0.1,
+        "average_precision": 0.04631135421817432,
+        "ndcg@10": 0.07839826897867534
+      },
+      {
+        "id": "artist:albrecht-durer",
+        "type": "artist",
+        "text": "des tableaux d'Albrecht Dürer",
+        "n_relevant": 12,
+        "precision@10": 0.5,
+        "average_precision": 0.3192627147384533,
+        "ndcg@10": 0.43199642233783897
+      },
+      {
+        "id": "artist:alfred-sisley",
+        "type": "artist",
+        "text": "des tableaux d'Alfred Sisley",
+        "n_relevant": 17,
+        "precision@10": 0.7,
+        "average_precision": 0.5262721915649531,
+        "ndcg@10": 0.7728378251807521
+      },
+      {
+        "id": "artist:amedeo-modigliani",
+        "type": "artist",
+        "text": "des tableaux d'Amedeo Modigliani",
+        "n_relevant": 10,
+        "precision@10": 0.8,
+        "average_precision": 0.9110245310245311,
+        "ndcg@10": 0.8572048559638626
+      },
+      {
+        "id": "artist:antoine-blanchard",
+        "type": "artist",
+        "text": "des tableaux d'Antoine Blanchard",
+        "n_relevant": 12,
+        "precision@10": 0.8,
+        "average_precision": 0.858543771043771,
+        "ndcg@10": 0.8630152897016883
+      },
+      {
+        "id": "artist:bartolome-esteban-murillo",
+        "type": "artist",
+        "text": "des tableaux de Bartolomé Esteban Murillo",
+        "n_relevant": 10,
+        "precision@10": 0.3,
+        "average_precision": 0.2986865743964958,
+        "ndcg@10": 0.3785009188665827
+      },
+      {
+        "id": "artist:camille-corot",
+        "type": "artist",
+        "text": "des tableaux de Camille Corot",
+        "n_relevant": 17,
+        "precision@10": 0.9,
+        "average_precision": 0.6613869501685967,
+        "ndcg@10": 0.9363792118010483
+      },
+      {
+        "id": "artist:camille-pissarro",
+        "type": "artist",
+        "text": "des tableaux de Camille Pissarro",
+        "n_relevant": 12,
+        "precision@10": 0.1,
+        "average_precision": 0.11227683676121401,
+        "ndcg@10": 0.06943122193677728
+      },
+      {
+        "id": "artist:claude-monet",
+        "type": "artist",
+        "text": "des tableaux de Claude Monet",
+        "n_relevant": 50,
+        "precision@10": 0.4,
+        "average_precision": 0.3054170198992992,
+        "ndcg@10": 0.3347092591719317
+      },
+      {
+        "id": "artist:edouard-cortes",
+        "type": "artist",
+        "text": "des tableaux d'Édouard Cortès",
+        "n_relevant": 14,
+        "precision@10": 0.0,
+        "average_precision": 0.006168440885347148,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:georges-braque",
+        "type": "artist",
+        "text": "des tableaux de Georges Braque",
+        "n_relevant": 26,
+        "precision@10": 0.4,
+        "average_precision": 0.30208311805940874,
+        "ndcg@10": 0.4006705181006301
+      },
+      {
+        "id": "artist:gustave-loiseau",
+        "type": "artist",
+        "text": "des tableaux de Gustave Loiseau",
+        "n_relevant": 12,
+        "precision@10": 0.2,
+        "average_precision": 0.22133789309257298,
+        "ndcg@10": 0.24890832702259466
+      },
+      {
+        "id": "artist:henri-fantin-latour",
+        "type": "artist",
+        "text": "des tableaux d'Henri Fantin-Latour",
+        "n_relevant": 10,
+        "precision@10": 0.3,
+        "average_precision": 0.3329267024535566,
+        "ndcg@10": 0.3151625504769837
+      },
+      {
+        "id": "artist:henri-matisse",
+        "type": "artist",
+        "text": "des tableaux d'Henri Matisse",
+        "n_relevant": 15,
+        "precision@10": 0.4,
+        "average_precision": 0.4263608758460377,
+        "ndcg@10": 0.5009732673492617
+      },
+      {
+        "id": "artist:ilya-mashkov",
+        "type": "artist",
+        "text": "des tableaux d'Ilia Machkov",
+        "n_relevant": 15,
+        "precision@10": 0.1,
+        "average_precision": 0.033809663589237315,
+        "ndcg@10": 0.07336392209936006
+      },
+      {
+        "id": "artist:isaac-levitan",
+        "type": "artist",
+        "text": "des tableaux d'Isaac Levitan",
+        "n_relevant": 15,
+        "precision@10": 0.2,
+        "average_precision": 0.1847188892390845,
+        "ndcg@10": 0.24890832702259466
+      },
+      {
+        "id": "artist:juan-gris",
+        "type": "artist",
+        "text": "des tableaux de Juan Gris",
+        "n_relevant": 22,
+        "precision@10": 0.9,
+        "average_precision": 0.7610065159505927,
+        "ndcg@10": 0.9337457765456111
+      },
+      {
+        "id": "artist:konstantin-korovin",
+        "type": "artist",
+        "text": "des tableaux de Constantin Korovine",
+        "n_relevant": 11,
+        "precision@10": 0.1,
+        "average_precision": 0.04223077995185605,
+        "ndcg@10": 0.09478836436955079
+      },
+      {
+        "id": "artist:mstislav-dobuzhinsky",
+        "type": "artist",
+        "text": "des tableaux de Mstislav Doboujinski",
+        "n_relevant": 15,
+        "precision@10": 0.0,
+        "average_precision": 0.011592541617468977,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:nicholas-roerich",
+        "type": "artist",
+        "text": "des tableaux de Nicolas Roerich",
+        "n_relevant": 13,
+        "precision@10": 0.1,
+        "average_precision": 0.1672432242498535,
+        "ndcg@10": 0.2200917662980802
+      },
+      {
+        "id": "artist:paul-gauguin",
+        "type": "artist",
+        "text": "des tableaux de Paul Gauguin",
+        "n_relevant": 14,
+        "precision@10": 0.2,
+        "average_precision": 0.1680362003140752,
+        "ndcg@10": 0.17630010660342915
+      },
+      {
+        "id": "artist:vasily-polenov",
+        "type": "artist",
+        "text": "des tableaux de Vassili Polenov",
+        "n_relevant": 10,
+        "precision@10": 0.1,
+        "average_precision": 0.1770526431825887,
+        "ndcg@10": 0.2200917662980802
+      },
+      {
+        "id": "artist:zinaida-serebriakova",
+        "type": "artist",
+        "text": "des tableaux de Zinaïda Serebriakova",
+        "n_relevant": 15,
+        "precision@10": 0.1,
+        "average_precision": 0.09217825590031122,
+        "ndcg@10": 0.09478836436955079
+      }
+    ],
+    "clip_fr_original_names": [
+      {
+        "id": "genre:cityscape",
+        "type": "genre",
+        "text": "Je voudrais voir des vues de ville avec des rues et des immeubles",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.7709812799642332,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "genre:landscape",
+        "type": "genre",
+        "text": "un tableau de nature, avec des champs, des arbres et des montagnes",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.739677312925164,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "genre:portrait",
+        "type": "genre",
+        "text": "Je voudrais voir des portraits de personnes",
+        "n_relevant": 300,
+        "precision@10": 0.9,
+        "average_precision": 0.7742447668654259,
+        "ndcg@10": 0.88995411685096
+      },
+      {
+        "id": "genre:religious_painting",
+        "type": "genre",
+        "text": "des tableaux représentant des saints, des anges ou des scènes de la Bible",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.8948583747224871,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "genre:still_life",
+        "type": "genre",
+        "text": "une nature morte avec des fruits, des fleurs et des objets sur une table",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.9018641330388004,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "style_genre:Impressionist:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain impressionniste",
+        "n_relevant": 125,
+        "precision@10": 0.8,
+        "average_precision": 0.38486442715972724,
+        "ndcg@10": 0.7948833326720566
+      },
+      {
+        "id": "style_genre:Impressionist:landscape",
+        "type": "style_genre",
+        "text": "un paysage impressionniste",
+        "n_relevant": 91,
+        "precision@10": 0.1,
+        "average_precision": 0.22486315787551325,
+        "ndcg@10": 0.08514311764162101
+      },
+      {
+        "id": "style_genre:Impressionist:portrait",
+        "type": "style_genre",
+        "text": "un portrait impressionniste",
+        "n_relevant": 26,
+        "precision@10": 0.0,
+        "average_precision": 0.06675701467322849,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Impressionist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte impressionniste",
+        "n_relevant": 44,
+        "precision@10": 0.2,
+        "average_precision": 0.14291517412195906,
+        "ndcg@10": 0.1517621910780354
+      },
+      {
+        "id": "style_genre:Post-Impressionist:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain post-impressionniste",
+        "n_relevant": 54,
+        "precision@10": 0.3,
+        "average_precision": 0.2430898171001078,
+        "ndcg@10": 0.2588097889896128
+      },
+      {
+        "id": "style_genre:Post-Impressionist:landscape",
+        "type": "style_genre",
+        "text": "un paysage post-impressionniste",
+        "n_relevant": 40,
+        "precision@10": 0.2,
+        "average_precision": 0.12081319614617558,
+        "ndcg@10": 0.15457433957839828
+      },
+      {
+        "id": "style_genre:Post-Impressionist:portrait",
+        "type": "style_genre",
+        "text": "un portrait post-impressionniste",
+        "n_relevant": 15,
+        "precision@10": 0.1,
+        "average_precision": 0.10531716299225106,
+        "ndcg@10": 0.2200917662980802
+      },
+      {
+        "id": "style_genre:Post-Impressionist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte post-impressionniste",
+        "n_relevant": 50,
+        "precision@10": 0.1,
+        "average_precision": 0.20608080277252472,
+        "ndcg@10": 0.06943122193677728
+      },
+      {
+        "id": "style_genre:Realist:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain réaliste",
+        "n_relevant": 17,
+        "precision@10": 0.0,
+        "average_precision": 0.034371682046303545,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Realist:landscape",
+        "type": "style_genre",
+        "text": "un paysage réaliste",
+        "n_relevant": 56,
+        "precision@10": 0.2,
+        "average_precision": 0.2124126966470587,
+        "ndcg@10": 0.2122263659729146
+      },
+      {
+        "id": "style_genre:Realist:portrait",
+        "type": "style_genre",
+        "text": "un portrait réaliste",
+        "n_relevant": 41,
+        "precision@10": 0.2,
+        "average_precision": 0.23693122978346126,
+        "ndcg@10": 0.15139734109601005
+      },
+      {
+        "id": "style_genre:Realist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte réaliste",
+        "n_relevant": 35,
+        "precision@10": 0.3,
+        "average_precision": 0.2381849460315884,
+        "ndcg@10": 0.23177307466786257
+      },
+      {
+        "id": "style_genre:Expressionist:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain expressionniste",
+        "n_relevant": 24,
+        "precision@10": 0.2,
+        "average_precision": 0.0811472995443623,
+        "ndcg@10": 0.133052010135729
+      },
+      {
+        "id": "style_genre:Expressionist:landscape",
+        "type": "style_genre",
+        "text": "un paysage expressionniste",
+        "n_relevant": 17,
+        "precision@10": 0.0,
+        "average_precision": 0.033419051652233356,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Expressionist:portrait",
+        "type": "style_genre",
+        "text": "un portrait expressionniste",
+        "n_relevant": 61,
+        "precision@10": 0.4,
+        "average_precision": 0.28172551237470056,
+        "ndcg@10": 0.38589303732090646
+      },
+      {
+        "id": "style_genre:Expressionist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte expressionniste",
+        "n_relevant": 27,
+        "precision@10": 0.1,
+        "average_precision": 0.09817565862120438,
+        "ndcg@10": 0.06943122193677728
+      },
+      {
+        "id": "style_genre:Romantic:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain romantique",
+        "n_relevant": 20,
+        "precision@10": 0.0,
+        "average_precision": 0.039319014437320395,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Romantic:landscape",
+        "type": "style_genre",
+        "text": "un paysage romantique",
+        "n_relevant": 31,
+        "precision@10": 0.2,
+        "average_precision": 0.09231299646568396,
+        "ndcg@10": 0.1517621910780354
+      },
+      {
+        "id": "style_genre:Romantic:portrait",
+        "type": "style_genre",
+        "text": "un portrait romantique",
+        "n_relevant": 44,
+        "precision@10": 0.0,
+        "average_precision": 0.08061667542898927,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Romantic:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse romantique",
+        "n_relevant": 14,
+        "precision@10": 0.1,
+        "average_precision": 0.022413261171518702,
+        "ndcg@10": 0.07839826897867534
+      },
+      {
+        "id": "style_genre:Baroque:portrait",
+        "type": "style_genre",
+        "text": "un portrait baroque",
+        "n_relevant": 20,
+        "precision@10": 0.1,
+        "average_precision": 0.09557029048257955,
+        "ndcg@10": 0.1100458831490401
+      },
+      {
+        "id": "style_genre:Baroque:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse baroque",
+        "n_relevant": 53,
+        "precision@10": 0.5,
+        "average_precision": 0.27308674069701,
+        "ndcg@10": 0.5907272848394974
+      },
+      {
+        "id": "style_genre:Baroque:still_life",
+        "type": "style_genre",
+        "text": "une nature morte baroque",
+        "n_relevant": 24,
+        "precision@10": 0.8,
+        "average_precision": 0.5508742438863962,
+        "ndcg@10": 0.826813366651774
+      },
+      {
+        "id": "style_genre:Northern Renaissance:portrait",
+        "type": "style_genre",
+        "text": "un portrait de la Renaissance nordique",
+        "n_relevant": 10,
+        "precision@10": 0.3,
+        "average_precision": 0.2779754105729231,
+        "ndcg@10": 0.3187939258847264
+      },
+      {
+        "id": "style_genre:Northern Renaissance:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse de la Renaissance nordique",
+        "n_relevant": 60,
+        "precision@10": 0.2,
+        "average_precision": 0.24989236843765078,
+        "ndcg@10": 0.14279514403613736
+      },
+      {
+        "id": "style_genre:Cubist:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain cubiste",
+        "n_relevant": 10,
+        "precision@10": 0.2,
+        "average_precision": 0.23054590284027818,
+        "ndcg@10": 0.3052348839397012
+      },
+      {
+        "id": "style_genre:Cubist:landscape",
+        "type": "style_genre",
+        "text": "un paysage cubiste",
+        "n_relevant": 12,
+        "precision@10": 0.0,
+        "average_precision": 0.09642860073554266,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Cubist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte cubiste",
+        "n_relevant": 68,
+        "precision@10": 0.1,
+        "average_precision": 0.21900805139292204,
+        "ndcg@10": 0.07336392209936006
+      },
+      {
+        "id": "style_genre:Early Renaissance:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse de la première Renaissance",
+        "n_relevant": 62,
+        "precision@10": 0.6,
+        "average_precision": 0.3985507959156581,
+        "ndcg@10": 0.59932948189937
+      },
+      {
+        "id": "style_genre:Rococo:portrait",
+        "type": "style_genre",
+        "text": "un portrait rococo",
+        "n_relevant": 34,
+        "precision@10": 0.7,
+        "average_precision": 0.5377981786417533,
+        "ndcg@10": 0.7967610662472993
+      },
+      {
+        "id": "style_genre:Symbolist:landscape",
+        "type": "style_genre",
+        "text": "un paysage symboliste",
+        "n_relevant": 10,
+        "precision@10": 0.0,
+        "average_precision": 0.013116235185379568,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Symbolist:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse symboliste",
+        "n_relevant": 22,
+        "precision@10": 0.1,
+        "average_precision": 0.05322539401556676,
+        "ndcg@10": 0.13886244387355456
+      },
+      {
+        "id": "style_genre:High Renaissance:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse de la Haute Renaissance",
+        "n_relevant": 36,
+        "precision@10": 0.1,
+        "average_precision": 0.12875025292546968,
+        "ndcg@10": 0.09478836436955079
+      },
+      {
+        "id": "style_genre:Art Nouveau:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain Art nouveau",
+        "n_relevant": 13,
+        "precision@10": 0.1,
+        "average_precision": 0.05031202244919213,
+        "ndcg@10": 0.06362078819895173
+      },
+      {
+        "id": "style_genre:Art Nouveau:portrait",
+        "type": "style_genre",
+        "text": "un portrait Art nouveau",
+        "n_relevant": 10,
+        "precision@10": 0.1,
+        "average_precision": 0.08929777923333718,
+        "ndcg@10": 0.07839826897867534
+      },
+      {
+        "id": "style_genre:naive:still_life",
+        "type": "style_genre",
+        "text": "une nature morte naïve",
+        "n_relevant": 11,
+        "precision@10": 0.0,
+        "average_precision": 0.04415517805721258,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Mannerist:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse maniériste",
+        "n_relevant": 24,
+        "precision@10": 0.0,
+        "average_precision": 0.04109582428786042,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Fauvist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte fauve",
+        "n_relevant": 10,
+        "precision@10": 0.0,
+        "average_precision": 0.04705663702100164,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Pop Art:still_life",
+        "type": "style_genre",
+        "text": "une nature morte pop art",
+        "n_relevant": 10,
+        "precision@10": 0.1,
+        "average_precision": 0.04631135421817432,
+        "ndcg@10": 0.07839826897867534
+      },
+      {
+        "id": "artist:albrecht-durer",
+        "type": "artist",
+        "text": "des tableaux d'Albrecht Durer",
+        "n_relevant": 12,
+        "precision@10": 0.5,
+        "average_precision": 0.388129080394273,
+        "ndcg@10": 0.5370079586075638
+      },
+      {
+        "id": "artist:alfred-sisley",
+        "type": "artist",
+        "text": "des tableaux d'Alfred Sisley",
+        "n_relevant": 17,
+        "precision@10": 0.7,
+        "average_precision": 0.5262721915649531,
+        "ndcg@10": 0.7728378251807521
+      },
+      {
+        "id": "artist:amedeo-modigliani",
+        "type": "artist",
+        "text": "des tableaux d'Amedeo Modigliani",
+        "n_relevant": 10,
+        "precision@10": 0.8,
+        "average_precision": 0.9110245310245311,
+        "ndcg@10": 0.8572048559638626
+      },
+      {
+        "id": "artist:antoine-blanchard",
+        "type": "artist",
+        "text": "des tableaux d'Antoine Blanchard",
+        "n_relevant": 12,
+        "precision@10": 0.8,
+        "average_precision": 0.858543771043771,
+        "ndcg@10": 0.8630152897016883
+      },
+      {
+        "id": "artist:bartolome-esteban-murillo",
+        "type": "artist",
+        "text": "des tableaux de Bartolome Esteban Murillo",
+        "n_relevant": 10,
+        "precision@10": 0.5,
+        "average_precision": 0.42086885001679536,
+        "ndcg@10": 0.5232512984721257
+      },
+      {
+        "id": "artist:camille-corot",
+        "type": "artist",
+        "text": "des tableaux de Camille Corot",
+        "n_relevant": 17,
+        "precision@10": 0.9,
+        "average_precision": 0.6613869501685967,
+        "ndcg@10": 0.9363792118010483
+      },
+      {
+        "id": "artist:camille-pissarro",
+        "type": "artist",
+        "text": "des tableaux de Camille Pissarro",
+        "n_relevant": 12,
+        "precision@10": 0.1,
+        "average_precision": 0.11227683676121401,
+        "ndcg@10": 0.06943122193677728
+      },
+      {
+        "id": "artist:claude-monet",
+        "type": "artist",
+        "text": "des tableaux de Claude Monet",
+        "n_relevant": 50,
+        "precision@10": 0.4,
+        "average_precision": 0.3054170198992992,
+        "ndcg@10": 0.3347092591719317
+      },
+      {
+        "id": "artist:edouard-cortes",
+        "type": "artist",
+        "text": "des tableaux d'Edouard Cortes",
+        "n_relevant": 14,
+        "precision@10": 0.7,
+        "average_precision": 0.7471528680175297,
+        "ndcg@10": 0.7411902110103873
+      },
+      {
+        "id": "artist:georges-braque",
+        "type": "artist",
+        "text": "des tableaux de Georges Braque",
+        "n_relevant": 26,
+        "precision@10": 0.4,
+        "average_precision": 0.30208311805940874,
+        "ndcg@10": 0.4006705181006301
+      },
+      {
+        "id": "artist:gustave-loiseau",
+        "type": "artist",
+        "text": "des tableaux de Gustave Loiseau",
+        "n_relevant": 12,
+        "precision@10": 0.2,
+        "average_precision": 0.22133789309257298,
+        "ndcg@10": 0.24890832702259466
+      },
+      {
+        "id": "artist:henri-fantin-latour",
+        "type": "artist",
+        "text": "des tableaux d'Henri Fantin Latour",
+        "n_relevant": 10,
+        "precision@10": 0.3,
+        "average_precision": 0.36665573556877906,
+        "ndcg@10": 0.3621108234757073
+      },
+      {
+        "id": "artist:henri-matisse",
+        "type": "artist",
+        "text": "des tableaux d'Henri Matisse",
+        "n_relevant": 15,
+        "precision@10": 0.4,
+        "average_precision": 0.4263608758460377,
+        "ndcg@10": 0.5009732673492617
+      },
+      {
+        "id": "artist:ilya-mashkov",
+        "type": "artist",
+        "text": "des tableaux d'Ilya Mashkov",
+        "n_relevant": 15,
+        "precision@10": 0.4,
+        "average_precision": 0.2571249715538604,
+        "ndcg@10": 0.37878333867593544
+      },
+      {
+        "id": "artist:isaac-levitan",
+        "type": "artist",
+        "text": "des tableaux d'Isaac Levitan",
+        "n_relevant": 15,
+        "precision@10": 0.2,
+        "average_precision": 0.1847188892390845,
+        "ndcg@10": 0.24890832702259466
+      },
+      {
+        "id": "artist:juan-gris",
+        "type": "artist",
+        "text": "des tableaux de Juan Gris",
+        "n_relevant": 22,
+        "precision@10": 0.9,
+        "average_precision": 0.7610065159505927,
+        "ndcg@10": 0.9337457765456111
+      },
+      {
+        "id": "artist:konstantin-korovin",
+        "type": "artist",
+        "text": "des tableaux de Konstantin Korovin",
+        "n_relevant": 11,
+        "precision@10": 0.4,
+        "average_precision": 0.33804448987797575,
+        "ndcg@10": 0.4315420454124846
+      },
+      {
+        "id": "artist:mstislav-dobuzhinsky",
+        "type": "artist",
+        "text": "des tableaux de Mstislav Dobuzhinsky",
+        "n_relevant": 15,
+        "precision@10": 0.0,
+        "average_precision": 0.03554819042068559,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:nicholas-roerich",
+        "type": "artist",
+        "text": "des tableaux de Nicholas Roerich",
+        "n_relevant": 13,
+        "precision@10": 0.2,
+        "average_precision": 0.21639483681754643,
+        "ndcg@10": 0.2837125544970319
+      },
+      {
+        "id": "artist:paul-gauguin",
+        "type": "artist",
+        "text": "des tableaux de Paul Gauguin",
+        "n_relevant": 14,
+        "precision@10": 0.2,
+        "average_precision": 0.1680362003140752,
+        "ndcg@10": 0.17630010660342915
+      },
+      {
+        "id": "artist:vasily-polenov",
+        "type": "artist",
+        "text": "des tableaux de Vasily Polenov",
+        "n_relevant": 10,
+        "precision@10": 0.1,
+        "average_precision": 0.18151302136710265,
+        "ndcg@10": 0.2200917662980802
+      },
+      {
+        "id": "artist:zinaida-serebriakova",
+        "type": "artist",
+        "text": "des tableaux de Zinaida Serebriakova",
+        "n_relevant": 15,
+        "precision@10": 0.2,
+        "average_precision": 0.10139602315494965,
+        "ndcg@10": 0.18340980524840014
+      }
+    ],
+    "clip_fr_no_accents": [
+      {
+        "id": "genre:cityscape",
+        "type": "genre",
+        "text": "Je voudrais voir des vues de ville avec des rues et des immeubles",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.7709812799642332,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "genre:landscape",
+        "type": "genre",
+        "text": "un tableau de nature, avec des champs, des arbres et des montagnes",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.739677312925164,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "genre:portrait",
+        "type": "genre",
+        "text": "Je voudrais voir des portraits de personnes",
+        "n_relevant": 300,
+        "precision@10": 0.9,
+        "average_precision": 0.7742447668654259,
+        "ndcg@10": 0.88995411685096
+      },
+      {
+        "id": "genre:religious_painting",
+        "type": "genre",
+        "text": "des tableaux representant des saints, des anges ou des scenes de la Bible",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.8878602442552449,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "genre:still_life",
+        "type": "genre",
+        "text": "une nature morte avec des fruits, des fleurs et des objets sur une table",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.9018641330388004,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "style_genre:Impressionist:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain impressionniste",
+        "n_relevant": 125,
+        "precision@10": 0.8,
+        "average_precision": 0.38486442715972724,
+        "ndcg@10": 0.7948833326720566
+      },
+      {
+        "id": "style_genre:Impressionist:landscape",
+        "type": "style_genre",
+        "text": "un paysage impressionniste",
+        "n_relevant": 91,
+        "precision@10": 0.1,
+        "average_precision": 0.22486315787551325,
+        "ndcg@10": 0.08514311764162101
+      },
+      {
+        "id": "style_genre:Impressionist:portrait",
+        "type": "style_genre",
+        "text": "un portrait impressionniste",
+        "n_relevant": 26,
+        "precision@10": 0.0,
+        "average_precision": 0.06675701467322849,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Impressionist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte impressionniste",
+        "n_relevant": 44,
+        "precision@10": 0.2,
+        "average_precision": 0.14291517412195906,
+        "ndcg@10": 0.1517621910780354
+      },
+      {
+        "id": "style_genre:Post-Impressionist:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain post-impressionniste",
+        "n_relevant": 54,
+        "precision@10": 0.3,
+        "average_precision": 0.2430898171001078,
+        "ndcg@10": 0.2588097889896128
+      },
+      {
+        "id": "style_genre:Post-Impressionist:landscape",
+        "type": "style_genre",
+        "text": "un paysage post-impressionniste",
+        "n_relevant": 40,
+        "precision@10": 0.2,
+        "average_precision": 0.12081319614617558,
+        "ndcg@10": 0.15457433957839828
+      },
+      {
+        "id": "style_genre:Post-Impressionist:portrait",
+        "type": "style_genre",
+        "text": "un portrait post-impressionniste",
+        "n_relevant": 15,
+        "precision@10": 0.1,
+        "average_precision": 0.10531716299225106,
+        "ndcg@10": 0.2200917662980802
+      },
+      {
+        "id": "style_genre:Post-Impressionist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte post-impressionniste",
+        "n_relevant": 50,
+        "precision@10": 0.1,
+        "average_precision": 0.20608080277252472,
+        "ndcg@10": 0.06943122193677728
+      },
+      {
+        "id": "style_genre:Realist:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain realiste",
+        "n_relevant": 17,
+        "precision@10": 0.0,
+        "average_precision": 0.04411321176133778,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Realist:landscape",
+        "type": "style_genre",
+        "text": "un paysage realiste",
+        "n_relevant": 56,
+        "precision@10": 0.1,
+        "average_precision": 0.14378720919156698,
+        "ndcg@10": 0.08514311764162101
+      },
+      {
+        "id": "style_genre:Realist:portrait",
+        "type": "style_genre",
+        "text": "un portrait realiste",
+        "n_relevant": 41,
+        "precision@10": 0.1,
+        "average_precision": 0.12357891665486645,
+        "ndcg@10": 0.06625422345438904
+      },
+      {
+        "id": "style_genre:Realist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte realiste",
+        "n_relevant": 35,
+        "precision@10": 0.3,
+        "average_precision": 0.2497971885357419,
+        "ndcg@10": 0.2140837143698417
+      },
+      {
+        "id": "style_genre:Expressionist:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain expressionniste",
+        "n_relevant": 24,
+        "precision@10": 0.2,
+        "average_precision": 0.0811472995443623,
+        "ndcg@10": 0.133052010135729
+      },
+      {
+        "id": "style_genre:Expressionist:landscape",
+        "type": "style_genre",
+        "text": "un paysage expressionniste",
+        "n_relevant": 17,
+        "precision@10": 0.0,
+        "average_precision": 0.033419051652233356,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Expressionist:portrait",
+        "type": "style_genre",
+        "text": "un portrait expressionniste",
+        "n_relevant": 61,
+        "precision@10": 0.4,
+        "average_precision": 0.28172551237470056,
+        "ndcg@10": 0.38589303732090646
+      },
+      {
+        "id": "style_genre:Expressionist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte expressionniste",
+        "n_relevant": 27,
+        "precision@10": 0.1,
+        "average_precision": 0.09817565862120438,
+        "ndcg@10": 0.06943122193677728
+      },
+      {
+        "id": "style_genre:Romantic:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain romantique",
+        "n_relevant": 20,
+        "precision@10": 0.0,
+        "average_precision": 0.039319014437320395,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Romantic:landscape",
+        "type": "style_genre",
+        "text": "un paysage romantique",
+        "n_relevant": 31,
+        "precision@10": 0.2,
+        "average_precision": 0.09231299646568396,
+        "ndcg@10": 0.1517621910780354
+      },
+      {
+        "id": "style_genre:Romantic:portrait",
+        "type": "style_genre",
+        "text": "un portrait romantique",
+        "n_relevant": 44,
+        "precision@10": 0.0,
+        "average_precision": 0.08061667542898927,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Romantic:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse romantique",
+        "n_relevant": 14,
+        "precision@10": 0.1,
+        "average_precision": 0.022413261171518702,
+        "ndcg@10": 0.07839826897867534
+      },
+      {
+        "id": "style_genre:Baroque:portrait",
+        "type": "style_genre",
+        "text": "un portrait baroque",
+        "n_relevant": 20,
+        "precision@10": 0.1,
+        "average_precision": 0.09557029048257955,
+        "ndcg@10": 0.1100458831490401
+      },
+      {
+        "id": "style_genre:Baroque:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse baroque",
+        "n_relevant": 53,
+        "precision@10": 0.5,
+        "average_precision": 0.27308674069701,
+        "ndcg@10": 0.5907272848394974
+      },
+      {
+        "id": "style_genre:Baroque:still_life",
+        "type": "style_genre",
+        "text": "une nature morte baroque",
+        "n_relevant": 24,
+        "precision@10": 0.8,
+        "average_precision": 0.5508742438863962,
+        "ndcg@10": 0.826813366651774
+      },
+      {
+        "id": "style_genre:Northern Renaissance:portrait",
+        "type": "style_genre",
+        "text": "un portrait de la Renaissance nordique",
+        "n_relevant": 10,
+        "precision@10": 0.3,
+        "average_precision": 0.2779754105729231,
+        "ndcg@10": 0.3187939258847264
+      },
+      {
+        "id": "style_genre:Northern Renaissance:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse de la Renaissance nordique",
+        "n_relevant": 60,
+        "precision@10": 0.2,
+        "average_precision": 0.24989236843765078,
+        "ndcg@10": 0.14279514403613736
+      },
+      {
+        "id": "style_genre:Cubist:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain cubiste",
+        "n_relevant": 10,
+        "precision@10": 0.2,
+        "average_precision": 0.23054590284027818,
+        "ndcg@10": 0.3052348839397012
+      },
+      {
+        "id": "style_genre:Cubist:landscape",
+        "type": "style_genre",
+        "text": "un paysage cubiste",
+        "n_relevant": 12,
+        "precision@10": 0.0,
+        "average_precision": 0.09642860073554266,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Cubist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte cubiste",
+        "n_relevant": 68,
+        "precision@10": 0.1,
+        "average_precision": 0.21900805139292204,
+        "ndcg@10": 0.07336392209936006
+      },
+      {
+        "id": "style_genre:Early Renaissance:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse de la premiere Renaissance",
+        "n_relevant": 62,
+        "precision@10": 0.6,
+        "average_precision": 0.3417066914836862,
+        "ndcg@10": 0.6749359875559983
+      },
+      {
+        "id": "style_genre:Rococo:portrait",
+        "type": "style_genre",
+        "text": "un portrait rococo",
+        "n_relevant": 34,
+        "precision@10": 0.7,
+        "average_precision": 0.5377981786417533,
+        "ndcg@10": 0.7967610662472993
+      },
+      {
+        "id": "style_genre:Symbolist:landscape",
+        "type": "style_genre",
+        "text": "un paysage symboliste",
+        "n_relevant": 10,
+        "precision@10": 0.0,
+        "average_precision": 0.013116235185379568,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Symbolist:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse symboliste",
+        "n_relevant": 22,
+        "precision@10": 0.1,
+        "average_precision": 0.05322539401556676,
+        "ndcg@10": 0.13886244387355456
+      },
+      {
+        "id": "style_genre:High Renaissance:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse de la Haute Renaissance",
+        "n_relevant": 36,
+        "precision@10": 0.1,
+        "average_precision": 0.12875025292546968,
+        "ndcg@10": 0.09478836436955079
+      },
+      {
+        "id": "style_genre:Art Nouveau:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain Art nouveau",
+        "n_relevant": 13,
+        "precision@10": 0.1,
+        "average_precision": 0.05031202244919213,
+        "ndcg@10": 0.06362078819895173
+      },
+      {
+        "id": "style_genre:Art Nouveau:portrait",
+        "type": "style_genre",
+        "text": "un portrait Art nouveau",
+        "n_relevant": 10,
+        "precision@10": 0.1,
+        "average_precision": 0.08929777923333718,
+        "ndcg@10": 0.07839826897867534
+      },
+      {
+        "id": "style_genre:naive:still_life",
+        "type": "style_genre",
+        "text": "une nature morte naive",
+        "n_relevant": 11,
+        "precision@10": 0.0,
+        "average_precision": 0.04058385497576729,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Mannerist:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse manieriste",
+        "n_relevant": 24,
+        "precision@10": 0.0,
+        "average_precision": 0.040132454482145384,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Fauvist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte fauve",
+        "n_relevant": 10,
+        "precision@10": 0.0,
+        "average_precision": 0.04705663702100164,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Pop Art:still_life",
+        "type": "style_genre",
+        "text": "une nature morte pop art",
+        "n_relevant": 10,
+        "precision@10": 0.1,
+        "average_precision": 0.04631135421817432,
+        "ndcg@10": 0.07839826897867534
+      },
+      {
+        "id": "artist:albrecht-durer",
+        "type": "artist",
+        "text": "des tableaux d'Albrecht Durer",
+        "n_relevant": 12,
+        "precision@10": 0.5,
+        "average_precision": 0.388129080394273,
+        "ndcg@10": 0.5370079586075638
+      },
+      {
+        "id": "artist:alfred-sisley",
+        "type": "artist",
+        "text": "des tableaux d'Alfred Sisley",
+        "n_relevant": 17,
+        "precision@10": 0.7,
+        "average_precision": 0.5262721915649531,
+        "ndcg@10": 0.7728378251807521
+      },
+      {
+        "id": "artist:amedeo-modigliani",
+        "type": "artist",
+        "text": "des tableaux d'Amedeo Modigliani",
+        "n_relevant": 10,
+        "precision@10": 0.8,
+        "average_precision": 0.9110245310245311,
+        "ndcg@10": 0.8572048559638626
+      },
+      {
+        "id": "artist:antoine-blanchard",
+        "type": "artist",
+        "text": "des tableaux d'Antoine Blanchard",
+        "n_relevant": 12,
+        "precision@10": 0.8,
+        "average_precision": 0.858543771043771,
+        "ndcg@10": 0.8630152897016883
+      },
+      {
+        "id": "artist:bartolome-esteban-murillo",
+        "type": "artist",
+        "text": "des tableaux de Bartolome Esteban Murillo",
+        "n_relevant": 10,
+        "precision@10": 0.5,
+        "average_precision": 0.42086885001679536,
+        "ndcg@10": 0.5232512984721257
+      },
+      {
+        "id": "artist:camille-corot",
+        "type": "artist",
+        "text": "des tableaux de Camille Corot",
+        "n_relevant": 17,
+        "precision@10": 0.9,
+        "average_precision": 0.6613869501685967,
+        "ndcg@10": 0.9363792118010483
+      },
+      {
+        "id": "artist:camille-pissarro",
+        "type": "artist",
+        "text": "des tableaux de Camille Pissarro",
+        "n_relevant": 12,
+        "precision@10": 0.1,
+        "average_precision": 0.11227683676121401,
+        "ndcg@10": 0.06943122193677728
+      },
+      {
+        "id": "artist:claude-monet",
+        "type": "artist",
+        "text": "des tableaux de Claude Monet",
+        "n_relevant": 50,
+        "precision@10": 0.4,
+        "average_precision": 0.3054170198992992,
+        "ndcg@10": 0.3347092591719317
+      },
+      {
+        "id": "artist:edouard-cortes",
+        "type": "artist",
+        "text": "des tableaux d'Edouard Cortes",
+        "n_relevant": 14,
+        "precision@10": 0.7,
+        "average_precision": 0.7471528680175297,
+        "ndcg@10": 0.7411902110103873
+      },
+      {
+        "id": "artist:georges-braque",
+        "type": "artist",
+        "text": "des tableaux de Georges Braque",
+        "n_relevant": 26,
+        "precision@10": 0.4,
+        "average_precision": 0.30208311805940874,
+        "ndcg@10": 0.4006705181006301
+      },
+      {
+        "id": "artist:gustave-loiseau",
+        "type": "artist",
+        "text": "des tableaux de Gustave Loiseau",
+        "n_relevant": 12,
+        "precision@10": 0.2,
+        "average_precision": 0.22133789309257298,
+        "ndcg@10": 0.24890832702259466
+      },
+      {
+        "id": "artist:henri-fantin-latour",
+        "type": "artist",
+        "text": "des tableaux d'Henri Fantin-Latour",
+        "n_relevant": 10,
+        "precision@10": 0.3,
+        "average_precision": 0.3329267024535566,
+        "ndcg@10": 0.3151625504769837
+      },
+      {
+        "id": "artist:henri-matisse",
+        "type": "artist",
+        "text": "des tableaux d'Henri Matisse",
+        "n_relevant": 15,
+        "precision@10": 0.4,
+        "average_precision": 0.4263608758460377,
+        "ndcg@10": 0.5009732673492617
+      },
+      {
+        "id": "artist:ilya-mashkov",
+        "type": "artist",
+        "text": "des tableaux d'Ilia Machkov",
+        "n_relevant": 15,
+        "precision@10": 0.1,
+        "average_precision": 0.033809663589237315,
+        "ndcg@10": 0.07336392209936006
+      },
+      {
+        "id": "artist:isaac-levitan",
+        "type": "artist",
+        "text": "des tableaux d'Isaac Levitan",
+        "n_relevant": 15,
+        "precision@10": 0.2,
+        "average_precision": 0.1847188892390845,
+        "ndcg@10": 0.24890832702259466
+      },
+      {
+        "id": "artist:juan-gris",
+        "type": "artist",
+        "text": "des tableaux de Juan Gris",
+        "n_relevant": 22,
+        "precision@10": 0.9,
+        "average_precision": 0.7610065159505927,
+        "ndcg@10": 0.9337457765456111
+      },
+      {
+        "id": "artist:konstantin-korovin",
+        "type": "artist",
+        "text": "des tableaux de Constantin Korovine",
+        "n_relevant": 11,
+        "precision@10": 0.1,
+        "average_precision": 0.04223077995185605,
+        "ndcg@10": 0.09478836436955079
+      },
+      {
+        "id": "artist:mstislav-dobuzhinsky",
+        "type": "artist",
+        "text": "des tableaux de Mstislav Doboujinski",
+        "n_relevant": 15,
+        "precision@10": 0.0,
+        "average_precision": 0.011592541617468977,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:nicholas-roerich",
+        "type": "artist",
+        "text": "des tableaux de Nicolas Roerich",
+        "n_relevant": 13,
+        "precision@10": 0.1,
+        "average_precision": 0.1672432242498535,
+        "ndcg@10": 0.2200917662980802
+      },
+      {
+        "id": "artist:paul-gauguin",
+        "type": "artist",
+        "text": "des tableaux de Paul Gauguin",
+        "n_relevant": 14,
+        "precision@10": 0.2,
+        "average_precision": 0.1680362003140752,
+        "ndcg@10": 0.17630010660342915
+      },
+      {
+        "id": "artist:vasily-polenov",
+        "type": "artist",
+        "text": "des tableaux de Vassili Polenov",
+        "n_relevant": 10,
+        "precision@10": 0.1,
+        "average_precision": 0.1770526431825887,
+        "ndcg@10": 0.2200917662980802
+      },
+      {
+        "id": "artist:zinaida-serebriakova",
+        "type": "artist",
+        "text": "des tableaux de Zinaida Serebriakova",
+        "n_relevant": 15,
+        "precision@10": 0.2,
+        "average_precision": 0.10139602315494965,
+        "ndcg@10": 0.18340980524840014
+      }
+    ],
+    "multilingual_en": [
+      {
+        "id": "genre:cityscape",
+        "type": "genre",
+        "text": "I would like to see views of a city with streets and buildings",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.8350320886500806,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "genre:landscape",
+        "type": "genre",
+        "text": "a painting of nature, fields, trees and mountains",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.8469457495282366,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "genre:portrait",
+        "type": "genre",
+        "text": "I would like to see portraits of people",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.8793463223387539,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "genre:religious_painting",
+        "type": "genre",
+        "text": "paintings showing saints, angels or scenes from the Bible",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.8825752390431357,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "genre:still_life",
+        "type": "genre",
+        "text": "a still life with fruit, flowers and objects on a table",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.8772411998340173,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "style_genre:Impressionist:cityscape",
+        "type": "style_genre",
+        "text": "an Impressionist city view",
+        "n_relevant": 125,
+        "precision@10": 0.5,
+        "average_precision": 0.37547692371168356,
+        "ndcg@10": 0.44173955623824734
+      },
+      {
+        "id": "style_genre:Impressionist:landscape",
+        "type": "style_genre",
+        "text": "an Impressionist landscape",
+        "n_relevant": 91,
+        "precision@10": 0.3,
+        "average_precision": 0.29562864829473984,
+        "ndcg@10": 0.2528410271851775
+      },
+      {
+        "id": "style_genre:Impressionist:portrait",
+        "type": "style_genre",
+        "text": "an Impressionist portrait",
+        "n_relevant": 26,
+        "precision@10": 0.3,
+        "average_precision": 0.20060372308288651,
+        "ndcg@10": 0.2496640287027892
+      },
+      {
+        "id": "style_genre:Impressionist:still_life",
+        "type": "style_genre",
+        "text": "an Impressionist still life",
+        "n_relevant": 44,
+        "precision@10": 0.2,
+        "average_precision": 0.10592066427299551,
+        "ndcg@10": 0.17366667134799182
+      },
+      {
+        "id": "style_genre:Post-Impressionist:cityscape",
+        "type": "style_genre",
+        "text": "a Post-Impressionist city view",
+        "n_relevant": 54,
+        "precision@10": 0.1,
+        "average_precision": 0.1693148030753257,
+        "ndcg@10": 0.06943122193677728
+      },
+      {
+        "id": "style_genre:Post-Impressionist:landscape",
+        "type": "style_genre",
+        "text": "a Post-Impressionist landscape",
+        "n_relevant": 40,
+        "precision@10": 0.1,
+        "average_precision": 0.13001965353226133,
+        "ndcg@10": 0.13886244387355456
+      },
+      {
+        "id": "style_genre:Post-Impressionist:portrait",
+        "type": "style_genre",
+        "text": "a Post-Impressionist portrait",
+        "n_relevant": 15,
+        "precision@10": 0.1,
+        "average_precision": 0.11050808520883532,
+        "ndcg@10": 0.2200917662980802
+      },
+      {
+        "id": "style_genre:Post-Impressionist:still_life",
+        "type": "style_genre",
+        "text": "a Post-Impressionist still life",
+        "n_relevant": 50,
+        "precision@10": 0.1,
+        "average_precision": 0.12317037337605673,
+        "ndcg@10": 0.06625422345438904
+      },
+      {
+        "id": "style_genre:Realist:cityscape",
+        "type": "style_genre",
+        "text": "a Realist city view",
+        "n_relevant": 17,
+        "precision@10": 0.1,
+        "average_precision": 0.06085973232532037,
+        "ndcg@10": 0.08514311764162101
+      },
+      {
+        "id": "style_genre:Realist:landscape",
+        "type": "style_genre",
+        "text": "a Realist landscape",
+        "n_relevant": 56,
+        "precision@10": 0.3,
+        "average_precision": 0.2702687958040941,
+        "ndcg@10": 0.29343678345195284
+      },
+      {
+        "id": "style_genre:Realist:portrait",
+        "type": "style_genre",
+        "text": "a Realist portrait",
+        "n_relevant": 41,
+        "precision@10": 0.2,
+        "average_precision": 0.21728941633664373,
+        "ndcg@10": 0.1951890007906611
+      },
+      {
+        "id": "style_genre:Realist:still_life",
+        "type": "style_genre",
+        "text": "a Realist still life",
+        "n_relevant": 35,
+        "precision@10": 0.0,
+        "average_precision": 0.04674270976739703,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Expressionist:cityscape",
+        "type": "style_genre",
+        "text": "an Expressionist city view",
+        "n_relevant": 24,
+        "precision@10": 0.2,
+        "average_precision": 0.11219796373043867,
+        "ndcg@10": 0.2024832320725063
+      },
+      {
+        "id": "style_genre:Expressionist:landscape",
+        "type": "style_genre",
+        "text": "an Expressionist landscape",
+        "n_relevant": 17,
+        "precision@10": 0.0,
+        "average_precision": 0.037436624798989016,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Expressionist:portrait",
+        "type": "style_genre",
+        "text": "an Expressionist portrait",
+        "n_relevant": 61,
+        "precision@10": 0.3,
+        "average_precision": 0.22387330989228127,
+        "ndcg@10": 0.28669193478900723
+      },
+      {
+        "id": "style_genre:Expressionist:still_life",
+        "type": "style_genre",
+        "text": "an Expressionist still life",
+        "n_relevant": 27,
+        "precision@10": 0.2,
+        "average_precision": 0.08320865392014003,
+        "ndcg@10": 0.14279514403613736
+      },
+      {
+        "id": "style_genre:Romantic:cityscape",
+        "type": "style_genre",
+        "text": "a Romantic city view",
+        "n_relevant": 20,
+        "precision@10": 0.2,
+        "average_precision": 0.1495634362041346,
+        "ndcg@10": 0.24890832702259466
+      },
+      {
+        "id": "style_genre:Romantic:landscape",
+        "type": "style_genre",
+        "text": "a Romantic landscape",
+        "n_relevant": 31,
+        "precision@10": 0.3,
+        "average_precision": 0.21166906814763434,
+        "ndcg@10": 0.3187939258847264
+      },
+      {
+        "id": "style_genre:Romantic:portrait",
+        "type": "style_genre",
+        "text": "a Romantic portrait",
+        "n_relevant": 44,
+        "precision@10": 0.2,
+        "average_precision": 0.08588937216510119,
+        "ndcg@10": 0.17366667134799182
+      },
+      {
+        "id": "style_genre:Romantic:religious_painting",
+        "type": "style_genre",
+        "text": "a Romantic religious painting",
+        "n_relevant": 14,
+        "precision@10": 0.1,
+        "average_precision": 0.09516534526464247,
+        "ndcg@10": 0.2200917662980802
+      },
+      {
+        "id": "style_genre:Baroque:portrait",
+        "type": "style_genre",
+        "text": "a Baroque portrait",
+        "n_relevant": 20,
+        "precision@10": 0.2,
+        "average_precision": 0.17527193812132977,
+        "ndcg@10": 0.2837125544970319
+      },
+      {
+        "id": "style_genre:Baroque:religious_painting",
+        "type": "style_genre",
+        "text": "a Baroque religious painting",
+        "n_relevant": 53,
+        "precision@10": 0.2,
+        "average_precision": 0.22139888720774675,
+        "ndcg@10": 0.2172607128522299
+      },
+      {
+        "id": "style_genre:Baroque:still_life",
+        "type": "style_genre",
+        "text": "a Baroque still life",
+        "n_relevant": 24,
+        "precision@10": 0.7,
+        "average_precision": 0.4297604219568645,
+        "ndcg@10": 0.7778721720600673
+      },
+      {
+        "id": "style_genre:Northern Renaissance:portrait",
+        "type": "style_genre",
+        "text": "a Northern Renaissance portrait",
+        "n_relevant": 10,
+        "precision@10": 0.3,
+        "average_precision": 0.32214289167499277,
+        "ndcg@10": 0.4085359184257956
+      },
+      {
+        "id": "style_genre:Northern Renaissance:religious_painting",
+        "type": "style_genre",
+        "text": "a Northern Renaissance religious painting",
+        "n_relevant": 60,
+        "precision@10": 0.3,
+        "average_precision": 0.25932617107895894,
+        "ndcg@10": 0.3621108234757073
+      },
+      {
+        "id": "style_genre:Cubist:cityscape",
+        "type": "style_genre",
+        "text": "a Cubist city view",
+        "n_relevant": 10,
+        "precision@10": 0.3,
+        "average_precision": 0.32976310070526493,
+        "ndcg@10": 0.38824405276699103
+      },
+      {
+        "id": "style_genre:Cubist:landscape",
+        "type": "style_genre",
+        "text": "a Cubist landscape",
+        "n_relevant": 12,
+        "precision@10": 0.3,
+        "average_precision": 0.212748465523714,
+        "ndcg@10": 0.31252911522154636
+      },
+      {
+        "id": "style_genre:Cubist:still_life",
+        "type": "style_genre",
+        "text": "a Cubist still life",
+        "n_relevant": 68,
+        "precision@10": 0.7,
+        "average_precision": 0.5329423576499674,
+        "ndcg@10": 0.6969179698201176
+      },
+      {
+        "id": "style_genre:Early Renaissance:religious_painting",
+        "type": "style_genre",
+        "text": "an Early Renaissance religious painting",
+        "n_relevant": 62,
+        "precision@10": 0.6,
+        "average_precision": 0.4416712339377725,
+        "ndcg@10": 0.6399441431116328
+      },
+      {
+        "id": "style_genre:Rococo:portrait",
+        "type": "style_genre",
+        "text": "a Rococo portrait",
+        "n_relevant": 34,
+        "precision@10": 0.7,
+        "average_precision": 0.5557725043602906,
+        "ndcg@10": 0.7600791051976192
+      },
+      {
+        "id": "style_genre:Symbolist:landscape",
+        "type": "style_genre",
+        "text": "a Symbolist landscape",
+        "n_relevant": 10,
+        "precision@10": 0.0,
+        "average_precision": 0.021416472265905585,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Symbolist:religious_painting",
+        "type": "style_genre",
+        "text": "a Symbolist religious painting",
+        "n_relevant": 22,
+        "precision@10": 0.0,
+        "average_precision": 0.05469890132121062,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:High Renaissance:religious_painting",
+        "type": "style_genre",
+        "text": "a High Renaissance religious painting",
+        "n_relevant": 36,
+        "precision@10": 0.2,
+        "average_precision": 0.18523812761672442,
+        "ndcg@10": 0.16815228646891087
+      },
+      {
+        "id": "style_genre:Art Nouveau:cityscape",
+        "type": "style_genre",
+        "text": "an Art Nouveau city view",
+        "n_relevant": 13,
+        "precision@10": 0.2,
+        "average_precision": 0.12096330889525739,
+        "ndcg@10": 0.22400556151517556
+      },
+      {
+        "id": "style_genre:Art Nouveau:portrait",
+        "type": "style_genre",
+        "text": "an Art Nouveau portrait",
+        "n_relevant": 10,
+        "precision@10": 0.1,
+        "average_precision": 0.08685091891227073,
+        "ndcg@10": 0.13886244387355456
+      },
+      {
+        "id": "style_genre:naive:still_life",
+        "type": "style_genre",
+        "text": "a naive still life",
+        "n_relevant": 11,
+        "precision@10": 0.0,
+        "average_precision": 0.009718411160622982,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Mannerist:religious_painting",
+        "type": "style_genre",
+        "text": "a Mannerist religious painting",
+        "n_relevant": 24,
+        "precision@10": 0.1,
+        "average_precision": 0.07331106766278268,
+        "ndcg@10": 0.1100458831490401
+      },
+      {
+        "id": "style_genre:Fauvist:still_life",
+        "type": "style_genre",
+        "text": "a Fauvist still life",
+        "n_relevant": 10,
+        "precision@10": 0.0,
+        "average_precision": 0.018049591635767075,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Pop Art:still_life",
+        "type": "style_genre",
+        "text": "a Pop Art still life",
+        "n_relevant": 10,
+        "precision@10": 0.1,
+        "average_precision": 0.06440096520210989,
+        "ndcg@10": 0.08514311764162101
+      },
+      {
+        "id": "artist:albrecht-durer",
+        "type": "artist",
+        "text": "paintings by Albrecht Durer",
+        "n_relevant": 12,
+        "precision@10": 0.0,
+        "average_precision": 0.0073530658408772565,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:alfred-sisley",
+        "type": "artist",
+        "text": "paintings by Alfred Sisley",
+        "n_relevant": 17,
+        "precision@10": 0.0,
+        "average_precision": 0.013247263374944829,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:amedeo-modigliani",
+        "type": "artist",
+        "text": "paintings by Amedeo Modigliani",
+        "n_relevant": 10,
+        "precision@10": 0.1,
+        "average_precision": 0.06614082000066426,
+        "ndcg@10": 0.07839826897867534
+      },
+      {
+        "id": "artist:antoine-blanchard",
+        "type": "artist",
+        "text": "paintings by Antoine Blanchard",
+        "n_relevant": 12,
+        "precision@10": 0.1,
+        "average_precision": 0.13448224087189492,
+        "ndcg@10": 0.07336392209936006
+      },
+      {
+        "id": "artist:bartolome-esteban-murillo",
+        "type": "artist",
+        "text": "paintings by Bartolome Esteban Murillo",
+        "n_relevant": 10,
+        "precision@10": 0.0,
+        "average_precision": 0.004965044006084845,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:camille-corot",
+        "type": "artist",
+        "text": "paintings by Camille Corot",
+        "n_relevant": 17,
+        "precision@10": 0.3,
+        "average_precision": 0.1609915189440625,
+        "ndcg@10": 0.2899773651602119
+      },
+      {
+        "id": "artist:camille-pissarro",
+        "type": "artist",
+        "text": "paintings by Camille Pissarro",
+        "n_relevant": 12,
+        "precision@10": 0.0,
+        "average_precision": 0.012982881251123589,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:claude-monet",
+        "type": "artist",
+        "text": "paintings by Claude Monet",
+        "n_relevant": 50,
+        "precision@10": 0.4,
+        "average_precision": 0.26261298453818266,
+        "ndcg@10": 0.4959389204699465
+      },
+      {
+        "id": "artist:edouard-cortes",
+        "type": "artist",
+        "text": "paintings by Edouard Cortes",
+        "n_relevant": 14,
+        "precision@10": 0.0,
+        "average_precision": 0.02652903739772807,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:georges-braque",
+        "type": "artist",
+        "text": "paintings by Georges Braque",
+        "n_relevant": 26,
+        "precision@10": 0.1,
+        "average_precision": 0.08358301868480049,
+        "ndcg@10": 0.2200917662980802
+      },
+      {
+        "id": "artist:gustave-loiseau",
+        "type": "artist",
+        "text": "paintings by Gustave Loiseau",
+        "n_relevant": 12,
+        "precision@10": 0.0,
+        "average_precision": 0.01787552905850398,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:henri-fantin-latour",
+        "type": "artist",
+        "text": "paintings by Henri Fantin Latour",
+        "n_relevant": 10,
+        "precision@10": 0.0,
+        "average_precision": 0.010589885377577093,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:henri-matisse",
+        "type": "artist",
+        "text": "paintings by Henri Matisse",
+        "n_relevant": 15,
+        "precision@10": 0.4,
+        "average_precision": 0.3204483078654846,
+        "ndcg@10": 0.42883980903376645
+      },
+      {
+        "id": "artist:ilya-mashkov",
+        "type": "artist",
+        "text": "paintings by Ilya Mashkov",
+        "n_relevant": 15,
+        "precision@10": 0.2,
+        "average_precision": 0.05387593011672466,
+        "ndcg@10": 0.12987501165334078
+      },
+      {
+        "id": "artist:isaac-levitan",
+        "type": "artist",
+        "text": "paintings by Isaac Levitan",
+        "n_relevant": 15,
+        "precision@10": 0.0,
+        "average_precision": 0.011334927758796194,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:juan-gris",
+        "type": "artist",
+        "text": "paintings by Juan Gris",
+        "n_relevant": 22,
+        "precision@10": 0.1,
+        "average_precision": 0.04922179519474894,
+        "ndcg@10": 0.06625422345438904
+      },
+      {
+        "id": "artist:konstantin-korovin",
+        "type": "artist",
+        "text": "paintings by Konstantin Korovin",
+        "n_relevant": 11,
+        "precision@10": 0.0,
+        "average_precision": 0.01760613498693004,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:mstislav-dobuzhinsky",
+        "type": "artist",
+        "text": "paintings by Mstislav Dobuzhinsky",
+        "n_relevant": 15,
+        "precision@10": 0.0,
+        "average_precision": 0.029902213342491244,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:nicholas-roerich",
+        "type": "artist",
+        "text": "paintings by Nicholas Roerich",
+        "n_relevant": 13,
+        "precision@10": 0.1,
+        "average_precision": 0.1633811219705611,
+        "ndcg@10": 0.2200917662980802
+      },
+      {
+        "id": "artist:paul-gauguin",
+        "type": "artist",
+        "text": "paintings by Paul Gauguin",
+        "n_relevant": 14,
+        "precision@10": 0.2,
+        "average_precision": 0.14167531015280452,
+        "ndcg@10": 0.20829366581033185
+      },
+      {
+        "id": "artist:vasily-polenov",
+        "type": "artist",
+        "text": "paintings by Vasily Polenov",
+        "n_relevant": 10,
+        "precision@10": 0.0,
+        "average_precision": 0.025867887381310108,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:zinaida-serebriakova",
+        "type": "artist",
+        "text": "paintings by Zinaida Serebriakova",
+        "n_relevant": 15,
+        "precision@10": 0.0,
+        "average_precision": 0.01888872052664737,
+        "ndcg@10": 0.0
+      }
+    ],
+    "multilingual_fr": [
+      {
+        "id": "genre:cityscape",
+        "type": "genre",
+        "text": "Je voudrais voir des vues de ville avec des rues et des immeubles",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.8359106357367888,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "genre:landscape",
+        "type": "genre",
+        "text": "un tableau de nature, avec des champs, des arbres et des montagnes",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.8257262209662695,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "genre:portrait",
+        "type": "genre",
+        "text": "Je voudrais voir des portraits de personnes",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.8034874793875748,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "genre:religious_painting",
+        "type": "genre",
+        "text": "des tableaux représentant des saints, des anges ou des scènes de la Bible",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.9119049969718654,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "genre:still_life",
+        "type": "genre",
+        "text": "une nature morte avec des fruits, des fleurs et des objets sur une table",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.8397243663208418,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "style_genre:Impressionist:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain impressionniste",
+        "n_relevant": 125,
+        "precision@10": 0.4,
+        "average_precision": 0.26905278974530217,
+        "ndcg@10": 0.33798414482679845
+      },
+      {
+        "id": "style_genre:Impressionist:landscape",
+        "type": "style_genre",
+        "text": "un paysage impressionniste",
+        "n_relevant": 91,
+        "precision@10": 0.2,
+        "average_precision": 0.24458693639574328,
+        "ndcg@10": 0.17318663334822615
+      },
+      {
+        "id": "style_genre:Impressionist:portrait",
+        "type": "style_genre",
+        "text": "un portrait impressionniste",
+        "n_relevant": 26,
+        "precision@10": 0.0,
+        "average_precision": 0.07346860249243853,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Impressionist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte impressionniste",
+        "n_relevant": 44,
+        "precision@10": 0.1,
+        "average_precision": 0.038766464869850296,
+        "ndcg@10": 0.09478836436955079
+      },
+      {
+        "id": "style_genre:Post-Impressionist:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain post-impressionniste",
+        "n_relevant": 54,
+        "precision@10": 0.2,
+        "average_precision": 0.1588239161711461,
+        "ndcg@10": 0.2122263659729146
+      },
+      {
+        "id": "style_genre:Post-Impressionist:landscape",
+        "type": "style_genre",
+        "text": "un paysage post-impressionniste",
+        "n_relevant": 40,
+        "precision@10": 0.1,
+        "average_precision": 0.10350560164386187,
+        "ndcg@10": 0.08514311764162101
+      },
+      {
+        "id": "style_genre:Post-Impressionist:portrait",
+        "type": "style_genre",
+        "text": "un portrait post-impressionniste",
+        "n_relevant": 15,
+        "precision@10": 0.1,
+        "average_precision": 0.0673052266148784,
+        "ndcg@10": 0.1100458831490401
+      },
+      {
+        "id": "style_genre:Post-Impressionist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte post-impressionniste",
+        "n_relevant": 50,
+        "precision@10": 0.0,
+        "average_precision": 0.04227813436846526,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Realist:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain réaliste",
+        "n_relevant": 17,
+        "precision@10": 0.1,
+        "average_precision": 0.07590590467676037,
+        "ndcg@10": 0.13886244387355456
+      },
+      {
+        "id": "style_genre:Realist:landscape",
+        "type": "style_genre",
+        "text": "un paysage réaliste",
+        "n_relevant": 56,
+        "precision@10": 0.3,
+        "average_precision": 0.24331194473148768,
+        "ndcg@10": 0.31833954895937194
+      },
+      {
+        "id": "style_genre:Realist:portrait",
+        "type": "style_genre",
+        "text": "un portrait réaliste",
+        "n_relevant": 41,
+        "precision@10": 0.0,
+        "average_precision": 0.13746146269041132,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Realist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte réaliste",
+        "n_relevant": 35,
+        "precision@10": 0.2,
+        "average_precision": 0.04610326450913382,
+        "ndcg@10": 0.17366667134799182
+      },
+      {
+        "id": "style_genre:Expressionist:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain expressionniste",
+        "n_relevant": 24,
+        "precision@10": 0.1,
+        "average_precision": 0.17707098704645707,
+        "ndcg@10": 0.2200917662980802
+      },
+      {
+        "id": "style_genre:Expressionist:landscape",
+        "type": "style_genre",
+        "text": "un paysage expressionniste",
+        "n_relevant": 17,
+        "precision@10": 0.0,
+        "average_precision": 0.05042926265338115,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Expressionist:portrait",
+        "type": "style_genre",
+        "text": "un portrait expressionniste",
+        "n_relevant": 61,
+        "precision@10": 0.5,
+        "average_precision": 0.3521443480750782,
+        "ndcg@10": 0.514186364257749
+      },
+      {
+        "id": "style_genre:Expressionist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte expressionniste",
+        "n_relevant": 27,
+        "precision@10": 0.0,
+        "average_precision": 0.041122143197061395,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Romantic:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain romantique",
+        "n_relevant": 20,
+        "precision@10": 0.1,
+        "average_precision": 0.08216297623620798,
+        "ndcg@10": 0.06943122193677728
+      },
+      {
+        "id": "style_genre:Romantic:landscape",
+        "type": "style_genre",
+        "text": "un paysage romantique",
+        "n_relevant": 31,
+        "precision@10": 0.3,
+        "average_precision": 0.19835105640804704,
+        "ndcg@10": 0.3597099118518293
+      },
+      {
+        "id": "style_genre:Romantic:portrait",
+        "type": "style_genre",
+        "text": "un portrait romantique",
+        "n_relevant": 44,
+        "precision@10": 0.1,
+        "average_precision": 0.06795958286404655,
+        "ndcg@10": 0.09478836436955079
+      },
+      {
+        "id": "style_genre:Romantic:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse romantique",
+        "n_relevant": 14,
+        "precision@10": 0.1,
+        "average_precision": 0.09172755121342144,
+        "ndcg@10": 0.2200917662980802
+      },
+      {
+        "id": "style_genre:Baroque:portrait",
+        "type": "style_genre",
+        "text": "un portrait baroque",
+        "n_relevant": 20,
+        "precision@10": 0.1,
+        "average_precision": 0.17720369638514435,
+        "ndcg@10": 0.2200917662980802
+      },
+      {
+        "id": "style_genre:Baroque:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse baroque",
+        "n_relevant": 53,
+        "precision@10": 0.3,
+        "average_precision": 0.22351045290680346,
+        "ndcg@10": 0.23758350840568815
+      },
+      {
+        "id": "style_genre:Baroque:still_life",
+        "type": "style_genre",
+        "text": "une nature morte baroque",
+        "n_relevant": 24,
+        "precision@10": 0.7,
+        "average_precision": 0.38225029630395374,
+        "ndcg@10": 0.7123736502858729
+      },
+      {
+        "id": "style_genre:Northern Renaissance:portrait",
+        "type": "style_genre",
+        "text": "un portrait de la Renaissance nordique",
+        "n_relevant": 10,
+        "precision@10": 0.2,
+        "average_precision": 0.20735899014778325,
+        "ndcg@10": 0.24890832702259466
+      },
+      {
+        "id": "style_genre:Northern Renaissance:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse de la Renaissance nordique",
+        "n_relevant": 60,
+        "precision@10": 0.4,
+        "average_precision": 0.3322546360845211,
+        "ndcg@10": 0.4946396555628011
+      },
+      {
+        "id": "style_genre:Cubist:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain cubiste",
+        "n_relevant": 10,
+        "precision@10": 0.4,
+        "average_precision": 0.36347959418196146,
+        "ndcg@10": 0.49828993591603116
+      },
+      {
+        "id": "style_genre:Cubist:landscape",
+        "type": "style_genre",
+        "text": "un paysage cubiste",
+        "n_relevant": 12,
+        "precision@10": 0.2,
+        "average_precision": 0.1799656336225031,
+        "ndcg@10": 0.29345568839744024
+      },
+      {
+        "id": "style_genre:Cubist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte cubiste",
+        "n_relevant": 68,
+        "precision@10": 0.4,
+        "average_precision": 0.2530097315170457,
+        "ndcg@10": 0.3967378179380473
+      },
+      {
+        "id": "style_genre:Early Renaissance:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse de la première Renaissance",
+        "n_relevant": 62,
+        "precision@10": 0.5,
+        "average_precision": 0.3847383003245052,
+        "ndcg@10": 0.4378068560756645
+      },
+      {
+        "id": "style_genre:Rococo:portrait",
+        "type": "style_genre",
+        "text": "un portrait rococo",
+        "n_relevant": 34,
+        "precision@10": 0.0,
+        "average_precision": 0.06597294541112224,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Symbolist:landscape",
+        "type": "style_genre",
+        "text": "un paysage symboliste",
+        "n_relevant": 10,
+        "precision@10": 0.1,
+        "average_precision": 0.04042100236472111,
+        "ndcg@10": 0.07839826897867534
+      },
+      {
+        "id": "style_genre:Symbolist:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse symboliste",
+        "n_relevant": 22,
+        "precision@10": 0.0,
+        "average_precision": 0.05308357938231135,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:High Renaissance:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse de la Haute Renaissance",
+        "n_relevant": 36,
+        "precision@10": 0.4,
+        "average_precision": 0.2154597400605342,
+        "ndcg@10": 0.3976722328631674
+      },
+      {
+        "id": "style_genre:Art Nouveau:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain Art nouveau",
+        "n_relevant": 13,
+        "precision@10": 0.1,
+        "average_precision": 0.07163480559515266,
+        "ndcg@10": 0.07839826897867534
+      },
+      {
+        "id": "style_genre:Art Nouveau:portrait",
+        "type": "style_genre",
+        "text": "un portrait Art nouveau",
+        "n_relevant": 10,
+        "precision@10": 0.2,
+        "average_precision": 0.07445849519319644,
+        "ndcg@10": 0.16354138662029635
+      },
+      {
+        "id": "style_genre:naive:still_life",
+        "type": "style_genre",
+        "text": "une nature morte naïve",
+        "n_relevant": 11,
+        "precision@10": 0.0,
+        "average_precision": 0.015653496933852793,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Mannerist:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse maniériste",
+        "n_relevant": 24,
+        "precision@10": 0.2,
+        "average_precision": 0.086014279143057,
+        "ndcg@10": 0.2122263659729146
+      },
+      {
+        "id": "style_genre:Fauvist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte fauve",
+        "n_relevant": 10,
+        "precision@10": 0.0,
+        "average_precision": 0.009675291879483735,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Pop Art:still_life",
+        "type": "style_genre",
+        "text": "une nature morte pop art",
+        "n_relevant": 10,
+        "precision@10": 0.1,
+        "average_precision": 0.0494298372167221,
+        "ndcg@10": 0.06362078819895173
+      },
+      {
+        "id": "artist:albrecht-durer",
+        "type": "artist",
+        "text": "des tableaux d'Albrecht Dürer",
+        "n_relevant": 12,
+        "precision@10": 0.4,
+        "average_precision": 0.3250439919375193,
+        "ndcg@10": 0.45699707501773656
+      },
+      {
+        "id": "artist:alfred-sisley",
+        "type": "artist",
+        "text": "des tableaux d'Alfred Sisley",
+        "n_relevant": 17,
+        "precision@10": 0.0,
+        "average_precision": 0.010151364442136022,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:amedeo-modigliani",
+        "type": "artist",
+        "text": "des tableaux d'Amedeo Modigliani",
+        "n_relevant": 10,
+        "precision@10": 0.1,
+        "average_precision": 0.18062756824380313,
+        "ndcg@10": 0.2200917662980802
+      },
+      {
+        "id": "artist:antoine-blanchard",
+        "type": "artist",
+        "text": "des tableaux d'Antoine Blanchard",
+        "n_relevant": 12,
+        "precision@10": 0.0,
+        "average_precision": 0.026454047515880583,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:bartolome-esteban-murillo",
+        "type": "artist",
+        "text": "des tableaux de Bartolomé Esteban Murillo",
+        "n_relevant": 10,
+        "precision@10": 0.0,
+        "average_precision": 0.019767997986809206,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:camille-corot",
+        "type": "artist",
+        "text": "des tableaux de Camille Corot",
+        "n_relevant": 17,
+        "precision@10": 0.3,
+        "average_precision": 0.16804843678634296,
+        "ndcg@10": 0.27358726976933645
+      },
+      {
+        "id": "artist:camille-pissarro",
+        "type": "artist",
+        "text": "des tableaux de Camille Pissarro",
+        "n_relevant": 12,
+        "precision@10": 0.0,
+        "average_precision": 0.011471347534235668,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:claude-monet",
+        "type": "artist",
+        "text": "des tableaux de Claude Monet",
+        "n_relevant": 50,
+        "precision@10": 0.4,
+        "average_precision": 0.2348880516888593,
+        "ndcg@10": 0.3976722328631674
+      },
+      {
+        "id": "artist:edouard-cortes",
+        "type": "artist",
+        "text": "des tableaux d'Édouard Cortès",
+        "n_relevant": 14,
+        "precision@10": 0.0,
+        "average_precision": 0.011330124007414856,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:georges-braque",
+        "type": "artist",
+        "text": "des tableaux de Georges Braque",
+        "n_relevant": 26,
+        "precision@10": 0.1,
+        "average_precision": 0.0882601256427386,
+        "ndcg@10": 0.2200917662980802
+      },
+      {
+        "id": "artist:gustave-loiseau",
+        "type": "artist",
+        "text": "des tableaux de Gustave Loiseau",
+        "n_relevant": 12,
+        "precision@10": 0.0,
+        "average_precision": 0.011401715359532433,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:henri-fantin-latour",
+        "type": "artist",
+        "text": "des tableaux d'Henri Fantin-Latour",
+        "n_relevant": 10,
+        "precision@10": 0.0,
+        "average_precision": 0.014025706836253437,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:henri-matisse",
+        "type": "artist",
+        "text": "des tableaux d'Henri Matisse",
+        "n_relevant": 15,
+        "precision@10": 0.3,
+        "average_precision": 0.2537955232951382,
+        "ndcg@10": 0.3436966913921455
+      },
+      {
+        "id": "artist:ilya-mashkov",
+        "type": "artist",
+        "text": "des tableaux d'Ilia Machkov",
+        "n_relevant": 15,
+        "precision@10": 0.0,
+        "average_precision": 0.04626528203831015,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:isaac-levitan",
+        "type": "artist",
+        "text": "des tableaux d'Isaac Levitan",
+        "n_relevant": 15,
+        "precision@10": 0.0,
+        "average_precision": 0.008280031545845341,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:juan-gris",
+        "type": "artist",
+        "text": "des tableaux de Juan Gris",
+        "n_relevant": 22,
+        "precision@10": 0.0,
+        "average_precision": 0.050566267178490325,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:konstantin-korovin",
+        "type": "artist",
+        "text": "des tableaux de Constantin Korovine",
+        "n_relevant": 11,
+        "precision@10": 0.0,
+        "average_precision": 0.021996255137152036,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:mstislav-dobuzhinsky",
+        "type": "artist",
+        "text": "des tableaux de Mstislav Doboujinski",
+        "n_relevant": 15,
+        "precision@10": 0.1,
+        "average_precision": 0.04311562939590367,
+        "ndcg@10": 0.07839826897867534
+      },
+      {
+        "id": "artist:nicholas-roerich",
+        "type": "artist",
+        "text": "des tableaux de Nicolas Roerich",
+        "n_relevant": 13,
+        "precision@10": 0.1,
+        "average_precision": 0.09186589358128608,
+        "ndcg@10": 0.1100458831490401
+      },
+      {
+        "id": "artist:paul-gauguin",
+        "type": "artist",
+        "text": "des tableaux de Paul Gauguin",
+        "n_relevant": 14,
+        "precision@10": 0.1,
+        "average_precision": 0.1025157956460747,
+        "ndcg@10": 0.1100458831490401
+      },
+      {
+        "id": "artist:vasily-polenov",
+        "type": "artist",
+        "text": "des tableaux de Vassili Polenov",
+        "n_relevant": 10,
+        "precision@10": 0.2,
+        "average_precision": 0.04356518927860269,
+        "ndcg@10": 0.1356854453911663
+      },
+      {
+        "id": "artist:zinaida-serebriakova",
+        "type": "artist",
+        "text": "des tableaux de Zinaïda Serebriakova",
+        "n_relevant": 15,
+        "precision@10": 0.0,
+        "average_precision": 0.017693622122101706,
+        "ndcg@10": 0.0
+      }
+    ],
+    "multilingual_fr_original_names": [
+      {
+        "id": "genre:cityscape",
+        "type": "genre",
+        "text": "Je voudrais voir des vues de ville avec des rues et des immeubles",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.8359106357367888,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "genre:landscape",
+        "type": "genre",
+        "text": "un tableau de nature, avec des champs, des arbres et des montagnes",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.8257262209662695,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "genre:portrait",
+        "type": "genre",
+        "text": "Je voudrais voir des portraits de personnes",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.8034874793875748,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "genre:religious_painting",
+        "type": "genre",
+        "text": "des tableaux représentant des saints, des anges ou des scènes de la Bible",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.9119049969718654,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "genre:still_life",
+        "type": "genre",
+        "text": "une nature morte avec des fruits, des fleurs et des objets sur une table",
+        "n_relevant": 300,
+        "precision@10": 1.0,
+        "average_precision": 0.8397243663208418,
+        "ndcg@10": 1.0
+      },
+      {
+        "id": "style_genre:Impressionist:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain impressionniste",
+        "n_relevant": 125,
+        "precision@10": 0.4,
+        "average_precision": 0.26905278974530217,
+        "ndcg@10": 0.33798414482679845
+      },
+      {
+        "id": "style_genre:Impressionist:landscape",
+        "type": "style_genre",
+        "text": "un paysage impressionniste",
+        "n_relevant": 91,
+        "precision@10": 0.2,
+        "average_precision": 0.24458693639574328,
+        "ndcg@10": 0.17318663334822615
+      },
+      {
+        "id": "style_genre:Impressionist:portrait",
+        "type": "style_genre",
+        "text": "un portrait impressionniste",
+        "n_relevant": 26,
+        "precision@10": 0.0,
+        "average_precision": 0.07346860249243853,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Impressionist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte impressionniste",
+        "n_relevant": 44,
+        "precision@10": 0.1,
+        "average_precision": 0.038766464869850296,
+        "ndcg@10": 0.09478836436955079
+      },
+      {
+        "id": "style_genre:Post-Impressionist:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain post-impressionniste",
+        "n_relevant": 54,
+        "precision@10": 0.2,
+        "average_precision": 0.1588239161711461,
+        "ndcg@10": 0.2122263659729146
+      },
+      {
+        "id": "style_genre:Post-Impressionist:landscape",
+        "type": "style_genre",
+        "text": "un paysage post-impressionniste",
+        "n_relevant": 40,
+        "precision@10": 0.1,
+        "average_precision": 0.10350560164386187,
+        "ndcg@10": 0.08514311764162101
+      },
+      {
+        "id": "style_genre:Post-Impressionist:portrait",
+        "type": "style_genre",
+        "text": "un portrait post-impressionniste",
+        "n_relevant": 15,
+        "precision@10": 0.1,
+        "average_precision": 0.0673052266148784,
+        "ndcg@10": 0.1100458831490401
+      },
+      {
+        "id": "style_genre:Post-Impressionist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte post-impressionniste",
+        "n_relevant": 50,
+        "precision@10": 0.0,
+        "average_precision": 0.04227813436846526,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Realist:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain réaliste",
+        "n_relevant": 17,
+        "precision@10": 0.1,
+        "average_precision": 0.07590590467676037,
+        "ndcg@10": 0.13886244387355456
+      },
+      {
+        "id": "style_genre:Realist:landscape",
+        "type": "style_genre",
+        "text": "un paysage réaliste",
+        "n_relevant": 56,
+        "precision@10": 0.3,
+        "average_precision": 0.24331194473148768,
+        "ndcg@10": 0.31833954895937194
+      },
+      {
+        "id": "style_genre:Realist:portrait",
+        "type": "style_genre",
+        "text": "un portrait réaliste",
+        "n_relevant": 41,
+        "precision@10": 0.0,
+        "average_precision": 0.13746146269041132,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Realist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte réaliste",
+        "n_relevant": 35,
+        "precision@10": 0.2,
+        "average_precision": 0.04610326450913382,
+        "ndcg@10": 0.17366667134799182
+      },
+      {
+        "id": "style_genre:Expressionist:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain expressionniste",
+        "n_relevant": 24,
+        "precision@10": 0.1,
+        "average_precision": 0.17707098704645707,
+        "ndcg@10": 0.2200917662980802
+      },
+      {
+        "id": "style_genre:Expressionist:landscape",
+        "type": "style_genre",
+        "text": "un paysage expressionniste",
+        "n_relevant": 17,
+        "precision@10": 0.0,
+        "average_precision": 0.05042926265338115,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Expressionist:portrait",
+        "type": "style_genre",
+        "text": "un portrait expressionniste",
+        "n_relevant": 61,
+        "precision@10": 0.5,
+        "average_precision": 0.3521443480750782,
+        "ndcg@10": 0.514186364257749
+      },
+      {
+        "id": "style_genre:Expressionist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte expressionniste",
+        "n_relevant": 27,
+        "precision@10": 0.0,
+        "average_precision": 0.041122143197061395,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Romantic:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain romantique",
+        "n_relevant": 20,
+        "precision@10": 0.1,
+        "average_precision": 0.08216297623620798,
+        "ndcg@10": 0.06943122193677728
+      },
+      {
+        "id": "style_genre:Romantic:landscape",
+        "type": "style_genre",
+        "text": "un paysage romantique",
+        "n_relevant": 31,
+        "precision@10": 0.3,
+        "average_precision": 0.19835105640804704,
+        "ndcg@10": 0.3597099118518293
+      },
+      {
+        "id": "style_genre:Romantic:portrait",
+        "type": "style_genre",
+        "text": "un portrait romantique",
+        "n_relevant": 44,
+        "precision@10": 0.1,
+        "average_precision": 0.06795958286404655,
+        "ndcg@10": 0.09478836436955079
+      },
+      {
+        "id": "style_genre:Romantic:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse romantique",
+        "n_relevant": 14,
+        "precision@10": 0.1,
+        "average_precision": 0.09172755121342144,
+        "ndcg@10": 0.2200917662980802
+      },
+      {
+        "id": "style_genre:Baroque:portrait",
+        "type": "style_genre",
+        "text": "un portrait baroque",
+        "n_relevant": 20,
+        "precision@10": 0.1,
+        "average_precision": 0.17720369638514435,
+        "ndcg@10": 0.2200917662980802
+      },
+      {
+        "id": "style_genre:Baroque:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse baroque",
+        "n_relevant": 53,
+        "precision@10": 0.3,
+        "average_precision": 0.22351045290680346,
+        "ndcg@10": 0.23758350840568815
+      },
+      {
+        "id": "style_genre:Baroque:still_life",
+        "type": "style_genre",
+        "text": "une nature morte baroque",
+        "n_relevant": 24,
+        "precision@10": 0.7,
+        "average_precision": 0.38225029630395374,
+        "ndcg@10": 0.7123736502858729
+      },
+      {
+        "id": "style_genre:Northern Renaissance:portrait",
+        "type": "style_genre",
+        "text": "un portrait de la Renaissance nordique",
+        "n_relevant": 10,
+        "precision@10": 0.2,
+        "average_precision": 0.20735899014778325,
+        "ndcg@10": 0.24890832702259466
+      },
+      {
+        "id": "style_genre:Northern Renaissance:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse de la Renaissance nordique",
+        "n_relevant": 60,
+        "precision@10": 0.4,
+        "average_precision": 0.3322546360845211,
+        "ndcg@10": 0.4946396555628011
+      },
+      {
+        "id": "style_genre:Cubist:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain cubiste",
+        "n_relevant": 10,
+        "precision@10": 0.4,
+        "average_precision": 0.36347959418196146,
+        "ndcg@10": 0.49828993591603116
+      },
+      {
+        "id": "style_genre:Cubist:landscape",
+        "type": "style_genre",
+        "text": "un paysage cubiste",
+        "n_relevant": 12,
+        "precision@10": 0.2,
+        "average_precision": 0.1799656336225031,
+        "ndcg@10": 0.29345568839744024
+      },
+      {
+        "id": "style_genre:Cubist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte cubiste",
+        "n_relevant": 68,
+        "precision@10": 0.4,
+        "average_precision": 0.2530097315170457,
+        "ndcg@10": 0.3967378179380473
+      },
+      {
+        "id": "style_genre:Early Renaissance:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse de la première Renaissance",
+        "n_relevant": 62,
+        "precision@10": 0.5,
+        "average_precision": 0.3847383003245052,
+        "ndcg@10": 0.4378068560756645
+      },
+      {
+        "id": "style_genre:Rococo:portrait",
+        "type": "style_genre",
+        "text": "un portrait rococo",
+        "n_relevant": 34,
+        "precision@10": 0.0,
+        "average_precision": 0.06597294541112224,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Symbolist:landscape",
+        "type": "style_genre",
+        "text": "un paysage symboliste",
+        "n_relevant": 10,
+        "precision@10": 0.1,
+        "average_precision": 0.04042100236472111,
+        "ndcg@10": 0.07839826897867534
+      },
+      {
+        "id": "style_genre:Symbolist:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse symboliste",
+        "n_relevant": 22,
+        "precision@10": 0.0,
+        "average_precision": 0.05308357938231135,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:High Renaissance:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse de la Haute Renaissance",
+        "n_relevant": 36,
+        "precision@10": 0.4,
+        "average_precision": 0.2154597400605342,
+        "ndcg@10": 0.3976722328631674
+      },
+      {
+        "id": "style_genre:Art Nouveau:cityscape",
+        "type": "style_genre",
+        "text": "un paysage urbain Art nouveau",
+        "n_relevant": 13,
+        "precision@10": 0.1,
+        "average_precision": 0.07163480559515266,
+        "ndcg@10": 0.07839826897867534
+      },
+      {
+        "id": "style_genre:Art Nouveau:portrait",
+        "type": "style_genre",
+        "text": "un portrait Art nouveau",
+        "n_relevant": 10,
+        "precision@10": 0.2,
+        "average_precision": 0.07445849519319644,
+        "ndcg@10": 0.16354138662029635
+      },
+      {
+        "id": "style_genre:naive:still_life",
+        "type": "style_genre",
+        "text": "une nature morte naïve",
+        "n_relevant": 11,
+        "precision@10": 0.0,
+        "average_precision": 0.015653496933852793,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Mannerist:religious_painting",
+        "type": "style_genre",
+        "text": "une peinture religieuse maniériste",
+        "n_relevant": 24,
+        "precision@10": 0.2,
+        "average_precision": 0.086014279143057,
+        "ndcg@10": 0.2122263659729146
+      },
+      {
+        "id": "style_genre:Fauvist:still_life",
+        "type": "style_genre",
+        "text": "une nature morte fauve",
+        "n_relevant": 10,
+        "precision@10": 0.0,
+        "average_precision": 0.009675291879483735,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "style_genre:Pop Art:still_life",
+        "type": "style_genre",
+        "text": "une nature morte pop art",
+        "n_relevant": 10,
+        "precision@10": 0.1,
+        "average_precision": 0.0494298372167221,
+        "ndcg@10": 0.06362078819895173
+      },
+      {
+        "id": "artist:albrecht-durer",
+        "type": "artist",
+        "text": "des tableaux d'Albrecht Durer",
+        "n_relevant": 12,
+        "precision@10": 0.0,
+        "average_precision": 0.01136878603116715,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:alfred-sisley",
+        "type": "artist",
+        "text": "des tableaux d'Alfred Sisley",
+        "n_relevant": 17,
+        "precision@10": 0.0,
+        "average_precision": 0.010151364442136022,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:amedeo-modigliani",
+        "type": "artist",
+        "text": "des tableaux d'Amedeo Modigliani",
+        "n_relevant": 10,
+        "precision@10": 0.1,
+        "average_precision": 0.18062756824380313,
+        "ndcg@10": 0.2200917662980802
+      },
+      {
+        "id": "artist:antoine-blanchard",
+        "type": "artist",
+        "text": "des tableaux d'Antoine Blanchard",
+        "n_relevant": 12,
+        "precision@10": 0.0,
+        "average_precision": 0.026454047515880583,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:bartolome-esteban-murillo",
+        "type": "artist",
+        "text": "des tableaux de Bartolome Esteban Murillo",
+        "n_relevant": 10,
+        "precision@10": 0.0,
+        "average_precision": 0.006887602049487455,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:camille-corot",
+        "type": "artist",
+        "text": "des tableaux de Camille Corot",
+        "n_relevant": 17,
+        "precision@10": 0.3,
+        "average_precision": 0.16804843678634296,
+        "ndcg@10": 0.27358726976933645
+      },
+      {
+        "id": "artist:camille-pissarro",
+        "type": "artist",
+        "text": "des tableaux de Camille Pissarro",
+        "n_relevant": 12,
+        "precision@10": 0.0,
+        "average_precision": 0.011471347534235668,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:claude-monet",
+        "type": "artist",
+        "text": "des tableaux de Claude Monet",
+        "n_relevant": 50,
+        "precision@10": 0.4,
+        "average_precision": 0.2348880516888593,
+        "ndcg@10": 0.3976722328631674
+      },
+      {
+        "id": "artist:edouard-cortes",
+        "type": "artist",
+        "text": "des tableaux d'Edouard Cortes",
+        "n_relevant": 14,
+        "precision@10": 0.0,
+        "average_precision": 0.014874368363428899,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:georges-braque",
+        "type": "artist",
+        "text": "des tableaux de Georges Braque",
+        "n_relevant": 26,
+        "precision@10": 0.1,
+        "average_precision": 0.0882601256427386,
+        "ndcg@10": 0.2200917662980802
+      },
+      {
+        "id": "artist:gustave-loiseau",
+        "type": "artist",
+        "text": "des tableaux de Gustave Loiseau",
+        "n_relevant": 12,
+        "precision@10": 0.0,
+        "average_precision": 0.011401715359532433,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:henri-fantin-latour",
+        "type": "artist",
+        "text": "des tableaux d'Henri Fantin Latour",
+        "n_relevant": 10,
+        "precision@10": 0.0,
+        "average_precision": 0.014001117483840527,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:henri-matisse",
+        "type": "artist",
+        "text": "des tableaux d'Henri Matisse",
+        "n_relevant": 15,
+        "precision@10": 0.3,
+        "average_precision": 0.2537955232951382,
+        "ndcg@10": 0.3436966913921455
+      },
+      {
+        "id": "artist:ilya-mashkov",
+        "type": "artist",
+        "text": "des tableaux d'Ilya Mashkov",
+        "n_relevant": 15,
+        "precision@10": 0.0,
+        "average_precision": 0.037824154322244556,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:isaac-levitan",
+        "type": "artist",
+        "text": "des tableaux d'Isaac Levitan",
+        "n_relevant": 15,
+        "precision@10": 0.0,
+        "average_precision": 0.008280031545845341,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:juan-gris",
+        "type": "artist",
+        "text": "des tableaux de Juan Gris",
+        "n_relevant": 22,
+        "precision@10": 0.0,
+        "average_precision": 0.050566267178490325,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:konstantin-korovin",
+        "type": "artist",
+        "text": "des tableaux de Konstantin Korovin",
+        "n_relevant": 11,
+        "precision@10": 0.0,
+        "average_precision": 0.017876264288555373,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:mstislav-dobuzhinsky",
+        "type": "artist",
+        "text": "des tableaux de Mstislav Dobuzhinsky",
+        "n_relevant": 15,
+        "precision@10": 0.1,
+        "average_precision": 0.03901707733013794,
+        "ndcg@10": 0.06362078819895173
+      },
+      {
+        "id": "artist:nicholas-roerich",
+        "type": "artist",
+        "text": "des tableaux de Nicholas Roerich",
+        "n_relevant": 13,
+        "precision@10": 0.3,
+        "average_precision": 0.1326081598178697,
+        "ndcg@10": 0.2687374555268953
+      },
+      {
+        "id": "artist:paul-gauguin",
+        "type": "artist",
+        "text": "des tableaux de Paul Gauguin",
+        "n_relevant": 14,
+        "precision@10": 0.1,
+        "average_precision": 0.1025157956460747,
+        "ndcg@10": 0.1100458831490401
+      },
+      {
+        "id": "artist:vasily-polenov",
+        "type": "artist",
+        "text": "des tableaux de Vasily Polenov",
+        "n_relevant": 10,
+        "precision@10": 0.0,
+        "average_precision": 0.030984107414479274,
+        "ndcg@10": 0.0
+      },
+      {
+        "id": "artist:zinaida-serebriakova",
+        "type": "artist",
+        "text": "des tableaux de Zinaida Serebriakova",
+        "n_relevant": 15,
+        "precision@10": 0.0,
+        "average_precision": 0.018384825059229948,
+        "ndcg@10": 0.0
+      }
+    ]
+  },
+  "translations_note": "written by an AI assistant: to be read by a French speaker"
+}

@@ -18,6 +18,8 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest", "ruff>=0.17,<0.18"]
+# Questions in other languages than English (see scripts/search_french.py); not needed by the tests or the CI.
+multilingual = ["sentence-transformers"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
