@@ -83,6 +83,32 @@ Seed 0 is the split of the table and reproduces it exactly.
 
 Limits: the seed-to-seed spread mixes split and training noise; the shift is circular (it creates a seam), not a real re-framing; there are still no real camera photos.
 
+### CLIP as a recognition model
+
+The CLIP model used for search below can also recognise the genre, with no network to train: `scripts/clip_classifier.py` compares it with
+the fine-tuned ResNet-18 on the same 10 seeds and splits as `scripts/robustness.py` (`reports/clip_classifier.json`, `reports/figures/clip_classifier.png`).
+
+- **Zero-shot**: the image vector is compared with one sentence per class, no training at all. Two wordings were fixed in advance and both are reported (none was tuned on the test set).
+- **Linear probe**: a logistic regression on the frozen image vectors, trained on the training part; its regularisation is chosen on the validation part.
+
+| Model | Test accuracy, 10 seeds (mean ± std) | Macro-F1 | Seed 0, 95% interval | Seeds won against the ResNet |
+|---|---|---|---|---|
+| CLIP zero-shot, "a *class*" | 76.0% ± 4.2 | 74.6% | 74.2% [66.3, 81.7] | 6 / 10 |
+| CLIP zero-shot, "a painting of a *class*" | 85.1% ± 2.4 | 84.7% | 84.2% [79.4, 88.8] | 10 / 10 |
+| **CLIP linear probe** | **90.2% ± 2.5** | **89.9%** | **89.6% [85.8, 93.5]** | **10 / 10** |
+| ResNet-18, layer4 + head fine-tuned | 74.0% ± 3.8 | | 74.6% [69.0, 80.3] | |
+
+On seed 0 the paired difference with the ResNet (artist-level bootstrap, ResNet retrained and reproducing the 74.6% above) is **+15.1 points for the linear probe,
+interval [+9.5, +21.0]**, and +9.7 points for the "a painting of a" zero-shot, interval [+4.4, +14.9]. With the plainer wording the zero-shot is no better than the ResNet
+(-0.4 points, interval [-7.4, +6.9]): the wording of the class sentence matters by 9 points.
+
+Cost: the image encoder alone has 87.8 M parameters (351 MB in 32-bit floats; the full CLIP checkpoint, with the text encoder, is 605 MB), against 11.2 M parameters (45 MB) for the ResNet.
+Its forward pass is several times slower on CPU (about 33-41 ms on one thread in two runs, both made while other jobs were running on the laptop: indicative only, a proper benchmark is still to do).
+On the other hand one CLIP model serves recognition **and** natural-language search, and the 1,500 image vectors are computed once.
+
+Limits: same 5 broad, visually distinct genres and 1,500 images; the seed-to-seed spread mixes split and training noise; CLIP was trained on web images that may include some of these paintings,
+so its numbers could be flattering; and no real camera photos yet. The recommendation to the director below was written before this comparison and should be revisited.
+
 ## Natural-language search
 
 A pretrained CLIP dual encoder (`openai/clip-vit-base-patch32`) maps paintings and questions into the same space.
@@ -116,6 +142,7 @@ python scripts/train_mlp.py
 python scripts/train_resnet.py
 python scripts/search_clip.py
 python scripts/robustness.py --seeds 10    # about 10 minutes: seeds, confidence intervals, shift test
+python scripts/clip_classifier.py --seeds 10    # CLIP zero-shot and linear probe vs the ResNet (needs reports/robustness.json)
 ```
 
 Each script writes its numbers to `reports/<name>.json` and its figures to `reports/figures/`.
