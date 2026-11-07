@@ -4,7 +4,7 @@ PYTHON ?= python
 .PHONY: install test coverage lint typecheck check data reproduce clean \
 	install-reproduce data-style data-style-fewest data-ood check-provenance \
 	reproduce-all reproduce-genre reproduce-robustness reproduce-search reproduce-clip reproduce-ood \
-	reproduce-style reproduce-encoders reproduce-adapt reproduce-kiosk
+	reproduce-style reproduce-encoders reproduce-adapt reproduce-curves reproduce-kiosk
 
 install:
 	$(PYTHON) -m pip install -e ".[dev]"
@@ -114,11 +114,15 @@ reproduce-adapt: data data-style
 	$(PYTHON) scripts/clip_adapt.py --task style --lr-encoder 3e-5 --lr-head 3e-4 --lr-lora 1e-3 --patience 3 --epochs 8 --tag _lr3e-5 --variants probe finetune_1 finetune_2 lora_last4
 	$(PYTHON) scripts/clip_adapt.py --task genre
 
-# 8. Kiosk budget: measures time and memory, so run it last and leave the machine idle (about 15 minutes).
+# 8. How many labelled paintings are needed (genre and style data; the CLIP vectors are computed if not cached).
+reproduce-curves: data data-style
+	$(PYTHON) scripts/learning_curves.py
+
+# 9. Kiosk budget: measures time and memory, so run it last and leave the machine idle (about 15 minutes).
 reproduce-kiosk: reproduce-clip
 	$(PYTHON) scripts/benchmark_kiosk.py
 
-reproduce-all: reproduce-genre reproduce-robustness reproduce-search reproduce-clip reproduce-ood reproduce-style reproduce-encoders reproduce-adapt reproduce-kiosk
+reproduce-all: reproduce-genre reproduce-robustness reproduce-search reproduce-clip reproduce-ood reproduce-style reproduce-encoders reproduce-adapt reproduce-curves reproduce-kiosk
 
 # Checks that docs/PROVENANCE.md and the targets above still match the scripts and the reports.
 check-provenance:

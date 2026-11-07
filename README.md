@@ -274,6 +274,54 @@ Limits: 5 seeds; 1176 to 1326 training images for style and 972 to 1110 for genr
 one backbone (ViT-B/32); the source images are 128 px upsampled to 224; no layer-wise learning-rate decay, longer schedules or stronger augmentation, so another recipe could do better.
 `python scripts/clip_adapt.py` (style) and `python scripts/clip_adapt.py --task genre` need the datasets and CLIP's weights; results are in `reports/clip_adapt_*.json`.
 
+### How many labelled paintings are needed?
+
+A small team labels paintings by hand, and a museum will want to add new works. `scripts/learning_curves.py` trains each model on a growing part
+of the train split (about 25, 50, 100, 200 and 400 images, then all of it) and always tests on the unchanged test split, over seeds 0 to 4
+(the same artist-disjoint splits as above). Subsets are class-balanced and drawn artist by artist (`museum_guide.curves.subsample_train`).
+The linear probe uses a fixed regularisation (C = 1), so it uses no validation label; the ResNet still uses the 249 validation images for early stopping
+at every size, which favours it. Test accuracy, mean ± std over 5 seeds, genre task (5 classes, chance 20.0%):
+
+| Labelled images (per class) | CLIP + linear probe | ResNet-18 fine-tuned | Random forest |
+|---|---|---|---|
+| 25 (5) | 77.3% ± 3.0 | 58.3% ± 7.6 | 34.2% ± 4.0 |
+| 50 (10) | 82.6% ± 2.5 | 60.8% ± 6.5 | 38.7% ± 7.9 |
+| 100 (20) | 86.4% ± 2.4 | 63.8% ± 1.2 | 41.5% ± 2.2 |
+| 200 (40) | 87.7% ± 2.6 | 65.2% ± 6.0 | 45.5% ± 4.2 |
+| 400 (80) | 87.2% ± 2.6 | 70.1% ± 5.5 | 49.2% ± 2.9 |
+| all, about 1036 on average (207) | 88.2% ± 2.8 | 72.3% ± 4.0 | 51.4% ± 3.9 |
+| 0 (class names only) | CLIP zero-shot: 84.4% ± 2.8 | | |
+
+Style task (6 classes, chance 16.7%):
+
+| Labelled images (per class) | CLIP + linear probe | ResNet-18 fine-tuned | Random forest |
+|---|---|---|---|
+| 24 (4) | 36.5% ± 7.1 | 24.6% ± 4.3 | 19.9% ± 1.9 |
+| 48 (8) | 40.3% ± 2.3 | 27.2% ± 3.4 | 23.6% ± 2.6 |
+| 102 (17) | 43.4% ± 1.6 | 30.1% ± 3.5 | 24.5% ± 2.9 |
+| 198 (33) | 43.5% ± 3.3 | 32.8% ± 3.6 | 26.4% ± 3.4 |
+| 402 (67) | 48.2% ± 2.7 | 36.4% ± 3.8 | 29.8% ± 3.5 |
+| all, about 1238 on average (206) | 50.2% ± 2.2 | 38.1% ± 1.6 | 31.6% ± 2.8 |
+| 0 (class names only) | CLIP zero-shot: 34.9% ± 2.7 | | |
+
+- **Genre: a few dozen labelled paintings already give CLIP 80%.** With 25 images (5 per class) the probe scores 77.3%, above the ResNet trained on all
+  1036 (72.3%; better on 4 of 5 seeds). Read on the mean curve, the probe reaches 80% with about 38 images (7.6 per class)
+  and 85% with about 81 (16.3 per class). It already scores 70% with the smallest size, so its true need is lower. The ResNet needs about 396 images for 70% and never reaches 80%; the random forest never reaches 70%.
+- **After about 100 images the curve is nearly flat.** 100 images give 86.4% (98.0% of the all-images accuracy), 200 give 87.7%
+  (99.4%); labelling the other 836 images adds 0.6 point.
+- **Without any labelled image, CLIP already gets 84.4%** from the class names alone. The probe beats it on 0 of 5 seeds at 25 images, 1 at 50, 4 at 100 and all 5 at 200.
+  In a few-shot test (k labelled images per class, 50 draws in all) the probe scores 57.6% with k = 1, 69.6% with 2, 78.4% with 5, 82.7% with 10 and 85.9% with 20:
+  below about 10 to 20 labelled images per class, the class names alone are as good.
+- **Style: more labels help for longer, and the ceiling is low.** The probe goes from 36.5% with 24 images to 50.2% with all of them
+  (96.0% of that already at 402); 70% is out of reach for every model, and its few-shot scores are 29.7% (k = 1) to 45.4% (k = 20) against 34.9% zero-shot.
+  The probe beats zero-shot on 2 of 5 seeds at 24 images and on all 5 from 48. Style is not a labelling problem a few dozen paintings can solve.
+- **For the budget:** about 20 labelled paintings per genre (100 images) gives about 86.4% genre accuracy with CLIP; 40 per class (200 images) is a reasonable stopping point, beyond which labelling adds little. Teaching the guide a new genre was not tested (the class set is fixed in these experiments).
+
+Limits: 5 seeds; at most about 1036 (genre) and 1238 (style) training images, so nothing is said beyond that; the fixed C costs
+0.8 point (genre) and 1.9 points (style) at full size against the probe whose C is tuned on validation (seeds 0 to 4: 89.0% and 52.0%),
+and the 10-seed headline (90.2%) includes seeds 5 to 9; "images needed" interpolates between sizes that differ by a factor of two, so it is a rough guide; test sets have 195 to 301 images (about ±3 points);
+WikiArt labels are noisy and a new collection, or camera photos, could behave differently.
+
 ## Natural-language search
 
 A pretrained CLIP dual encoder (`openai/clip-vit-base-patch32`) maps paintings and questions into the same space.
