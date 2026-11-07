@@ -3,11 +3,13 @@
     python scripts/search.py "a stormy sea"
     python scripts/search.py "paintings by Claude Monet" --k 8 --grid monet.png
     python scripts/search.py "un village enneigé en hiver" --encoder multilingual   # needs the [multilingual] extra
+    python scripts/search.py "a Cubist still life" --story          # add the story of the top result's style
 
 The image vectors are computed once and saved in `data/search_index.npz` (not versioned); the first call builds
 the index (about 30 s on CPU), later calls only encode the question. Use --rebuild after changing the data.
 """
 import argparse
+import sys
 
 import matplotlib
 
@@ -17,6 +19,7 @@ from PIL import Image
 
 from museum_guide.clip import embed_texts, load_clip
 from museum_guide.data import DATA_DIR, load_metadata
+from museum_guide.notices import LANGS, notice_for
 from museum_guide.search import load_or_build_index, search
 
 
@@ -38,12 +41,16 @@ def main(argv=None):
     p.add_argument("--k", type=int, default=5, help="number of paintings to return")
     p.add_argument("--grid", help="also save an image grid of the results to this file")
     p.add_argument("--rebuild", action="store_true", help="recompute the image vectors")
+    p.add_argument("--story", action="store_true", help="add a short notice on the style of the top result (draft texts)")
+    p.add_argument("--lang", choices=LANGS, default=None, help="language of the story (with --story; default: fr)")
     p.add_argument("--index", default=DATA_DIR / "search_index.npz", help="where the index is saved")
     p.add_argument(
         "--encoder", choices=("clip", "multilingual"), default="clip",
         help="text encoder for the question: CLIP's own (English) or a multilingual one (pip install -e '.[multilingual]')",
     )
     args = p.parse_args(argv)
+    if args.lang is not None and not args.story:
+        p.error("--lang only applies together with --story")
 
     index = load_or_build_index(
         load_metadata(), DATA_DIR, args.index, args.rebuild, cache_file=DATA_DIR / "clip_embeddings.npz"
@@ -58,6 +65,13 @@ def main(argv=None):
     results = search(index, question, args.k)
     for _, r in results.iterrows():
         print(f"{r['rank']:2d}  {r['score']:.3f}  {r['path']}  [{r['label']}, {r['style']}, {r['artist']}]")
+    if args.story:
+        style = results.iloc[0]["style"]
+        notice = notice_for(style, args.lang or "fr")
+        if notice:
+            print(f"\n{notice}")
+        else:  # a rare style the notices do not cover yet
+            print(f"(no notice yet for the style {style!r})", file=sys.stderr)
     if args.grid:
         save_grid(results, args.grid)
         print(f"grid saved to {args.grid}")
