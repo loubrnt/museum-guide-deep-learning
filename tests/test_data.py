@@ -91,3 +91,17 @@ def test_augmentation_only_applies_to_the_train_part(image_folder):
     val_steps = dl["val"].dataset.transform.transforms
     assert any("RandomResizedCrop" in type(t).__name__ for t in train_steps)
     assert not any("Random" in type(t).__name__ for t in val_steps)
+
+
+def test_data_dir_can_be_overridden_with_an_environment_variable(tmp_path):
+    import os
+    import subprocess
+    import sys
+
+    code = "from museum_guide.data import DATA_DIR; print(DATA_DIR)"
+    env = {**os.environ, "MUSEUM_GUIDE_DATA": str(tmp_path)}
+    out = subprocess.run([sys.executable, "-c", code], env=env, capture_output=True, text=True, check=True)
+    assert out.stdout.strip() == str(tmp_path)
+    env.pop("MUSEUM_GUIDE_DATA")
+    out = subprocess.run([sys.executable, "-c", code], env=env, capture_output=True, text=True, check=True)
+    assert out.stdout.strip() == os.path.join("data", "wikiart_genre5")

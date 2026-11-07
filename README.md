@@ -107,11 +107,14 @@ The feed-forward network is not worth deploying: it is less accurate than the cl
 
 ## Reproduce
 
+From the repository root, with the [data](#data) built:
+
 ```bash
+pip install -e .
 python scripts/baseline_classical.py
 python scripts/train_mlp.py
 python scripts/train_resnet.py
-pip install transformers && python scripts/search_clip.py
+python scripts/search_clip.py
 python scripts/robustness.py --seeds 10    # about 10 minutes: seeds, confidence intervals, shift test
 ```
 
@@ -140,15 +143,20 @@ python project/make_wikiart_subset.py --label genre \
     --per-class 300 --size 128 --out data/wikiart_genre5
 ```
 
-`data/` is not versioned; the command above rebuilds it.
+`data/` is not versioned; the command above rebuilds it. The scripts look for it in `data/wikiart_genre5` relative to the working
+directory; set `MUSEUM_GUIDE_DATA=/path/to/wikiart_genre5` to put it elsewhere.
 
 ## Repository layout
 
 ```
-project/    course data script (make_wikiart_subset.py)
-src/        reusable code (models, training loop, evaluation)
-notebooks/  experiments
-reports/    figures and results
+project/       course data script (make_wikiart_subset.py)
+src/           reusable code (data and split, models, training loop, inference, robustness helpers)
+scripts/       one script per experiment (baseline, MLP, ResNet, CLIP search, robustness) and predict.py
+tests/         pytest suite on synthetic data
+reports/       figures and results (JSON)
+presentation/  the 10-minute slides
+notebooks/     placeholder, empty for now
+data/          the WikiArt subset (not versioned, rebuilt with the command above)
 ```
 
 ## Tests
