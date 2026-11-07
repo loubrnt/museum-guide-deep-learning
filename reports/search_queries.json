@@ -1,0 +1,785 @@
+[
+  {
+    "id": "genre:cityscape",
+    "type": "genre",
+    "text": "I would like to see views of a city with streets and buildings",
+    "relevance": {
+      "genre": "cityscape"
+    },
+    "n_relevant": 300,
+    "base_rate": 0.2
+  },
+  {
+    "id": "genre:landscape",
+    "type": "genre",
+    "text": "a painting of nature, fields, trees and mountains",
+    "relevance": {
+      "genre": "landscape"
+    },
+    "n_relevant": 300,
+    "base_rate": 0.2
+  },
+  {
+    "id": "genre:portrait",
+    "type": "genre",
+    "text": "I would like to see portraits of people",
+    "relevance": {
+      "genre": "portrait"
+    },
+    "n_relevant": 300,
+    "base_rate": 0.2
+  },
+  {
+    "id": "genre:religious_painting",
+    "type": "genre",
+    "text": "paintings showing saints, angels or scenes from the Bible",
+    "relevance": {
+      "genre": "religious_painting"
+    },
+    "n_relevant": 300,
+    "base_rate": 0.2
+  },
+  {
+    "id": "genre:still_life",
+    "type": "genre",
+    "text": "a still life with fruit, flowers and objects on a table",
+    "relevance": {
+      "genre": "still_life"
+    },
+    "n_relevant": 300,
+    "base_rate": 0.2
+  },
+  {
+    "id": "style_genre:Impressionist:cityscape",
+    "type": "style_genre",
+    "text": "an Impressionist city view",
+    "relevance": {
+      "styles": [
+        "Impressionism"
+      ],
+      "genre": "cityscape"
+    },
+    "n_relevant": 125,
+    "base_rate": 0.08333333333333333
+  },
+  {
+    "id": "style_genre:Impressionist:landscape",
+    "type": "style_genre",
+    "text": "an Impressionist landscape",
+    "relevance": {
+      "styles": [
+        "Impressionism"
+      ],
+      "genre": "landscape"
+    },
+    "n_relevant": 91,
+    "base_rate": 0.06066666666666667
+  },
+  {
+    "id": "style_genre:Impressionist:portrait",
+    "type": "style_genre",
+    "text": "an Impressionist portrait",
+    "relevance": {
+      "styles": [
+        "Impressionism"
+      ],
+      "genre": "portrait"
+    },
+    "n_relevant": 26,
+    "base_rate": 0.017333333333333333
+  },
+  {
+    "id": "style_genre:Impressionist:still_life",
+    "type": "style_genre",
+    "text": "an Impressionist still life",
+    "relevance": {
+      "styles": [
+        "Impressionism"
+      ],
+      "genre": "still_life"
+    },
+    "n_relevant": 44,
+    "base_rate": 0.029333333333333333
+  },
+  {
+    "id": "style_genre:Post-Impressionist:cityscape",
+    "type": "style_genre",
+    "text": "a Post-Impressionist city view",
+    "relevance": {
+      "styles": [
+        "Post_Impressionism"
+      ],
+      "genre": "cityscape"
+    },
+    "n_relevant": 54,
+    "base_rate": 0.036
+  },
+  {
+    "id": "style_genre:Post-Impressionist:landscape",
+    "type": "style_genre",
+    "text": "a Post-Impressionist landscape",
+    "relevance": {
+      "styles": [
+        "Post_Impressionism"
+      ],
+      "genre": "landscape"
+    },
+    "n_relevant": 40,
+    "base_rate": 0.02666666666666667
+  },
+  {
+    "id": "style_genre:Post-Impressionist:portrait",
+    "type": "style_genre",
+    "text": "a Post-Impressionist portrait",
+    "relevance": {
+      "styles": [
+        "Post_Impressionism"
+      ],
+      "genre": "portrait"
+    },
+    "n_relevant": 15,
+    "base_rate": 0.01
+  },
+  {
+    "id": "style_genre:Post-Impressionist:still_life",
+    "type": "style_genre",
+    "text": "a Post-Impressionist still life",
+    "relevance": {
+      "styles": [
+        "Post_Impressionism"
+      ],
+      "genre": "still_life"
+    },
+    "n_relevant": 50,
+    "base_rate": 0.03333333333333333
+  },
+  {
+    "id": "style_genre:Realist:cityscape",
+    "type": "style_genre",
+    "text": "a Realist city view",
+    "relevance": {
+      "styles": [
+        "Realism"
+      ],
+      "genre": "cityscape"
+    },
+    "n_relevant": 17,
+    "base_rate": 0.011333333333333334
+  },
+  {
+    "id": "style_genre:Realist:landscape",
+    "type": "style_genre",
+    "text": "a Realist landscape",
+    "relevance": {
+      "styles": [
+        "Realism"
+      ],
+      "genre": "landscape"
+    },
+    "n_relevant": 56,
+    "base_rate": 0.037333333333333336
+  },
+  {
+    "id": "style_genre:Realist:portrait",
+    "type": "style_genre",
+    "text": "a Realist portrait",
+    "relevance": {
+      "styles": [
+        "Realism"
+      ],
+      "genre": "portrait"
+    },
+    "n_relevant": 41,
+    "base_rate": 0.027333333333333334
+  },
+  {
+    "id": "style_genre:Realist:still_life",
+    "type": "style_genre",
+    "text": "a Realist still life",
+    "relevance": {
+      "styles": [
+        "Realism"
+      ],
+      "genre": "still_life"
+    },
+    "n_relevant": 35,
+    "base_rate": 0.023333333333333334
+  },
+  {
+    "id": "style_genre:Expressionist:cityscape",
+    "type": "style_genre",
+    "text": "an Expressionist city view",
+    "relevance": {
+      "styles": [
+        "Expressionism"
+      ],
+      "genre": "cityscape"
+    },
+    "n_relevant": 24,
+    "base_rate": 0.016
+  },
+  {
+    "id": "style_genre:Expressionist:landscape",
+    "type": "style_genre",
+    "text": "an Expressionist landscape",
+    "relevance": {
+      "styles": [
+        "Expressionism"
+      ],
+      "genre": "landscape"
+    },
+    "n_relevant": 17,
+    "base_rate": 0.011333333333333334
+  },
+  {
+    "id": "style_genre:Expressionist:portrait",
+    "type": "style_genre",
+    "text": "an Expressionist portrait",
+    "relevance": {
+      "styles": [
+        "Expressionism"
+      ],
+      "genre": "portrait"
+    },
+    "n_relevant": 61,
+    "base_rate": 0.04066666666666666
+  },
+  {
+    "id": "style_genre:Expressionist:still_life",
+    "type": "style_genre",
+    "text": "an Expressionist still life",
+    "relevance": {
+      "styles": [
+        "Expressionism"
+      ],
+      "genre": "still_life"
+    },
+    "n_relevant": 27,
+    "base_rate": 0.018
+  },
+  {
+    "id": "style_genre:Romantic:cityscape",
+    "type": "style_genre",
+    "text": "a Romantic city view",
+    "relevance": {
+      "styles": [
+        "Romanticism"
+      ],
+      "genre": "cityscape"
+    },
+    "n_relevant": 20,
+    "base_rate": 0.013333333333333334
+  },
+  {
+    "id": "style_genre:Romantic:landscape",
+    "type": "style_genre",
+    "text": "a Romantic landscape",
+    "relevance": {
+      "styles": [
+        "Romanticism"
+      ],
+      "genre": "landscape"
+    },
+    "n_relevant": 31,
+    "base_rate": 0.020666666666666667
+  },
+  {
+    "id": "style_genre:Romantic:portrait",
+    "type": "style_genre",
+    "text": "a Romantic portrait",
+    "relevance": {
+      "styles": [
+        "Romanticism"
+      ],
+      "genre": "portrait"
+    },
+    "n_relevant": 44,
+    "base_rate": 0.029333333333333333
+  },
+  {
+    "id": "style_genre:Romantic:religious_painting",
+    "type": "style_genre",
+    "text": "a Romantic religious painting",
+    "relevance": {
+      "styles": [
+        "Romanticism"
+      ],
+      "genre": "religious_painting"
+    },
+    "n_relevant": 14,
+    "base_rate": 0.009333333333333334
+  },
+  {
+    "id": "style_genre:Baroque:portrait",
+    "type": "style_genre",
+    "text": "a Baroque portrait",
+    "relevance": {
+      "styles": [
+        "Baroque"
+      ],
+      "genre": "portrait"
+    },
+    "n_relevant": 20,
+    "base_rate": 0.013333333333333334
+  },
+  {
+    "id": "style_genre:Baroque:religious_painting",
+    "type": "style_genre",
+    "text": "a Baroque religious painting",
+    "relevance": {
+      "styles": [
+        "Baroque"
+      ],
+      "genre": "religious_painting"
+    },
+    "n_relevant": 53,
+    "base_rate": 0.035333333333333335
+  },
+  {
+    "id": "style_genre:Baroque:still_life",
+    "type": "style_genre",
+    "text": "a Baroque still life",
+    "relevance": {
+      "styles": [
+        "Baroque"
+      ],
+      "genre": "still_life"
+    },
+    "n_relevant": 24,
+    "base_rate": 0.016
+  },
+  {
+    "id": "style_genre:Northern Renaissance:portrait",
+    "type": "style_genre",
+    "text": "a Northern Renaissance portrait",
+    "relevance": {
+      "styles": [
+        "Northern_Renaissance"
+      ],
+      "genre": "portrait"
+    },
+    "n_relevant": 10,
+    "base_rate": 0.006666666666666667
+  },
+  {
+    "id": "style_genre:Northern Renaissance:religious_painting",
+    "type": "style_genre",
+    "text": "a Northern Renaissance religious painting",
+    "relevance": {
+      "styles": [
+        "Northern_Renaissance"
+      ],
+      "genre": "religious_painting"
+    },
+    "n_relevant": 60,
+    "base_rate": 0.04
+  },
+  {
+    "id": "style_genre:Cubist:cityscape",
+    "type": "style_genre",
+    "text": "a Cubist city view",
+    "relevance": {
+      "styles": [
+        "Cubism",
+        "Synthetic_Cubism",
+        "Analytical_Cubism"
+      ],
+      "genre": "cityscape"
+    },
+    "n_relevant": 10,
+    "base_rate": 0.006666666666666667
+  },
+  {
+    "id": "style_genre:Cubist:landscape",
+    "type": "style_genre",
+    "text": "a Cubist landscape",
+    "relevance": {
+      "styles": [
+        "Cubism",
+        "Synthetic_Cubism",
+        "Analytical_Cubism"
+      ],
+      "genre": "landscape"
+    },
+    "n_relevant": 12,
+    "base_rate": 0.008
+  },
+  {
+    "id": "style_genre:Cubist:still_life",
+    "type": "style_genre",
+    "text": "a Cubist still life",
+    "relevance": {
+      "styles": [
+        "Cubism",
+        "Synthetic_Cubism",
+        "Analytical_Cubism"
+      ],
+      "genre": "still_life"
+    },
+    "n_relevant": 68,
+    "base_rate": 0.04533333333333334
+  },
+  {
+    "id": "style_genre:Early Renaissance:religious_painting",
+    "type": "style_genre",
+    "text": "an Early Renaissance religious painting",
+    "relevance": {
+      "styles": [
+        "Early_Renaissance"
+      ],
+      "genre": "religious_painting"
+    },
+    "n_relevant": 62,
+    "base_rate": 0.04133333333333333
+  },
+  {
+    "id": "style_genre:Rococo:portrait",
+    "type": "style_genre",
+    "text": "a Rococo portrait",
+    "relevance": {
+      "styles": [
+        "Rococo"
+      ],
+      "genre": "portrait"
+    },
+    "n_relevant": 34,
+    "base_rate": 0.02266666666666667
+  },
+  {
+    "id": "style_genre:Symbolist:landscape",
+    "type": "style_genre",
+    "text": "a Symbolist landscape",
+    "relevance": {
+      "styles": [
+        "Symbolism"
+      ],
+      "genre": "landscape"
+    },
+    "n_relevant": 10,
+    "base_rate": 0.006666666666666667
+  },
+  {
+    "id": "style_genre:Symbolist:religious_painting",
+    "type": "style_genre",
+    "text": "a Symbolist religious painting",
+    "relevance": {
+      "styles": [
+        "Symbolism"
+      ],
+      "genre": "religious_painting"
+    },
+    "n_relevant": 22,
+    "base_rate": 0.014666666666666666
+  },
+  {
+    "id": "style_genre:High Renaissance:religious_painting",
+    "type": "style_genre",
+    "text": "a High Renaissance religious painting",
+    "relevance": {
+      "styles": [
+        "High_Renaissance"
+      ],
+      "genre": "religious_painting"
+    },
+    "n_relevant": 36,
+    "base_rate": 0.024
+  },
+  {
+    "id": "style_genre:Art Nouveau:cityscape",
+    "type": "style_genre",
+    "text": "an Art Nouveau city view",
+    "relevance": {
+      "styles": [
+        "Art_Nouveau"
+      ],
+      "genre": "cityscape"
+    },
+    "n_relevant": 13,
+    "base_rate": 0.008666666666666666
+  },
+  {
+    "id": "style_genre:Art Nouveau:portrait",
+    "type": "style_genre",
+    "text": "an Art Nouveau portrait",
+    "relevance": {
+      "styles": [
+        "Art_Nouveau"
+      ],
+      "genre": "portrait"
+    },
+    "n_relevant": 10,
+    "base_rate": 0.006666666666666667
+  },
+  {
+    "id": "style_genre:naive:still_life",
+    "type": "style_genre",
+    "text": "a naive still life",
+    "relevance": {
+      "styles": [
+        "Naive_Art_Primitivism"
+      ],
+      "genre": "still_life"
+    },
+    "n_relevant": 11,
+    "base_rate": 0.007333333333333333
+  },
+  {
+    "id": "style_genre:Mannerist:religious_painting",
+    "type": "style_genre",
+    "text": "a Mannerist religious painting",
+    "relevance": {
+      "styles": [
+        "Mannerism_Late_Renaissance"
+      ],
+      "genre": "religious_painting"
+    },
+    "n_relevant": 24,
+    "base_rate": 0.016
+  },
+  {
+    "id": "style_genre:Fauvist:still_life",
+    "type": "style_genre",
+    "text": "a Fauvist still life",
+    "relevance": {
+      "styles": [
+        "Fauvism"
+      ],
+      "genre": "still_life"
+    },
+    "n_relevant": 10,
+    "base_rate": 0.006666666666666667
+  },
+  {
+    "id": "style_genre:Pop Art:still_life",
+    "type": "style_genre",
+    "text": "a Pop Art still life",
+    "relevance": {
+      "styles": [
+        "Pop_Art"
+      ],
+      "genre": "still_life"
+    },
+    "n_relevant": 10,
+    "base_rate": 0.006666666666666667
+  },
+  {
+    "id": "artist:albrecht-durer",
+    "type": "artist",
+    "text": "paintings by Albrecht Durer",
+    "relevance": {
+      "artist": "albrecht-durer"
+    },
+    "n_relevant": 12,
+    "base_rate": 0.008
+  },
+  {
+    "id": "artist:alfred-sisley",
+    "type": "artist",
+    "text": "paintings by Alfred Sisley",
+    "relevance": {
+      "artist": "alfred-sisley"
+    },
+    "n_relevant": 17,
+    "base_rate": 0.011333333333333334
+  },
+  {
+    "id": "artist:amedeo-modigliani",
+    "type": "artist",
+    "text": "paintings by Amedeo Modigliani",
+    "relevance": {
+      "artist": "amedeo-modigliani"
+    },
+    "n_relevant": 10,
+    "base_rate": 0.006666666666666667
+  },
+  {
+    "id": "artist:antoine-blanchard",
+    "type": "artist",
+    "text": "paintings by Antoine Blanchard",
+    "relevance": {
+      "artist": "antoine-blanchard"
+    },
+    "n_relevant": 12,
+    "base_rate": 0.008
+  },
+  {
+    "id": "artist:bartolome-esteban-murillo",
+    "type": "artist",
+    "text": "paintings by Bartolome Esteban Murillo",
+    "relevance": {
+      "artist": "bartolome-esteban-murillo"
+    },
+    "n_relevant": 10,
+    "base_rate": 0.006666666666666667
+  },
+  {
+    "id": "artist:camille-corot",
+    "type": "artist",
+    "text": "paintings by Camille Corot",
+    "relevance": {
+      "artist": "camille-corot"
+    },
+    "n_relevant": 17,
+    "base_rate": 0.011333333333333334
+  },
+  {
+    "id": "artist:camille-pissarro",
+    "type": "artist",
+    "text": "paintings by Camille Pissarro",
+    "relevance": {
+      "artist": "camille-pissarro"
+    },
+    "n_relevant": 12,
+    "base_rate": 0.008
+  },
+  {
+    "id": "artist:claude-monet",
+    "type": "artist",
+    "text": "paintings by Claude Monet",
+    "relevance": {
+      "artist": "claude-monet"
+    },
+    "n_relevant": 50,
+    "base_rate": 0.03333333333333333
+  },
+  {
+    "id": "artist:edouard-cortes",
+    "type": "artist",
+    "text": "paintings by Edouard Cortes",
+    "relevance": {
+      "artist": "edouard-cortes"
+    },
+    "n_relevant": 14,
+    "base_rate": 0.009333333333333334
+  },
+  {
+    "id": "artist:georges-braque",
+    "type": "artist",
+    "text": "paintings by Georges Braque",
+    "relevance": {
+      "artist": "georges-braque"
+    },
+    "n_relevant": 26,
+    "base_rate": 0.017333333333333333
+  },
+  {
+    "id": "artist:gustave-loiseau",
+    "type": "artist",
+    "text": "paintings by Gustave Loiseau",
+    "relevance": {
+      "artist": "gustave-loiseau"
+    },
+    "n_relevant": 12,
+    "base_rate": 0.008
+  },
+  {
+    "id": "artist:henri-fantin-latour",
+    "type": "artist",
+    "text": "paintings by Henri Fantin Latour",
+    "relevance": {
+      "artist": "henri-fantin-latour"
+    },
+    "n_relevant": 10,
+    "base_rate": 0.006666666666666667
+  },
+  {
+    "id": "artist:henri-matisse",
+    "type": "artist",
+    "text": "paintings by Henri Matisse",
+    "relevance": {
+      "artist": "henri-matisse"
+    },
+    "n_relevant": 15,
+    "base_rate": 0.01
+  },
+  {
+    "id": "artist:ilya-mashkov",
+    "type": "artist",
+    "text": "paintings by Ilya Mashkov",
+    "relevance": {
+      "artist": "ilya-mashkov"
+    },
+    "n_relevant": 15,
+    "base_rate": 0.01
+  },
+  {
+    "id": "artist:isaac-levitan",
+    "type": "artist",
+    "text": "paintings by Isaac Levitan",
+    "relevance": {
+      "artist": "isaac-levitan"
+    },
+    "n_relevant": 15,
+    "base_rate": 0.01
+  },
+  {
+    "id": "artist:juan-gris",
+    "type": "artist",
+    "text": "paintings by Juan Gris",
+    "relevance": {
+      "artist": "juan-gris"
+    },
+    "n_relevant": 22,
+    "base_rate": 0.014666666666666666
+  },
+  {
+    "id": "artist:konstantin-korovin",
+    "type": "artist",
+    "text": "paintings by Konstantin Korovin",
+    "relevance": {
+      "artist": "konstantin-korovin"
+    },
+    "n_relevant": 11,
+    "base_rate": 0.007333333333333333
+  },
+  {
+    "id": "artist:mstislav-dobuzhinsky",
+    "type": "artist",
+    "text": "paintings by Mstislav Dobuzhinsky",
+    "relevance": {
+      "artist": "mstislav-dobuzhinsky"
+    },
+    "n_relevant": 15,
+    "base_rate": 0.01
+  },
+  {
+    "id": "artist:nicholas-roerich",
+    "type": "artist",
+    "text": "paintings by Nicholas Roerich",
+    "relevance": {
+      "artist": "nicholas-roerich"
+    },
+    "n_relevant": 13,
+    "base_rate": 0.008666666666666666
+  },
+  {
+    "id": "artist:paul-gauguin",
+    "type": "artist",
+    "text": "paintings by Paul Gauguin",
+    "relevance": {
+      "artist": "paul-gauguin"
+    },
+    "n_relevant": 14,
+    "base_rate": 0.009333333333333334
+  },
+  {
+    "id": "artist:vasily-polenov",
+    "type": "artist",
+    "text": "paintings by Vasily Polenov",
+    "relevance": {
+      "artist": "vasily-polenov"
+    },
+    "n_relevant": 10,
+    "base_rate": 0.006666666666666667
+  },
+  {
+    "id": "artist:zinaida-serebriakova",
+    "type": "artist",
+    "text": "paintings by Zinaida Serebriakova",
+    "relevance": {
+      "artist": "zinaida-serebriakova"
+    },
+    "n_relevant": 15,
+    "base_rate": 0.01
+  }
+]

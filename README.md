@@ -160,6 +160,41 @@ The 1,500 image vectors are computed once; a question costs one text encoding pl
 - Limit: no hand-labelled question set, so free-question quality is judged by eye. A labelled set of ~50 museum
   questions would be the next step.
 
+### Searching, and a measurable query set
+
+```bash
+python scripts/search.py "a snowy winter village" --k 5 --grid result.png
+```
+
+The image vectors are saved once in `data/wikiart_genre5/search_index.npz` (not versioned); a question then costs only one text encoding.
+`--rebuild` recomputes the index. The code is in `src/museum_guide/search.py` (`build_index`, `search`, and the metrics).
+
+`scripts/search_eval.py` adds a query set **generated from the WikiArt metadata**, so "relevant" is objective and reproducible
+(`reports/search_queries.json`, 66 queries, each with at least 10 relevant paintings): the 5 genre questions above,
+39 style x genre questions ("a Cubist still life", "an Impressionist landscape"; relevant = the style group and the genre both match)
+and 22 artist questions ("paintings by Claude Monet"; relevant = the artist field matches). Precision@10 (P@10) and average precision (AP)
+are given next to a random ranking, which scores the share of relevant paintings:
+
+| Query type (queries) | P@10 | AP | nDCG@10 | Random ranking: P@10, AP |
+|---|---|---|---|---|
+| Genre (5) | 1.00 | 0.87 | 1.00 | 0.19, 0.20 |
+| Style x genre (39) | 0.27 | 0.23 | 0.28 | 0.02, 0.03 |
+| Artist (22) | 0.40 | 0.38 | 0.45 | 0.01, 0.02 |
+| **All (66)** | **0.37** | **0.33** | **0.39** | **0.03, 0.04** |
+
+Writing "a painting: " before each question gives the same picture (all queries: P@10 0.38, AP 0.32), so the phrasing is not what limits the scores.
+
+- Far above chance on every query type: AP is more than twice the random level on 36 of the 39 style x genre queries and on all 22 artist queries.
+  Still, the exact top 10 is often wrong: P@10 is at least 0.5 on only 8 of the 39 style x genre queries and 8 of the 22 artist queries,
+  and 7 style x genre queries and 1 artist query have no relevant painting in the top 10 ("a Symbolist landscape", "a Romantic religious painting",
+  "paintings by Mstislav Dobuzhinsky").
+- Style and artist are harder than genre: a style label is a historical category that looks like its neighbours (Impressionism and Post-Impressionism,
+  the Renaissance labels), and the model must know a painter's name. A missed result is not always a visual error.
+
+Limits: relevance comes from WikiArt metadata, so this measures knowledge of genre, style and artist, **not** fine content such as "a stormy sea",
+which stays judged by eye (`reports/figures/search_examples.png`). Paintings by "Unknown Artist" can never be relevant to an artist question.
+The collection has 1,500 paintings and the scores depend on it; the two phrasings were fixed before looking at the results.
+
 ## Recommendation to the director
 
 Use the **fine-tuned ResNet-18** for recognition and **CLIP** for search, both run locally. It is 21 points more accurate than the best classical model, at the same order of CPU cost
