@@ -1,0 +1,317 @@
+{
+  "n_seeds": 5,
+  "perturbations": {
+    "rotation_15deg": "Phone held at a slant: 15 degrees counter-clockwise, black corners.",
+    "perspective": "Oblique view: the four corners move by up to ~9% of the width/height (fixed offsets).",
+    "blur": "Out-of-focus shot: Gaussian blur, radius 2 px at 128 px (scaled with the image width).",
+    "close_up_60pct": "Visitor stands close: the central 60% of the painting, scaled back up.",
+    "darker": "Dim gallery: brightness x0.5.",
+    "brighter": "Spot light: brightness x1.6.",
+    "low_contrast": "Glare or haze: contrast x0.5.",
+    "jpeg_q15": "Heavy compression: JPEG quality 15.",
+    "grayscale": "Black-and-white filter."
+  },
+  "per_seed": [
+    {
+      "seed": 0,
+      "n_test": 279,
+      "standard": {
+        "clean": 0.7455196976661682,
+        "rotation_15deg": 0.5555555820465088,
+        "perspective": 0.6559139490127563,
+        "blur": 0.5734767317771912,
+        "close_up_60pct": 0.6953405141830444,
+        "darker": 0.7204301357269287,
+        "brighter": 0.7132616639137268,
+        "low_contrast": 0.7240143418312073,
+        "jpeg_q15": 0.7168458700180054,
+        "grayscale": 0.7132616639137268
+      },
+      "photo": {
+        "clean": 0.6559139490127563,
+        "rotation_15deg": 0.6272401213645935,
+        "perspective": 0.6487455368041992,
+        "blur": 0.602150559425354,
+        "close_up_60pct": 0.6344085931777954,
+        "darker": 0.6236559152603149,
+        "brighter": 0.6200717091560364,
+        "low_contrast": 0.616487443447113,
+        "jpeg_q15": 0.6415770649909973,
+        "grayscale": 0.6129032373428345
+      }
+    },
+    {
+      "seed": 1,
+      "n_test": 236,
+      "standard": {
+        "clean": 0.694915235042572,
+        "rotation_15deg": 0.48728814721107483,
+        "perspective": 0.6228813529014587,
+        "blur": 0.4957627058029175,
+        "close_up_60pct": 0.6228813529014587,
+        "darker": 0.6822034120559692,
+        "brighter": 0.6906779408454895,
+        "low_contrast": 0.6737288236618042,
+        "jpeg_q15": 0.6737288236618042,
+        "grayscale": 0.6822034120559692
+      },
+      "photo": {
+        "clean": 0.6906779408454895,
+        "rotation_15deg": 0.6101694703102112,
+        "perspective": 0.6737288236618042,
+        "blur": 0.6779661178588867,
+        "close_up_60pct": 0.6186440587043762,
+        "darker": 0.6991525292396545,
+        "brighter": 0.6906779408454895,
+        "low_contrast": 0.6906779408454895,
+        "jpeg_q15": 0.6694915294647217,
+        "grayscale": 0.5593220591545105
+      }
+    },
+    {
+      "seed": 2,
+      "n_test": 276,
+      "standard": {
+        "clean": 0.7427536249160767,
+        "rotation_15deg": 0.4528985619544983,
+        "perspective": 0.5579710006713867,
+        "blur": 0.5797101259231567,
+        "close_up_60pct": 0.6884058117866516,
+        "darker": 0.6775362491607666,
+        "brighter": 0.6485507488250732,
+        "low_contrast": 0.6884058117866516,
+        "jpeg_q15": 0.695652186870575,
+        "grayscale": 0.5942028760910034
+      },
+      "photo": {
+        "clean": 0.7572463750839233,
+        "rotation_15deg": 0.6557971239089966,
+        "perspective": 0.717391312122345,
+        "blur": 0.6775362491607666,
+        "close_up_60pct": 0.6666666865348816,
+        "darker": 0.7463768124580383,
+        "brighter": 0.6666666865348816,
+        "low_contrast": 0.75,
+        "jpeg_q15": 0.7463768124580383,
+        "grayscale": 0.6594203114509583
+      }
+    },
+    {
+      "seed": 3,
+      "n_test": 215,
+      "standard": {
+        "clean": 0.7627906799316406,
+        "rotation_15deg": 0.49302324652671814,
+        "perspective": 0.7023255825042725,
+        "blur": 0.5860465168952942,
+        "close_up_60pct": 0.7441860437393188,
+        "darker": 0.7441860437393188,
+        "brighter": 0.7209302186965942,
+        "low_contrast": 0.7209302186965942,
+        "jpeg_q15": 0.7116279006004333,
+        "grayscale": 0.6604651212692261
+      },
+      "photo": {
+        "clean": 0.7255814075469971,
+        "rotation_15deg": 0.6558139324188232,
+        "perspective": 0.6790697574615479,
+        "blur": 0.539534866809845,
+        "close_up_60pct": 0.6604651212692261,
+        "darker": 0.7255814075469971,
+        "brighter": 0.7209302186965942,
+        "low_contrast": 0.7069767713546753,
+        "jpeg_q15": 0.6232557892799377,
+        "grayscale": 0.7069767713546753
+      }
+    },
+    {
+      "seed": 4,
+      "n_test": 205,
+      "standard": {
+        "clean": 0.6682927012443542,
+        "rotation_15deg": 0.5951219797134399,
+        "perspective": 0.6390243768692017,
+        "blur": 0.49268293380737305,
+        "close_up_60pct": 0.6439024209976196,
+        "darker": 0.7170731425285339,
+        "brighter": 0.5756097435951233,
+        "low_contrast": 0.70243901014328,
+        "jpeg_q15": 0.6243902444839478,
+        "grayscale": 0.5902438759803772
+      },
+      "photo": {
+        "clean": 0.6926829218864441,
+        "rotation_15deg": 0.5853658318519592,
+        "perspective": 0.6097561120986938,
+        "blur": 0.5512195229530334,
+        "close_up_60pct": 0.5951219797134399,
+        "darker": 0.6731707453727722,
+        "brighter": 0.6292682886123657,
+        "low_contrast": 0.6634146571159363,
+        "jpeg_q15": 0.6097561120986938,
+        "grayscale": 0.5951219797134399
+      }
+    }
+  ],
+  "accuracy": {
+    "standard": {
+      "clean": {
+        "mean": 0.7228543877601623,
+        "std": 0.03956695981167379
+      },
+      "rotation_15deg": {
+        "mean": 0.516777503490448,
+        "std": 0.05734980898089148
+      },
+      "perspective": {
+        "mean": 0.6356232523918152,
+        "std": 0.05259446040074018
+      },
+      "blur": {
+        "mean": 0.5455358028411865,
+        "std": 0.047065074033134716
+      },
+      "close_up_60pct": {
+        "mean": 0.6789432287216186,
+        "std": 0.04739680497308146
+      },
+      "darker": {
+        "mean": 0.7082857966423035,
+        "std": 0.028014976428609145
+      },
+      "brighter": {
+        "mean": 0.6698060631752014,
+        "std": 0.05971272645207246
+      },
+      "low_contrast": {
+        "mean": 0.7019036412239075,
+        "std": 0.02137283378336085
+      },
+      "jpeg_q15": {
+        "mean": 0.6844490051269532,
+        "std": 0.03753577465474641
+      },
+      "grayscale": {
+        "mean": 0.6480753898620606,
+        "std": 0.0543465946628872
+      }
+    },
+    "photo": {
+      "clean": {
+        "mean": 0.704420518875122,
+        "std": 0.03846385071517854
+      },
+      "rotation_15deg": {
+        "mean": 0.6268772959709168,
+        "std": 0.03031571420386125
+      },
+      "perspective": {
+        "mean": 0.665738308429718,
+        "std": 0.03978809260003357
+      },
+      "blur": {
+        "mean": 0.6096814632415771,
+        "std": 0.06644946198783525
+      },
+      "close_up_60pct": {
+        "mean": 0.6350612878799439,
+        "std": 0.029619907731136833
+      },
+      "darker": {
+        "mean": 0.6935874819755554,
+        "std": 0.04782405669238799
+      },
+      "brighter": {
+        "mean": 0.6655229687690735,
+        "std": 0.04208403167681514
+      },
+      "low_contrast": {
+        "mean": 0.6855113625526428,
+        "std": 0.04974637541056248
+      },
+      "jpeg_q15": {
+        "mean": 0.6580914616584778,
+        "std": 0.05419137407422605
+      },
+      "grayscale": {
+        "mean": 0.6267488718032836,
+        "std": 0.0575375438212468
+      }
+    }
+  },
+  "photo_minus_standard": {
+    "clean": {
+      "mean_diff": -0.018433868885040283,
+      "std_diff": 0.046199458506807234,
+      "seeds_photo_better": 2,
+      "seeds_standard_better": 3
+    },
+    "rotation_15deg": {
+      "mean_diff": 0.11009979248046875,
+      "std_diff": 0.08275337984056821,
+      "seeds_photo_better": 4,
+      "seeds_standard_better": 1
+    },
+    "perspective": {
+      "mean_diff": 0.03011505603790283,
+      "std_diff": 0.07892174738261429,
+      "seeds_photo_better": 2,
+      "seeds_standard_better": 3
+    },
+    "blur": {
+      "mean_diff": 0.06414566040039063,
+      "std_diff": 0.08456766413056736,
+      "seeds_photo_better": 4,
+      "seeds_standard_better": 1
+    },
+    "close_up_60pct": {
+      "mean_diff": -0.04388194084167481,
+      "std_diff": 0.03147953254567177,
+      "seeds_photo_better": 0,
+      "seeds_standard_better": 5
+    },
+    "darker": {
+      "mean_diff": -0.014698314666748046,
+      "std_diff": 0.062419740805633596,
+      "seeds_photo_better": 2,
+      "seeds_standard_better": 3
+    },
+    "brighter": {
+      "mean_diff": -0.004283094406127929,
+      "std_diff": 0.054314063169114996,
+      "seeds_photo_better": 2,
+      "seeds_standard_better": 1
+    },
+    "low_contrast": {
+      "mean_diff": -0.016392278671264648,
+      "std_diff": 0.06327956876594427,
+      "seeds_photo_better": 2,
+      "seeds_standard_better": 3
+    },
+    "jpeg_q15": {
+      "mean_diff": -0.026357543468475342,
+      "std_diff": 0.05658295395864177,
+      "seeds_photo_better": 1,
+      "seeds_standard_better": 4
+    },
+    "grayscale": {
+      "mean_diff": -0.021326518058776854,
+      "std_diff": 0.08564166943835377,
+      "seeds_photo_better": 3,
+      "seeds_standard_better": 2
+    },
+    "mean_over_perturbations": {
+      "standard": {
+        "mean": 0.6432666314972771,
+        "std": 0.029153935697168044
+      },
+      "photo": {
+        "mean": 0.6518689446979098,
+        "std": 0.03436512804474993
+      },
+      "mean_diff": 0.008602313200632716,
+      "std_diff": 0.047601982596333164,
+      "seeds_photo_better": 2
+    }
+  }
+}
