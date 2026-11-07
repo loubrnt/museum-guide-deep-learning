@@ -88,7 +88,9 @@ def clip_image_tower(model_name: str = "openai/clip-vit-base-patch32") -> ClipIm
     Only the configuration is read (a few KB, cached after the first use); no checkpoint is loaded, so the
     peak memory measured afterwards is that of serving the model, not of loading a 600 MB checkpoint.
     """
-    from transformers import CLIPConfig, CLIPVisionModelWithProjection
+    from transformers import CLIPConfig, CLIPVisionConfig, CLIPVisionModelWithProjection
 
     config = CLIPConfig.from_pretrained(model_name).vision_config
-    return ClipImageTower(CLIPVisionModelWithProjection(config).eval())
+    if not isinstance(config, CLIPVisionConfig):
+        raise TypeError(f"{model_name} has no CLIP vision configuration (got {type(config).__name__})")
+    return ClipImageTower(CLIPVisionModelWithProjection(config).eval()).eval()  # the wrapper too, not only its content

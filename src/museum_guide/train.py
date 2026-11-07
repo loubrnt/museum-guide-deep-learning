@@ -49,6 +49,8 @@ def run_epoch(model, loader, loss_fn, device, optimizer=None):
 
 def fit(model, loaders, device, epochs, lr, weight_decay=0.0, patience=None, verbose=True) -> History:
     """Adam + cross-entropy. Keeps the weights of the best validation epoch (early stopping)."""
+    if epochs < 1:
+        raise ValueError(f"epochs must be at least 1 (got {epochs}): there would be no best epoch to restore")
     model.to(device)
     loss_fn = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam([p for p in model.parameters() if p.requires_grad], lr=lr, weight_decay=weight_decay)

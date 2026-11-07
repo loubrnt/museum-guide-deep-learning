@@ -92,13 +92,16 @@ def fit_linear_probe(train_X, train_y, val_X, val_y, Cs: Sequence[float] = (0.1,
     """
     from sklearn.linear_model import LogisticRegression
 
-    best = None
-    for C in sorted(Cs):
+    candidates = sorted(Cs)
+    if not candidates:
+        raise ValueError("Cs must contain at least one regularisation value")
+    best_score, best_clf, best_C = -1.0, None, candidates[0]
+    for C in candidates:
         clf = LogisticRegression(C=C, max_iter=3000).fit(train_X, train_y)
         score = clf.score(val_X, val_y)
-        if best is None or score > best[0]:
-            best = (score, clf, C)
-    return best[1], best[2]
+        if score > best_score:  # strict: on a tie the smaller C (stronger regularisation) is kept
+            best_score, best_clf, best_C = score, clf, C
+    return best_clf, best_C
 
 
 def cache_key(model_name: str, paths: Sequence[Path | str]) -> str:

@@ -1,7 +1,7 @@
 # Shortcuts for the usual commands. Run from the repository root; use PYTHON=... to pick an interpreter.
 PYTHON ?= python
 
-.PHONY: install test lint data reproduce clean
+.PHONY: install test coverage lint typecheck check data reproduce clean
 
 install:
 	$(PYTHON) -m pip install -e ".[dev]"
@@ -9,8 +9,19 @@ install:
 test:
 	$(PYTHON) -m pytest -q
 
+# Tests with a coverage report of src/museum_guide (lines not covered are listed).
+coverage:
+	$(PYTHON) -m pytest -q --cov=museum_guide --cov-report=term-missing
+
 lint:
 	$(PYTHON) -m ruff check .
+
+# Static types of src/ (configured in pyproject.toml). Needs the project dependencies installed, not only mypy.
+typecheck:
+	$(PYTHON) -m mypy
+
+# Everything CI runs.
+check: lint typecheck coverage
 
 # Rebuilds data/wikiart_genre5 (about 2.3 GB streamed from Hugging Face; resumes if interrupted).
 data:

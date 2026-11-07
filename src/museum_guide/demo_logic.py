@@ -166,7 +166,7 @@ class DemoGuide:
                 )
             from museum_guide.data import load_metadata
 
-            index = load_or_build_index(load_metadata(), data_dir, index_path, cache_file=data_dir / "clip_embeddings.npz")
+            index = load_or_build_index(load_metadata(data_dir), data_dir, index_path, cache_file=data_dir / "clip_embeddings.npz")
         else:
             index = load_or_build_index(None, data_dir, index_path)
         if index.model != probe.model:
@@ -238,14 +238,17 @@ def display(result: DemoResult, data_dir: Path | str, lang: str | None = None) -
     lang = lang or result.lang
     data_dir = Path(data_dir)
     kind = result.status
+    best = result.best
     if kind == "painting" or kind == "unsure":
-        name, p = result.best
+        if best is None:
+            raise ValueError(f"a {kind!r} result needs at least one genre prediction")
+        name, p = best
         verdict = text(lang, kind).format(genre=genre_name(name, lang), p=p)
     else:
         verdict = text(lang, kind)
     genres = {genre_name(c, lang): p for c, p in result.genre}
     story_title = story_text = story_note = ""
-    entry = story_entry(result.best[0], lang) if kind == "painting" else None  # in the page's language, even after a switch
+    entry = story_entry(best[0], lang) if kind == "painting" and best else None  # in the page's language, even after a switch
     if entry:
         story_title, story_text, story_note = entry["title"], entry["text"], text(lang, "draft")
     return Display(

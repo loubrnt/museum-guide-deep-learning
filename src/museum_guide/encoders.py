@@ -200,9 +200,12 @@ def image_tower(name: str):
 
         return clip_image_tower(spec.hf_id), spec.input_size
     if spec.family == "siglip":
-        from transformers import SiglipConfig, SiglipVisionModel
+        from transformers import SiglipConfig, SiglipVisionConfig, SiglipVisionModel
 
-        vision = SiglipVisionModel(SiglipConfig.from_pretrained(spec.hf_id).vision_config).eval()
+        vision_config = SiglipConfig.from_pretrained(spec.hf_id).vision_config
+        if not isinstance(vision_config, SiglipVisionConfig):
+            raise TypeError(f"{spec.hf_id} has no SigLIP vision configuration (got {type(vision_config).__name__})")
+        vision = SiglipVisionModel(vision_config).eval()
 
         class SiglipTower(nn.Module):
             def __init__(self):
